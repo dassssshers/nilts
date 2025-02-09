@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.18.4](https://github.com/dassssshers/nilts/compare/nilts-v0.18.3...nilts-v0.18.4) (2025-02-09)
+
+
+### Documentation
+
+* update resolved known issues ([#240](https://github.com/dassssshers/nilts/issues/240)) ([94fa174](https://github.com/dassssshers/nilts/commit/94fa174419989973f6ee479df71a790d981a9a09))
+
 ## [0.18.3](https://github.com/dassssshers/nilts/compare/nilts-v0.18.2...nilts-v0.18.3) (2025-02-09)
 
 
