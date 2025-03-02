@@ -18,6 +18,8 @@ dev_dependencies:
 
   nilts:
     path: ../../packages/nilts
+  nilts_flutter_hooks:
+    path: ../../packages/nilts_flutter_hooks
 
 flutter:
   uses-material-design: true
