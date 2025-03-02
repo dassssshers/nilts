@@ -115,6 +115,7 @@ Some of lint rules support quick fixes on IDE.
 | [no_support_web_platform_check](#no_support_web_platform_check)                 | Checks if `Platform.isXxx` usages.                                             |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
 | [shrink_wrapped_scroll_view](#shrink_wrapped_scroll_view)                       | Checks the content of the scroll view is shrink wrapped.                       |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
 | [unnecessary_rebuilds_from_media_query](#unnecessary_rebuilds_from_media_query) | Checks `MediaQuery.xxxOf(context)` or `MediaQuery.maybeXxxOf(context)` usages. | >= Flutter 3.10.0 (Dart 3.0.0) | Practice  |  Experimental  |    ✅️    |
+| [unnecessary_hook_widget](#unnecessary_hook_widget)                             | Checks if the widget is unnecessary to use `HookWidget`.                      | Any versions nilts_flutter_hooks supports | Practice  |  Experimental  |    ✅️    |
 
 ### Details
 
@@ -722,6 +723,49 @@ See also:
 
 - [MediaQuery as InheritedModel by moffatman · Pull Request #114459 · flutter/flutter](https://github.com/flutter/flutter/pull/114459)
 - [MediaQuery class - widgets library - Dart API](https://api.flutter.dev/flutter/widgets/MediaQuery-class.html)
+
+</details>
+
+#### unnecessary_hook_widget
+
+<details>
+
+<!-- prettier-ignore-start -->
+- Target SDK     : Any versions nilts_flutter_hooks supports
+- Rule type      : Practice
+- Maturity level : Experimental
+- Quick fix      : ✅
+<!-- prettier-ignore-end -->
+
+**Prefer**  using `StatelessWidget` instead of `HookWidget` when no hooks are used within the widget.
+
+**BAD:**
+<!-- prettier-ignore-start -->
+```dart
+class MyWidget extends HookWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+```
+<!-- prettier-ignore-end -->
+
+**GOOD:**
+<!-- prettier-ignore-start -->
+```dart
+class MyWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+```
+<!-- prettier-ignore-end -->
+
+See also:
+- [HookWidget class - flutter_hooks API](https://pub.dev/documentation/flutter_hooks/latest/flutter_hooks/HookWidget-class.html)
+- [StatelessWidget class - widgets library - Dart API](https://api.flutter.dev/flutter/widgets/StatelessWidget-class.html)
 
 </details>
 
