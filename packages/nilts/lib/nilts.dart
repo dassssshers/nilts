@@ -8,6 +8,7 @@ import 'package:nilts/src/lints/defined_void_callback_type.dart';
 import 'package:nilts/src/lints/fixed_text_scale_rich_text.dart';
 import 'package:nilts/src/lints/flaky_tests_with_set_up_all.dart';
 import 'package:nilts/src/lints/low_readability_numeric_literals.dart';
+import 'package:nilts/src/lints/no_force_unwrap.dart';
 import 'package:nilts/src/lints/no_support_multi_text_direction.dart';
 import 'package:nilts/src/lints/no_support_web_platform_check.dart';
 import 'package:nilts/src/lints/shrink_wrapped_scroll_view.dart';
@@ -43,5 +44,6 @@ class _NiltsLint extends PluginBase {
         const ShrinkWrappedScrollView(),
         if (_dartVersion >= const DartVersion(major: 3, minor: 0, patch: 0))
           UnnecessaryRebuildsFromMediaQuery(_dartVersion),
+        NoForceUnwrap(_dartVersion),
       ];
 }
