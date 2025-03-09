@@ -32,7 +32,7 @@ import 'package:nilts/src/change_priority.dart';
 /// See also:
 ///
 /// - [ValueGetter typedef - foundation library - Dart API](https://api.flutter.dev/flutter/foundation/ValueGetter.html)
-class DefinedValueGetterType extends DartLintRule {
+final class DefinedValueGetterType extends DartLintRule {
   /// Create a new instance of [DefinedValueGetterType].
   const DefinedValueGetterType() : super(code: _code);
 
@@ -79,7 +79,7 @@ class DefinedValueGetterType extends DartLintRule {
       ];
 }
 
-class _ReplaceWithValueGetter extends DartFix {
+final class _ReplaceWithValueGetter extends DartFix {
   @override
   void run(
     CustomLintResolver resolver,

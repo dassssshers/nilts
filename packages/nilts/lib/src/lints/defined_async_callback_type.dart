@@ -31,7 +31,7 @@ import 'package:nilts/src/change_priority.dart';
 /// See also:
 ///
 /// - [AsyncCallback typedef - foundation library - Dart API](https://api.flutter.dev/flutter/foundation/AsyncCallback.html)
-class DefinedAsyncCallbackType extends DartLintRule {
+final class DefinedAsyncCallbackType extends DartLintRule {
   /// Create a new instance of [DefinedAsyncCallbackType].
   const DefinedAsyncCallbackType() : super(code: _code);
 
@@ -76,7 +76,7 @@ class DefinedAsyncCallbackType extends DartLintRule {
       ];
 }
 
-class _ReplaceWithAsyncCallbackType extends DartFix {
+final class _ReplaceWithAsyncCallbackType extends DartFix {
   @override
   void run(
     CustomLintResolver resolver,

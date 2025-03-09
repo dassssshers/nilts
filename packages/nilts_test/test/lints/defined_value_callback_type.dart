@@ -8,7 +8,7 @@
 
 import 'package:flutter/material.dart';
 
-class MainButton extends StatelessWidget {
+final class MainButton extends StatelessWidget {
   const MainButton(
     void Function() this.onPressed,
     ValueChanged<int> this.onChangedAliasPressed,
