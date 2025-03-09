@@ -115,6 +115,7 @@ Some of lint rules support quick fixes on IDE.
 | [no_support_web_platform_check](#no_support_web_platform_check)                 | Checks if `Platform.isXxx` usages.                                             |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
 | [shrink_wrapped_scroll_view](#shrink_wrapped_scroll_view)                       | Checks the content of the scroll view is shrink wrapped.                       |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
 | [unnecessary_rebuilds_from_media_query](#unnecessary_rebuilds_from_media_query) | Checks `MediaQuery.xxxOf(context)` or `MediaQuery.maybeXxxOf(context)` usages. | >= Flutter 3.10.0 (Dart 3.0.0) | Practice  |  Experimental  |    ✅️    |
+| [no_force_unwrap](#no_force_unwrap)                                             | Checks usage of the `!` operator for forced unwrapping.                        |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
 
 ### Details
 
@@ -724,6 +725,49 @@ See also:
 - [MediaQuery class - widgets library - Dart API](https://api.flutter.dev/flutter/widgets/MediaQuery-class.html)
 
 </details>
+
+### no_force_unwrap
+
+<details>
+
+<!-- prettier-ignore-start -->
+- Target SDK     : Any versions nilts supports
+- Rule type      : Practice
+- Maturity level : Experimental
+- Quick fix      : ✅ (pattern matching is available on Dart 3.0.0 and above)
+<!-- prettier-ignore-end -->
+
+**Prefer** using null coalescing operator or pattern matching instead of force unwrapping with `!` operator.
+
+**BAD:**
+<!-- prettier-ignore-start -->
+```dart
+final value = someValue!;
+```
+<!-- prettier-ignore-end -->
+
+**GOOD:**
+
+<!-- prettier-ignore-start -->
+```dart
+final value = someValue ?? /* Replace with a suitable default value */;
+```
+<!-- prettier-ignore-end -->
+
+**GOOD(using Pattern Matching on Dart 3.0.0 and above):**
+
+<!-- prettier-ignore-start -->
+```dart
+if (someValue case final actualValue) {
+  print('取得した値: $actualValue');
+}
+```
+<!-- prettier-ignore-end -->
+
+See also:
+
+- [Null coalescing operator - Dart language specification](https://dart.dev/language/operators#null-coalescing-operator)
+- [Pattern matching - Dart language specification](https://dart.dev/language/patterns)
 
 ## Assists
 
