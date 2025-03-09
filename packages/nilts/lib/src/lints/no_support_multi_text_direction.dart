@@ -71,7 +71,7 @@ import 'package:nilts_core/nilts_core.dart';
 /// - [AlignmentDirectional class - painting library - Dart API](https://api.flutter.dev/flutter/painting/AlignmentDirectional-class.html)
 /// - [EdgeInsetsDirectional class - painting library - Dart API](https://api.flutter.dev/flutter/painting/EdgeInsetsDirectional-class.html)
 /// - [PositionedDirectional class - widgets library - Dart API](https://api.flutter.dev/flutter/widgets/PositionedDirectional-class.html)
-class NoSupportMultiTextDirection extends DartLintRule {
+final class NoSupportMultiTextDirection extends DartLintRule {
   /// Create a new instance of [NoSupportMultiTextDirection].
   const NoSupportMultiTextDirection() : super(code: _code);
 
@@ -197,7 +197,7 @@ class NoSupportMultiTextDirection extends DartLintRule {
       ];
 }
 
-class _ReplaceWithAlignmentDirectional extends DartFix {
+final class _ReplaceWithAlignmentDirectional extends DartFix {
   final _identifierMap = {
     'bottomLeft': 'bottomStart',
     'bottomRight': 'bottomEnd',
@@ -242,7 +242,7 @@ class _ReplaceWithAlignmentDirectional extends DartFix {
   }
 }
 
-class _ReplaceWithEdgeInsetsDirectional extends DartFix {
+final class _ReplaceWithEdgeInsetsDirectional extends DartFix {
   final _argumentMap = {
     'left': 'start',
     'right': 'end',
@@ -296,7 +296,7 @@ class _ReplaceWithEdgeInsetsDirectional extends DartFix {
   }
 }
 
-class _ReplaceWithPositionedDirectionalClass extends DartFix {
+final class _ReplaceWithPositionedDirectionalClass extends DartFix {
   final _argumentMap = {
     'left': 'start',
     'right': 'end',
@@ -344,7 +344,7 @@ class _ReplaceWithPositionedDirectionalClass extends DartFix {
   }
 }
 
-class _ReplaceWithPositionedDirectional extends DartFix {
+final class _ReplaceWithPositionedDirectional extends DartFix {
   final _argumentMap = {
     'left': 'start',
     'right': 'end',

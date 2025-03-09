@@ -45,7 +45,7 @@ import 'package:nilts/src/change_priority.dart';
 /// See also:
 ///
 /// - [defaultTargetPlatform property - foundation library - Dart API](https://api.flutter.dev/flutter/foundation/defaultTargetPlatform.html)
-class NoSupportWebPlatformCheck extends DartLintRule {
+final class NoSupportWebPlatformCheck extends DartLintRule {
   /// Create a new instance of [NoSupportWebPlatformCheck].
   const NoSupportWebPlatformCheck() : super(code: _code);
 
@@ -104,7 +104,7 @@ class NoSupportWebPlatformCheck extends DartLintRule {
       ];
 }
 
-class _ReplaceWithDefaultTargetPlatform extends DartFix {
+final class _ReplaceWithDefaultTargetPlatform extends DartFix {
   static const Map<String, String> _targetPlatformMap = {
     'isLinux': 'linux',
     'isMacOS': 'macOS',

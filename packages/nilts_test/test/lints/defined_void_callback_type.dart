@@ -9,7 +9,7 @@
 
 import 'package:flutter/material.dart';
 
-class MainButton extends StatelessWidget {
+final class MainButton extends StatelessWidget {
   const MainButton(
     // expect_lint: defined_void_callback_type
     void Function() this.onPressed,

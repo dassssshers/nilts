@@ -52,7 +52,7 @@ import 'package:nilts_core/nilts_core.dart';
 ///
 /// - [setUpAll function - flutter_test library - Dart API](https://api.flutter.dev/flutter/flutter_test/setUpAll.html)
 /// - [setUp function - flutter_test library - Dart API](https://api.flutter.dev/flutter/flutter_test/setUp.html)
-class FlakyTestsWithSetUpAll extends DartLintRule {
+final class FlakyTestsWithSetUpAll extends DartLintRule {
   /// Create a new instance of [FlakyTestsWithSetUpAll].
   const FlakyTestsWithSetUpAll() : super(code: _code);
 
@@ -97,7 +97,7 @@ class FlakyTestsWithSetUpAll extends DartLintRule {
       ];
 }
 
-class _ReplaceWithSetUp extends DartFix {
+final class _ReplaceWithSetUp extends DartFix {
   @override
   void run(
     CustomLintResolver resolver,
@@ -125,7 +125,7 @@ class _ReplaceWithSetUp extends DartFix {
   }
 }
 
-class _UnwrapSetUpAll extends DartFix {
+final class _UnwrapSetUpAll extends DartFix {
   @override
   void run(
     CustomLintResolver resolver,

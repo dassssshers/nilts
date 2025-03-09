@@ -44,7 +44,7 @@ import 'package:nilts_core/nilts_core.dart';
 ///
 /// - [MediaQuery as InheritedModel by moffatman · Pull Request #114459 · flutter/flutter](https://github.com/flutter/flutter/pull/114459)
 /// - [MediaQuery class - widgets library - Dart API](https://api.flutter.dev/flutter/widgets/MediaQuery-class.html)
-class UnnecessaryRebuildsFromMediaQuery extends DartLintRule {
+final class UnnecessaryRebuildsFromMediaQuery extends DartLintRule {
   /// Create a new instance of [UnnecessaryRebuildsFromMediaQuery].
   const UnnecessaryRebuildsFromMediaQuery(this._dartVersion)
       : super(code: _code);
@@ -106,7 +106,7 @@ class UnnecessaryRebuildsFromMediaQuery extends DartLintRule {
       ];
 }
 
-class _ReplaceWithMediaQueryXxxOf extends DartFix {
+final class _ReplaceWithMediaQueryXxxOf extends DartFix {
   _ReplaceWithMediaQueryXxxOf(DartVersion dartVersion)
       : _properties =
             dartVersion >= const DartVersion(major: 3, minor: 2, patch: 0)

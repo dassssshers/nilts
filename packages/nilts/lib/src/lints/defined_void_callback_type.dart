@@ -31,7 +31,7 @@ import 'package:nilts/src/change_priority.dart';
 /// See also:
 ///
 /// - [VoidCallback typedef - dart:ui library - Dart API](https://api.flutter.dev/flutter/dart-ui/VoidCallback.html)
-class DefinedVoidCallbackType extends DartLintRule {
+final class DefinedVoidCallbackType extends DartLintRule {
   /// Create a new instance of [DefinedVoidCallbackType].
   const DefinedVoidCallbackType() : super(code: _code);
 
@@ -73,7 +73,7 @@ class DefinedVoidCallbackType extends DartLintRule {
       ];
 }
 
-class _ReplaceWithVoidCallbackType extends DartFix {
+final class _ReplaceWithVoidCallbackType extends DartFix {
   @override
   void run(
     CustomLintResolver resolver,
