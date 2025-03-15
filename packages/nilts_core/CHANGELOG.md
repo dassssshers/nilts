@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.0](https://github.com/dassssshers/nilts/compare/nilts_core-v0.1.0...nilts_core-v0.20.0) (2025-03-15)
+
+
+### Release
+
+* 0.20.0 ([#267](https://github.com/dassssshers/nilts/issues/267)) ([e1b4663](https://github.com/dassssshers/nilts/commit/e1b4663892bac4aba3fb56923689fbbe479b0238))
+
 ## [0.1.0](https://github.com/dassssshers/nilts/nilts_core-v0.1.0) (2025-02-16)
 
 ### New Features
