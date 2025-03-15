@@ -64,7 +64,7 @@ import 'package:nilts_core/nilts_core.dart';
 ///
 /// - [Text.rich constructor - Text - widgets library - Dart API](https://api.flutter.dev/flutter/widgets/Text/Text.rich.html)
 /// - [RichText class - widgets library - Dart API](https://api.flutter.dev/flutter/widgets/RichText-class.html)
-class FixedTextScaleRichText extends DartLintRule {
+final class FixedTextScaleRichText extends DartLintRule {
   /// Create a new instance of [FixedTextScaleRichText].
   const FixedTextScaleRichText() : super(code: _code);
 
@@ -113,7 +113,7 @@ class FixedTextScaleRichText extends DartLintRule {
       ];
 }
 
-class _ReplaceWithTextRich extends DartFix {
+final class _ReplaceWithTextRich extends DartFix {
   @override
   void run(
     CustomLintResolver resolver,
@@ -153,7 +153,7 @@ class _ReplaceWithTextRich extends DartFix {
   }
 }
 
-class _AddTextScaler extends DartFix {
+final class _AddTextScaler extends DartFix {
   @override
   void run(
     CustomLintResolver resolver,
@@ -186,7 +186,7 @@ class _AddTextScaler extends DartFix {
 
 /// Legacy version of [FixedTextScaleRichText].
 /// This rule is for under Flutter 3.16.0.
-class FixedTextScaleRichTextLegacy extends DartLintRule {
+final class FixedTextScaleRichTextLegacy extends DartLintRule {
   /// Create a new instance of [FixedTextScaleRichTextLegacy].
   const FixedTextScaleRichTextLegacy() : super(code: _code);
 
@@ -233,7 +233,7 @@ class FixedTextScaleRichTextLegacy extends DartLintRule {
       ];
 }
 
-class _AddTextScaleFactor extends DartFix {
+final class _AddTextScaleFactor extends DartFix {
   @override
   void run(
     CustomLintResolver resolver,

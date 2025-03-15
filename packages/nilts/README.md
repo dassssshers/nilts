@@ -725,6 +725,36 @@ See also:
 
 </details>
 
+### final_defined_class
+
+<details>
+
+<!-- prettier-ignore-start -->
+- Target SDK     : >= Flutter 3.10.0 (Dart 3.0.0)
+- Rule type      : Practice
+- Maturity level : Experimental
+- Quick fix      : ✅
+<!-- prettier-ignore-end -->
+
+**Prefer** marking your class as final if it is not intended to be extended.
+
+**BAD:**
+<!-- prettier-ignore-start -->
+```dart
+class MyClass {}
+```
+<!-- prettier-ignore-end -->
+
+**GOOD:**
+
+<!-- prettier-ignore-start -->
+```dart
+final class MyClass {}
+```
+<!-- prettier-ignore-end -->
+
+</details>
+
 ## Assists
 
 Upcoming... 🚀

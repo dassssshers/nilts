@@ -5,6 +5,7 @@ import 'package:nilts/src/lints/defined_async_value_setter_type.dart';
 import 'package:nilts/src/lints/defined_value_callback_type.dart';
 import 'package:nilts/src/lints/defined_value_getter_type.dart';
 import 'package:nilts/src/lints/defined_void_callback_type.dart';
+import 'package:nilts/src/lints/final_defined_class.dart';
 import 'package:nilts/src/lints/fixed_text_scale_rich_text.dart';
 import 'package:nilts/src/lints/flaky_tests_with_set_up_all.dart';
 import 'package:nilts/src/lints/low_readability_numeric_literals.dart';
@@ -43,5 +44,7 @@ class _NiltsLint extends PluginBase {
         const ShrinkWrappedScrollView(),
         if (_dartVersion >= const DartVersion(major: 3, minor: 0, patch: 0))
           UnnecessaryRebuildsFromMediaQuery(_dartVersion),
+        if (_dartVersion >= const DartVersion(major: 3, minor: 0, patch: 0))
+          const FinalDefinedClass(),
       ];
 }

@@ -46,7 +46,7 @@ import 'package:nilts_core/nilts_core.dart';
 ///
 /// - [shrinkWrap property - ScrollView class - widgets library - Dart API](https://api.flutter.dev/flutter/widgets/ScrollView/shrinkWrap.html)
 /// - [ShrinkWrap vs Slivers | Decoding Flutter - YouTube](https://youtu.be/LUqDNnv_dh0)
-class ShrinkWrappedScrollView extends DartLintRule {
+final class ShrinkWrappedScrollView extends DartLintRule {
   /// Create a new instance of [ShrinkWrappedScrollView].
   const ShrinkWrappedScrollView() : super(code: _code);
 
@@ -105,7 +105,7 @@ class ShrinkWrappedScrollView extends DartLintRule {
       ];
 }
 
-class _RemoveShrinkWrapArgument extends DartFix {
+final class _RemoveShrinkWrapArgument extends DartFix {
   @override
   void run(
     CustomLintResolver resolver,
