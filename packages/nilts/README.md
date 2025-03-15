@@ -99,22 +99,23 @@ Some of lint rules support quick fixes on IDE.
 
 ### Overview
 
-| Rule name                                                                       | Overview                                                                       |           Target SDK           | Rule type | Maturity level | Quick fix |
-| ------------------------------------------------------------------------------- | :----------------------------------------------------------------------------- | :----------------------------: | :-------: | :------------: | :-------: |
-| [defined_async_callback_type](#defined_async_callback_type)                     | Checks `Future<void> Function()` definitions.                                  |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
-| [defined_async_value_getter_type](#defined_async_value_getter_type)             | Checks `Future<T> Function()` definitions.                                     |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
-| [defined_async_value_setter_type](#defined_async_value_setter_type)             | Checks `Future<void> Function(T value)` definitions.                           |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
-| [defined_value_changed_type](#defined_value_changed_type)                       | Checks `void Function(T value)` definitions.                                   |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
-| [defined_value_getter_type](#defined_value_getter_type)                         | Checks `T Function()` definitions.                                             |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
-| [defined_value_setter_type](#defined_value_setter_type)                         | Checks `void Function(T value)` definitions.                                   |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
-| [defined_void_callback_type](#defined_void_callback_type)                       | Checks `void Function()` definitions.                                          |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
-| [fixed_text_scale_rich_text](#fixed_text_scale_rich_text)                       | Checks usage of `textScaler` or `textScaleFactor` in `RichText` constructor.   |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
-| [flaky_tests_with_set_up_all](#flaky_tests_with_set_up_all)                     | Checks `setUpAll` usages.                                                      |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
-| [low_readability_numeric_literals](#low_readability_numeric_literals)           | Checks numeric literals with 5 or more digits.                                 | >= Flutter 3.27.0 (Dart 3.6.0) | Practice  |  Experimental  |    ✅️    |
-| [no_support_multi_text_direction](#no_support_multi_text_direction)             | Checks if supports `TextDirection` changes.                                    |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
-| [no_support_web_platform_check](#no_support_web_platform_check)                 | Checks if `Platform.isXxx` usages.                                             |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
-| [shrink_wrapped_scroll_view](#shrink_wrapped_scroll_view)                       | Checks the content of the scroll view is shrink wrapped.                       |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
-| [unnecessary_rebuilds_from_media_query](#unnecessary_rebuilds_from_media_query) | Checks `MediaQuery.xxxOf(context)` or `MediaQuery.maybeXxxOf(context)` usages. | >= Flutter 3.10.0 (Dart 3.0.0) | Practice  |  Experimental  |    ✅️    |
+| Rule name                                                                       | Overview                                                                       |                Target SDK                 | Rule type | Maturity level | Quick fix |
+| ------------------------------------------------------------------------------- | :----------------------------------------------------------------------------- | :---------------------------------------: | :-------: | :------------: | :-------: |
+| [defined_async_callback_type](#defined_async_callback_type)                     | Checks `Future<void> Function()` definitions.                                  |        Any versions nilts supports        | Practice  |  Experimental  |    ✅️    |
+| [defined_async_value_getter_type](#defined_async_value_getter_type)             | Checks `Future<T> Function()` definitions.                                     |        Any versions nilts supports        | Practice  |  Experimental  |    ✅️    |
+| [defined_async_value_setter_type](#defined_async_value_setter_type)             | Checks `Future<void> Function(T value)` definitions.                           |        Any versions nilts supports        | Practice  |  Experimental  |    ✅️    |
+| [defined_value_changed_type](#defined_value_changed_type)                       | Checks `void Function(T value)` definitions.                                   |        Any versions nilts supports        | Practice  |  Experimental  |    ✅️    |
+| [defined_value_getter_type](#defined_value_getter_type)                         | Checks `T Function()` definitions.                                             |        Any versions nilts supports        | Practice  |  Experimental  |    ✅️    |
+| [defined_value_setter_type](#defined_value_setter_type)                         | Checks `void Function(T value)` definitions.                                   |        Any versions nilts supports        | Practice  |  Experimental  |    ✅️    |
+| [defined_void_callback_type](#defined_void_callback_type)                       | Checks `void Function()` definitions.                                          |        Any versions nilts supports        | Practice  |  Experimental  |    ✅️    |
+| [fixed_text_scale_rich_text](#fixed_text_scale_rich_text)                       | Checks usage of `textScaler` or `textScaleFactor` in `RichText` constructor.   |        Any versions nilts supports        | Practice  |  Experimental  |    ✅️    |
+| [flaky_tests_with_set_up_all](#flaky_tests_with_set_up_all)                     | Checks `setUpAll` usages.                                                      |        Any versions nilts supports        | Practice  |  Experimental  |    ✅️    |
+| [low_readability_numeric_literals](#low_readability_numeric_literals)           | Checks numeric literals with 5 or more digits.                                 |      >= Flutter 3.27.0 (Dart 3.6.0)       | Practice  |  Experimental  |    ✅️    |
+| [no_support_multi_text_direction](#no_support_multi_text_direction)             | Checks if supports `TextDirection` changes.                                    |        Any versions nilts supports        | Practice  |  Experimental  |    ✅️    |
+| [no_support_web_platform_check](#no_support_web_platform_check)                 | Checks if `Platform.isXxx` usages.                                             |        Any versions nilts supports        | Practice  |  Experimental  |    ✅️    |
+| [shrink_wrapped_scroll_view](#shrink_wrapped_scroll_view)                       | Checks the content of the scroll view is shrink wrapped.                       |        Any versions nilts supports        | Practice  |  Experimental  |    ✅️    |
+| [unnecessary_rebuilds_from_media_query](#unnecessary_rebuilds_from_media_query) | Checks `MediaQuery.xxxOf(context)` or `MediaQuery.maybeXxxOf(context)` usages. |      >= Flutter 3.10.0 (Dart 3.0.0)       | Practice  |  Experimental  |    ✅️    |
+| [unnecessary_hook_widget](#unnecessary_hook_widget)                             | Checks if the widget is unnecessary to use `HookWidget`.                       | Any versions nilts_flutter_hooks supports | Practice  |  Experimental  |    ✅️    |
 
 ### Details
 
@@ -722,6 +723,51 @@ See also:
 
 - [MediaQuery as InheritedModel by moffatman · Pull Request #114459 · flutter/flutter](https://github.com/flutter/flutter/pull/114459)
 - [MediaQuery class - widgets library - Dart API](https://api.flutter.dev/flutter/widgets/MediaQuery-class.html)
+
+</details>
+
+#### unnecessary_hook_widget
+
+<details>
+
+<!-- prettier-ignore-start -->
+- Target SDK     : Any versions nilts_flutter_hooks supports
+- Rule type      : Practice
+- Maturity level : Experimental
+- Quick fix      : ✅
+<!-- prettier-ignore-end -->
+
+**Prefer**  using `StatelessWidget` instead of `HookWidget` when no hooks are used within the widget.
+
+**BAD:**
+<!-- prettier-ignore-start -->
+```dart
+class MyWidget extends HookWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+```
+<!-- prettier-ignore-end -->
+
+**GOOD:**
+
+<!-- prettier-ignore-start -->
+```dart
+class MyWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+```
+<!-- prettier-ignore-end -->
+
+See also:
+
+- [HookWidget class - flutter_hooks API](https://pub.dev/documentation/flutter_hooks/latest/flutter_hooks/HookWidget-class.html)
+- [StatelessWidget class - widgets library - Dart API](https://api.flutter.dev/flutter/widgets/StatelessWidget-class.html)
 
 </details>
 
