@@ -111,6 +111,7 @@ Some of lint rules support quick fixes on IDE.
 | [fixed_text_scale_rich_text](#fixed_text_scale_rich_text)                       | Checks usage of `textScaler` or `textScaleFactor` in `RichText` constructor.   |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
 | [flaky_tests_with_set_up_all](#flaky_tests_with_set_up_all)                     | Checks `setUpAll` usages.                                                      |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
 | [low_readability_numeric_literals](#low_readability_numeric_literals)           | Checks numeric literals with 5 or more digits.                                 | >= Flutter 3.27.0 (Dart 3.6.0) | Practice  |  Experimental  |    ✅️    |
+| [missing_class_modifier](#missing_class_modifier)                               | Checks class modifiers (final, sealed, etc.)                                   |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
 | [no_support_multi_text_direction](#no_support_multi_text_direction)             | Checks if supports `TextDirection` changes.                                    |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
 | [no_support_web_platform_check](#no_support_web_platform_check)                 | Checks if `Platform.isXxx` usages.                                             |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
 | [shrink_wrapped_scroll_view](#shrink_wrapped_scroll_view)                       | Checks the content of the scroll view is shrink wrapped.                       |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
@@ -583,12 +584,6 @@ Padding(
 
 <!-- prettier-ignore-start -->
 ```dart
-Positioned.directional(
-  start: 12,
-  textDirection: TextDirection.ltr,
-  child: SizedBox(),
-)
-
 PositionedDirectional(
   start: 12,
   child: SizedBox(),
@@ -725,18 +720,18 @@ See also:
 
 </details>
 
-### final_defined_class
+#### missing_class_modifier
 
 <details>
 
 <!-- prettier-ignore-start -->
-- Target SDK     : >= Flutter 3.10.0 (Dart 3.0.0)
+- Target SDK     : Any versions nilts supports
 - Rule type      : Practice
 - Maturity level : Experimental
 - Quick fix      : ✅
 <!-- prettier-ignore-end -->
 
-**Prefer** marking your class as final if it is not intended to be extended.
+**Consider** adding a class modifier (final, sealed, etc.) to explicitly define the inheritance policy of your class.
 
 **BAD:**
 <!-- prettier-ignore-start -->

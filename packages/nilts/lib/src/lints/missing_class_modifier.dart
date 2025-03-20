@@ -2,11 +2,11 @@ import 'package:analyzer/error/error.dart' as analyzer;
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
-/// A class for `final_defined_class` rule.
+/// A class for `missing_class_modifier` rule.
 ///
 /// This rule checks if the class is not intended to be extended.
 ///
-/// - Target SDK     : >= Flutter 3.10.0 (Dart 3.0.0)
+/// - Target SDK     : Any versions nilts supports
 /// - Rule type      : Practice
 /// - Maturity level : Experimental
 /// - Quick fix      : ✅
@@ -22,15 +22,15 @@ import 'package:custom_lint_builder/custom_lint_builder.dart';
 /// ```dart
 /// final class MyClass {}
 /// ```
-final class FinalDefinedClass extends DartLintRule {
-  /// Create a new instance of [FinalDefinedClass].
-  const FinalDefinedClass() : super(code: _code);
+final class MissingClassModifier extends DartLintRule {
+  /// Create a new instance of [MissingClassModifier].
+  const MissingClassModifier() : super(code: _code);
 
   static const _code = LintCode(
-    name: 'final_defined_class',
+    name: 'missing_class_modifier',
     problemMessage: 'Please add the final keyword to the class declaration.',
     correctionMessage: 'Try adding the final keyword to the class declaration.',
-    url: 'https://github.com/dassssshers/nilts#prefer_final_class',
+    url: 'https://github.com/dassssshers/nilts#missing_class_modifier',
   );
 
   @override
@@ -40,14 +40,7 @@ final class FinalDefinedClass extends DartLintRule {
     CustomLintContext context,
   ) {
     context.registry.addClassDeclaration((node) {
-      if (node.sealedKeyword != null ||
-          node.abstractKeyword != null ||
-          node.finalKeyword != null ||
-          node.baseKeyword != null ||
-          node.interfaceKeyword != null ||
-          node.mixinKeyword != null) {
-        return;
-      }
+      if (node.classKeyword.previous?.keyword != null) return;
 
       reporter.atToken(
         node.name,
