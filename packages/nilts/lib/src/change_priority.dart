@@ -79,4 +79,7 @@ class ChangePriority {
 
   /// The priority for [_AddFinalKeyword].
   static const int addFinalKeyword = 100;
+
+  /// The priority for [_AddCommentSpace].
+  static const int addCommentSpace = 100;
 }
