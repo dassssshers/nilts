@@ -1,10 +1,11 @@
+import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/error/error.dart' as analyzer;
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 import 'package:nilts/src/change_priority.dart';
 
-/// A class for `no_force_unwrap` rule.
+/// A class for `unsafe_null_assertion` rule.
 ///
 /// This rule checks if `!` operator is used to force unwrap a value.
 ///
@@ -28,6 +29,11 @@ import 'package:nilts/src/change_priority.dart';
 ///
 /// **GOOD:**
 /// ```dart
+/// final value = someValue?.someMethod();
+/// ```
+///
+/// **GOOD:**
+/// ```dart
 /// if (someValue case final value?) return value;
 /// ```
 ///
@@ -35,14 +41,14 @@ import 'package:nilts/src/change_priority.dart';
 ///
 /// - [Null coalescing operator - Dart language specification](https://dart.dev/language/operators#null-coalescing-operator)
 /// - [Pattern matching - Dart language specification](https://dart.dev/language/patterns)
-class NoForceUnwrap extends DartLintRule {
-  /// Create a new instance of [NoForceUnwrap].
-  const NoForceUnwrap() : super(code: _code);
+class UnsafeNullAssertion extends DartLintRule {
+  /// Create a new instance of [UnsafeNullAssertion].
+  const UnsafeNullAssertion() : super(code: _code);
 
   static const _code = LintCode(
-    name: 'no_force_unwrap',
+    name: 'unsafe_null_assertion',
     problemMessage: 'Do not force unwrap',
-    url: 'https://github.com/dassssshers/nilts#no_force_unwrap',
+    url: 'https://github.com/dassssshers/nilts#unsafe_null_assertion',
   );
 
   @override
@@ -60,12 +66,13 @@ class NoForceUnwrap extends DartLintRule {
 
   @override
   List<Fix> getFixes() => [
-        _AddNullCoalescingOperator(),
+        _AddIfNullOperator(),
+        _ReplaceWithNullAwareOperator(),
         _ReplaceWithPatternMatching(),
       ];
 }
 
-class _AddNullCoalescingOperator extends DartFix {
+class _AddIfNullOperator extends DartFix {
   @override
   void run(
     CustomLintResolver resolver,
@@ -81,12 +88,44 @@ class _AddNullCoalescingOperator extends DartFix {
       reporter
           .createChangeBuilder(
         message: 'Replace with null coalescing operator',
-        priority: ChangePriority.addNullCoalescingOperator,
+        priority: ChangePriority.replaceWithNullAwareOperator,
       )
           .addDartFileEdit((builder) {
         builder.addSimpleReplacement(
           node.sourceRange,
           '(${node.operand} ?? )',
+        );
+      });
+    });
+  }
+}
+
+class _ReplaceWithNullAwareOperator extends DartFix {
+  @override
+  void run(
+    CustomLintResolver resolver,
+    ChangeReporter reporter,
+    CustomLintContext context,
+    analyzer.AnalysisError analysisError,
+    List<analyzer.AnalysisError> others,
+  ) {
+    context.registry.addPostfixExpression((node) {
+      if (!node.sourceRange.intersects(analysisError.sourceRange)) return;
+      if (node.operator.type != TokenType.BANG) return;
+
+      // 親ノードがメンバーアクセスの場合のみ適用
+      final parent = node.parent;
+      if (parent is! PropertyAccess && parent is! MethodInvocation) return;
+
+      reporter
+          .createChangeBuilder(
+        message: 'Replace with null-aware operator',
+        priority: ChangePriority.addIfNullOperator,
+      )
+          .addDartFileEdit((builder) {
+        builder.addSimpleReplacement(
+          node.sourceRange,
+          '${node.operand}?',
         );
       });
     });

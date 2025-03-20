@@ -68,8 +68,11 @@ class ChangePriority {
   /// The priority for [_UnwrapSetUpAll].
   static const int unwrapSetUpAll = 90;
 
-  /// The priority for [_AddNullCoalescingOperator].
-  static const int addNullCoalescingOperator = 90;
+  /// The priority for [_AddIfNullOperator].
+  static const int addIfNullOperator = 80;
+
+  /// The priority for [_ReplaceWithNullAwareOperator].
+  static const int replaceWithNullAwareOperator = 90;
 
   /// The priority for [_AddPatternMatching].
   static const int addPatternMatching = 100;
