@@ -88,7 +88,7 @@ class _AddIfNullOperator extends DartFix {
       reporter
           .createChangeBuilder(
         message: 'Replace with null coalescing operator',
-        priority: ChangePriority.replaceWithNullAwareOperator,
+        priority: ChangePriority.addIfNullOperator,
       )
           .addDartFileEdit((builder) {
         builder.addSimpleReplacement(
@@ -120,7 +120,7 @@ class _ReplaceWithNullAwareOperator extends DartFix {
       reporter
           .createChangeBuilder(
         message: 'Replace with null-aware operator',
-        priority: ChangePriority.addIfNullOperator,
+        priority: ChangePriority.replaceWithNullAwareOperator,
       )
           .addDartFileEdit((builder) {
         builder.addSimpleReplacement(
