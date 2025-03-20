@@ -44,6 +44,6 @@ class _NiltsLint extends PluginBase {
         const ShrinkWrappedScrollView(),
         if (_dartVersion >= const DartVersion(major: 3, minor: 0, patch: 0))
           UnnecessaryRebuildsFromMediaQuery(_dartVersion),
-        NoForceUnwrap(_dartVersion),
+        const NoForceUnwrap(),
       ];
 }

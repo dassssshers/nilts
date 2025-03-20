@@ -750,7 +750,7 @@ final value = someValue!;
 
 <!-- prettier-ignore-start -->
 ```dart
-final value = someValue ?? /* Replace with a suitable default value */;
+final value = someValue ?? /* default value */;
 ```
 <!-- prettier-ignore-end -->
 
@@ -758,8 +758,8 @@ final value = someValue ?? /* Replace with a suitable default value */;
 
 <!-- prettier-ignore-start -->
 ```dart
-if (someValue case final actualValue) {
-  print('取得した値: $actualValue');
+if (someValue case final actualValue?) {
+  print('value: $actualValue');
 }
 ```
 <!-- prettier-ignore-end -->

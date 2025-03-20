@@ -3,7 +3,6 @@ import 'package:analyzer/error/error.dart' as analyzer;
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 import 'package:nilts/src/change_priority.dart';
-import 'package:nilts_core/nilts_core.dart';
 
 /// A class for `no_force_unwrap` rule.
 ///
@@ -24,12 +23,12 @@ import 'package:nilts_core/nilts_core.dart';
 ///
 /// **GOOD:**
 /// ```dart
-/// final value = someValue ?? /* Replace with a suitable default value */;
+/// final value = someValue ?? /* default value */;
 /// ```
 ///
 /// **GOOD:**
 /// ```dart
-/// if (someValue case final value) return value;
+/// if (someValue case final value?) return value;
 /// ```
 ///
 /// See also:
@@ -38,9 +37,7 @@ import 'package:nilts_core/nilts_core.dart';
 /// - [Pattern matching - Dart language specification](https://dart.dev/language/patterns)
 class NoForceUnwrap extends DartLintRule {
   /// Create a new instance of [NoForceUnwrap].
-  const NoForceUnwrap(this._dartVersion) : super(code: _code);
-
-  final DartVersion _dartVersion;
+  const NoForceUnwrap() : super(code: _code);
 
   static const _code = LintCode(
     name: 'no_force_unwrap',
@@ -64,8 +61,7 @@ class NoForceUnwrap extends DartLintRule {
   @override
   List<Fix> getFixes() => [
         _AddNullCoalescingOperator(),
-        if (_dartVersion >= const DartVersion(major: 3, minor: 0, patch: 0))
-          _ReplaceWithPatternMatching(),
+        _ReplaceWithPatternMatching(),
       ];
 }
 
@@ -90,7 +86,7 @@ class _AddNullCoalescingOperator extends DartFix {
           .addDartFileEdit((builder) {
         builder.addSimpleReplacement(
           node.sourceRange,
-          '${node.operand} ?? /* Replace with a suitable default value */',
+          '(${node.operand} ?? )',
         );
       });
     });
@@ -118,7 +114,7 @@ class _ReplaceWithPatternMatching extends DartFix {
           .addDartFileEdit((builder) {
         builder.addSimpleReplacement(
           node.sourceRange,
-          'if (${node.operand} case final value) return value',
+          'if (${node.operand} case final value?) return value',
         );
       });
     });
