@@ -762,7 +762,6 @@ final value = someValue?.someMethod();
 ```
 <!-- prettier-ignore-end -->
 
-
 **GOOD:**
 
 <!-- prettier-ignore-start -->
