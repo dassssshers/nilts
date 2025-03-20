@@ -2,7 +2,7 @@ import 'package:analyzer/error/error.dart' as analyzer;
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
-/// A class for `missing_class_modifier` rule.
+/// A class for `open_type_hierarchy` rule.
 ///
 /// This rule checks if the class is not intended to be extended.
 ///
@@ -22,15 +22,15 @@ import 'package:custom_lint_builder/custom_lint_builder.dart';
 /// ```dart
 /// final class MyClass {}
 /// ```
-final class MissingClassModifier extends DartLintRule {
-  /// Create a new instance of [MissingClassModifier].
-  const MissingClassModifier() : super(code: _code);
+final class OpenTypeHierarchy extends DartLintRule {
+  /// Create a new instance of [OpenTypeHierarchy].
+  const OpenTypeHierarchy() : super(code: _code);
 
   static const _code = LintCode(
-    name: 'missing_class_modifier',
+    name: 'open_type_hierarchy',
     problemMessage: 'Please add the final keyword to the class declaration.',
     correctionMessage: 'Try adding the final keyword to the class declaration.',
-    url: 'https://github.com/dassssshers/nilts#missing_class_modifier',
+    url: 'https://github.com/dassssshers/nilts#open_type_hierarchy',
   );
 
   @override
