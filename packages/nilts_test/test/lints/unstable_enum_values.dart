@@ -1,8 +1,4 @@
-enum Hoge {
-  a,
-  b,
-  c,
-}
+enum Hoge { a, b, c }
 
 // expect_lint: unstable_enum_values
 const errorValues = Hoge.values;
@@ -10,8 +6,7 @@ const errorValues = Hoge.values;
 enum _Fuga {
   a,
   b,
-  c,
-  ;
+  c;
 
   static List<_Fuga> get staticValues => [_Fuga.a, _Fuga.b, _Fuga.c];
 }
