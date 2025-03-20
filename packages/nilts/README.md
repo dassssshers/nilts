@@ -120,7 +120,6 @@ Some of lint rules support quick fixes on IDE.
 | [unstable_enum_name](#unstable_enum_name)                                       | Checks usage of enum name property.                                            |  Any versions nilts supports   | Practice  |  Experimental  |    ❌    |
 | [unstable_enum_values](#unstable_enum_values)                                   | Checks usage of enum values property.                                          |  Any versions nilts supports   | Practice  |  Experimental  |    ❌    |
 
-
 ### Details
 
 #### defined_async_callback_type
@@ -890,6 +889,7 @@ void printColors() {
 <!-- prettier-ignore-end -->
 
 **GOOD:**
+
 <!-- prettier-ignore-start -->
 ```dart
 enum Color { red, green, blue }

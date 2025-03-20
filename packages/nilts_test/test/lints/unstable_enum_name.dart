@@ -1,14 +1,13 @@
 enum Hoge {
   a,
   b,
-  c,
-  ;
+  c;
 
   String get id => switch (this) {
-        a => 'a',
-        b => 'b',
-        c => 'c',
-      };
+    a => 'a',
+    b => 'b',
+    c => 'c',
+  };
 }
 
 // expect_lint: unstable_enum_name
