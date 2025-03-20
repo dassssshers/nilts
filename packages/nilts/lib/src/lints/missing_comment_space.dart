@@ -1,3 +1,4 @@
+import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/error/error.dart' as analyzer;
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
@@ -42,24 +43,53 @@ final class MissingCommentSpace extends DartLintRule {
     ErrorReporter reporter,
     CustomLintContext context,
   ) {
-    context.registry.addComment((node) {
-      final text = node.toString();
-      String? commentPrefix;
-      if (text.startsWith('///')) {
-        commentPrefix = '///';
-      } else if (text.startsWith('//')) {
-        commentPrefix = '//';
-      } else {
-        commentPrefix = null;
+    context.registry.addRegularComment((token) {
+      int? commentErrorOffset(Token comment) {
+        final lexeme = comment.lexeme;
+
+        // find index of first char after `/`
+        var contentStart = 0;
+        while (lexeme.length > contentStart && lexeme[contentStart] == '/') {
+          contentStart += 1;
+        }
+
+        final needsSpace =
+            lexeme.length != contentStart && lexeme[contentStart] != ' ';
+
+        if (needsSpace) {
+          return contentStart;
+        }
+        return null;
       }
 
-      if (commentPrefix != null) {
-        final prefixLength = commentPrefix.length;
-        if (text.length > prefixLength && !text.startsWith('$commentPrefix ')) {
-          reporter.atNode(
-            node,
-            _code,
-          );
+      if (commentErrorOffset(token) case final contentStart?) {
+        reporter.atOffset(
+          offset: token.offset + contentStart,
+          length: 0,
+          errorCode: _code,
+        );
+      }
+    });
+    context.registry.addComment((node) {
+      for (final token in node.tokens) {
+        String? commentPrefix;
+        if (token.lexeme.startsWith('///')) {
+          commentPrefix = '///';
+        } else if (token.lexeme.startsWith('//')) {
+          commentPrefix = '//';
+        } else {
+          commentPrefix = null;
+        }
+
+        if (commentPrefix != null) {
+          final prefixLength = commentPrefix.length;
+          if (token.lexeme.length > prefixLength &&
+              !token.lexeme.startsWith('$commentPrefix ')) {
+            reporter.atNode(
+              node,
+              _code,
+            );
+          }
         }
       }
     });
@@ -97,6 +127,35 @@ final class _AddCommentSpace extends DartFix {
           ' ',
         );
       });
+    });
+  }
+}
+
+extension on LintRuleNodeRegistry {
+  void addRegularComment(void Function(Token comment) listener) {
+    addCompilationUnit((node) {
+      bool isRegularComment(Token commentToken) {
+        final token = commentToken.toString();
+
+        return !token.startsWith('///') && token.startsWith('//');
+      }
+
+      Token? token = node.root.beginToken;
+      while (token != null) {
+        Token? commentToken = token.precedingComments;
+        while (commentToken != null) {
+          if (isRegularComment(commentToken)) {
+            listener(commentToken);
+          }
+          commentToken = commentToken.next;
+        }
+
+        if (token == token.next) {
+          break;
+        }
+
+        token = token.next;
+      }
     });
   }
 }
