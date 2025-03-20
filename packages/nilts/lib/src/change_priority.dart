@@ -67,4 +67,7 @@ class ChangePriority {
 
   /// The priority for [_UnwrapSetUpAll].
   static const int unwrapSetUpAll = 90;
+
+  /// The priority for [_AddCommentSpace].
+  static const int addCommentSpace = 100;
 }

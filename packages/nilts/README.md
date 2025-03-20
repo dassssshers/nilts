@@ -115,6 +115,7 @@ Some of lint rules support quick fixes on IDE.
 | [no_support_web_platform_check](#no_support_web_platform_check)                 | Checks if `Platform.isXxx` usages.                                             |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
 | [shrink_wrapped_scroll_view](#shrink_wrapped_scroll_view)                       | Checks the content of the scroll view is shrink wrapped.                       |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
 | [unnecessary_rebuilds_from_media_query](#unnecessary_rebuilds_from_media_query) | Checks `MediaQuery.xxxOf(context)` or `MediaQuery.maybeXxxOf(context)` usages. | >= Flutter 3.10.0 (Dart 3.0.0) | Practice  |  Experimental  |    ✅️    |
+| [missing_comment_space](#missing_comment_space)                                 | Checks if comments have a space after the comment marker.                      |  Any versions nilts supports   | Style     |  Experimental  |    ✅️    |
 
 ### Details
 
@@ -722,6 +723,37 @@ See also:
 
 - [MediaQuery as InheritedModel by moffatman · Pull Request #114459 · flutter/flutter](https://github.com/flutter/flutter/pull/114459)
 - [MediaQuery class - widgets library - Dart API](https://api.flutter.dev/flutter/widgets/MediaQuery-class.html)
+
+</details>
+
+#### missing_comment_space
+
+<details>
+
+<!-- prettier-ignore-start -->
+- Target SDK     : Any versions nilts supports
+- Rule type      : Style
+- Maturity level : Experimental
+- Quick fix      : ✅
+<!-- prettier-ignore-end -->
+
+**Consider** adding a space after the comment marker.
+
+**BAD:**
+<!-- prettier-ignore-start -->
+```dart
+//This is a comment
+///This is a documentation comment
+```
+<!-- prettier-ignore-end -->
+
+**GOOD:**
+<!-- prettier-ignore-start -->
+```dart
+// This is a comment
+/// This is a documentation comment
+```
+<!-- prettier-ignore-end -->
 
 </details>
 
