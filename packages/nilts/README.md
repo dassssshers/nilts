@@ -584,6 +584,12 @@ Padding(
 
 <!-- prettier-ignore-start -->
 ```dart
+Positioned.directional(
+  start: 12,
+  textDirection: TextDirection.ltr,
+  child: SizedBox(),
+)
+
 PositionedDirectional(
   start: 12,
   child: SizedBox(),
