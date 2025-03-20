@@ -4,7 +4,7 @@ import 'package:custom_lint_builder/custom_lint_builder.dart';
 
 /// A class for `unstable_enum_name` rule.
 ///
-/// This rule checks if `name` property is used to get the name of an enum value.
+/// This rule checks if `name` property is used to get from an enum value.
 ///
 /// - Target SDK     : Any versions nilts supports
 /// - Rule type      : Practice
