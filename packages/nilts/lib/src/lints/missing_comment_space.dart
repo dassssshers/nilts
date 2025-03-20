@@ -46,17 +46,17 @@ final class MissingCommentSpace extends DartLintRule {
     context.registry.addRegularComment((token) {
       int? commentErrorOffset(Token comment) {
         final lexeme = comment.lexeme;
-
-        // find index of first char after `/`
         var contentStart = 0;
-        while (lexeme.length > contentStart && lexeme[contentStart] == '/') {
-          contentStart += 1;
+
+        // Skip the leading slashes
+        for (; contentStart < lexeme.length; contentStart++) {
+          if (lexeme[contentStart] != '/') {
+            break;
+          }
         }
 
-        final needsSpace =
-            lexeme.length != contentStart && lexeme[contentStart] != ' ';
-
-        if (needsSpace) {
+        // Return the offset if there is no space after the slashes
+        if (contentStart < lexeme.length && lexeme[contentStart] != ' ') {
           return contentStart;
         }
         return null;
@@ -134,27 +134,26 @@ final class _AddCommentSpace extends DartFix {
 extension on LintRuleNodeRegistry {
   void addRegularComment(void Function(Token comment) listener) {
     addCompilationUnit((node) {
-      bool isRegularComment(Token commentToken) {
-        final token = commentToken.toString();
-
-        return !token.startsWith('///') && token.startsWith('//');
+      bool isRegularComment(Token token) {
+        final lexeme = token.lexeme;
+        return !lexeme.startsWith('///') && lexeme.startsWith('//');
       }
 
-      Token? token = node.root.beginToken;
-      while (token != null) {
-        Token? commentToken = token.precedingComments;
-        while (commentToken != null) {
-          if (isRegularComment(commentToken)) {
-            listener(commentToken);
+      Token? currentToken = node.root.beginToken;
+      while (currentToken != null) {
+        Token? precedingComment = currentToken.precedingComments;
+        while (precedingComment != null) {
+          if (isRegularComment(precedingComment)) {
+            listener(precedingComment);
           }
-          commentToken = commentToken.next;
+          precedingComment = precedingComment.next;
         }
 
-        if (token == token.next) {
+        if (currentToken == currentToken.next) {
           break;
         }
 
-        token = token.next;
+        currentToken = currentToken.next;
       }
     });
   }
