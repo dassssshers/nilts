@@ -4,7 +4,7 @@ import 'package:custom_lint_builder/custom_lint_builder.dart';
 
 /// A class for `unstable_enum_values` rule.
 ///
-/// This rule checks if `values` property is used to get the list of enum values.
+/// This rule checks if `values` property is used to get from enum values.
 ///
 /// - Target SDK     : Any versions nilts supports
 /// - Rule type      : Practice
