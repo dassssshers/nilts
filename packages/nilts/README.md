@@ -734,7 +734,7 @@ See also:
 - Target SDK     : Any versions nilts supports
 - Rule type      : Practice
 - Maturity level : Experimental
-- Quick fix      : ✅ (pattern matching is available on Dart 3.0.0 and above)
+- Quick fix      : ✅
 <!-- prettier-ignore-end -->
 
 **Prefer** using null coalescing operator or pattern matching instead of force unwrapping with `!` operator.
