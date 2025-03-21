@@ -22,14 +22,14 @@ import 'package:custom_lint_builder/custom_lint_builder.dart';
 /// ```dart
 /// final class MyClass {}
 /// ```
-final class OpenTypeHierarchy extends DartLintRule {
+class OpenTypeHierarchy extends DartLintRule {
   /// Create a new instance of [OpenTypeHierarchy].
   const OpenTypeHierarchy() : super(code: _code);
 
   static const _code = LintCode(
     name: 'open_type_hierarchy',
-    problemMessage: 'Please add the final keyword to the class declaration.',
-    correctionMessage: 'Try adding the final keyword to the class declaration.',
+    problemMessage: 'Please add the class modifier to the class declaration.',
+    correctionMessage: 'Try adding a class modifier to the class declaration.',
     url: 'https://github.com/dassssshers/nilts#open_type_hierarchy',
   );
 
@@ -55,7 +55,7 @@ final class OpenTypeHierarchy extends DartLintRule {
       ];
 }
 
-final class _AddFinalKeyword extends DartFix {
+class _AddFinalKeyword extends DartFix {
   @override
   void run(
     CustomLintResolver resolver,

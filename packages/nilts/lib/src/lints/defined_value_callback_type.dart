@@ -34,7 +34,7 @@ import 'package:nilts/src/change_priority.dart';
 ///
 /// - [ValueChanged typedef - foundation library - Dart API](https://api.flutter.dev/flutter/foundation/ValueChanged.html)
 /// - [ValueSetter typedef - foundation library - Dart API](https://api.flutter.dev/flutter/foundation/ValueSetter.html)
-final class DefinedValueChangedType extends _DefinedValueCallbackType {
+class DefinedValueChangedType extends _DefinedValueCallbackType {
   /// Create a new instance of [DefinedValueChangedType].
   const DefinedValueChangedType() : super(_code);
 
@@ -77,7 +77,7 @@ final class DefinedValueChangedType extends _DefinedValueCallbackType {
 ///
 ///   - [ValueSetter typedef - foundation library - Dart API](https://api.flutter.dev/flutter/foundation/ValueSetter.html)
 ///   - [ValueChanged typedef - foundation library - Dart API](https://api.flutter.dev/flutter/foundation/ValueChanged.html)
-final class DefinedValueSetterType extends _DefinedValueCallbackType {
+class DefinedValueSetterType extends _DefinedValueCallbackType {
   /// Create a new instance of [DefinedValueSetterType].
   const DefinedValueSetterType() : super(_code);
 
@@ -93,7 +93,7 @@ final class DefinedValueSetterType extends _DefinedValueCallbackType {
       ];
 }
 
-final class _ReplaceWithValueChanged extends _ReplaceWithValueCallbackType {
+class _ReplaceWithValueChanged extends _ReplaceWithValueCallbackType {
   _ReplaceWithValueChanged()
       : super(
           'ValueChanged',
@@ -101,7 +101,7 @@ final class _ReplaceWithValueChanged extends _ReplaceWithValueCallbackType {
         );
 }
 
-final class _ReplaceWithValueSetter extends _ReplaceWithValueCallbackType {
+class _ReplaceWithValueSetter extends _ReplaceWithValueCallbackType {
   _ReplaceWithValueSetter()
       : super(
           'ValueSetter',
@@ -109,7 +109,7 @@ final class _ReplaceWithValueSetter extends _ReplaceWithValueCallbackType {
         );
 }
 
-final class _DefinedValueCallbackType extends DartLintRule {
+class _DefinedValueCallbackType extends DartLintRule {
   const _DefinedValueCallbackType(LintCode code)
       : _lintCode = code,
         super(code: code);
@@ -147,7 +147,7 @@ final class _DefinedValueCallbackType extends DartLintRule {
   }
 }
 
-final class _ReplaceWithValueCallbackType extends DartFix {
+class _ReplaceWithValueCallbackType extends DartFix {
   _ReplaceWithValueCallbackType(
     this._typeName,
     this._changePriority,

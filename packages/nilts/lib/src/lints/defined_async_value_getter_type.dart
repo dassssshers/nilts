@@ -32,7 +32,7 @@ import 'package:nilts/src/change_priority.dart';
 /// See also:
 ///
 /// - [AsyncValueGetter typedef - foundation library - Dart API](https://api.flutter.dev/flutter/foundation/AsyncValueGetter.html)
-final class DefinedAsyncValueGetterType extends DartLintRule {
+class DefinedAsyncValueGetterType extends DartLintRule {
   /// Create a new instance of [DefinedAsyncValueGetterType].
   const DefinedAsyncValueGetterType() : super(code: _code);
 
@@ -82,7 +82,7 @@ final class DefinedAsyncValueGetterType extends DartLintRule {
       ];
 }
 
-final class _ReplaceWithAsyncValueGetter extends DartFix {
+class _ReplaceWithAsyncValueGetter extends DartFix {
   @override
   void run(
     CustomLintResolver resolver,

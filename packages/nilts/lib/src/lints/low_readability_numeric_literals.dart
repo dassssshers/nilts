@@ -29,7 +29,7 @@ import 'package:nilts/src/change_priority.dart';
 ///
 /// - [Digit Separators in Dart 3.6](https://medium.com/dartlang/announcing-dart-3-6-778dd7a80983)
 /// - [Built-in types | Dart](https://dart.dev/language/built-in-types#numbers)
-final class LowReadabilityNumericLiterals extends DartLintRule {
+class LowReadabilityNumericLiterals extends DartLintRule {
   /// Creates a new instance of [LowReadabilityNumericLiterals].
   const LowReadabilityNumericLiterals() : super(code: _code);
 
@@ -67,7 +67,7 @@ final class LowReadabilityNumericLiterals extends DartLintRule {
       ];
 }
 
-final class _AddDigitSeparators extends DartFix {
+class _AddDigitSeparators extends DartFix {
   @override
   void run(
     CustomLintResolver resolver,
