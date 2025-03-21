@@ -11,7 +11,7 @@ import 'package:custom_lint_builder/custom_lint_builder.dart';
 /// - Maturity level : Experimental
 /// - Quick fix      : ✅
 ///
-/// **Consider** add `final` keyword to the class declaration.
+/// **Consider** add class modifier to the class declaration.
 ///
 /// **BAD:**
 /// ```dart
