@@ -46,14 +46,14 @@ import 'package:custom_lint_builder/custom_lint_builder.dart';
 ///
 /// See also:
 ///
-/// - [Enums - Dart language specification](https://dart.dev/language/enums)
+/// - [Enums | Dart](https://dart.dev/language/enums)
 class UnstableEnumName extends DartLintRule {
   /// Create a new instance of [UnstableEnumName].
   const UnstableEnumName() : super(code: _code);
 
   static const _code = LintCode(
     name: 'unstable_enum_name',
-    problemMessage: 'Do not use enum name property',
+    problemMessage: 'enum name property is unstable',
     url: 'https://github.com/dassssshers/nilts#unstable_enum_name',
   );
 

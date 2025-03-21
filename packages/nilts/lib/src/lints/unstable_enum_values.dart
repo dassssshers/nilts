@@ -40,14 +40,14 @@ import 'package:custom_lint_builder/custom_lint_builder.dart';
 ///
 /// See also:
 ///
-/// - [Enums - Dart language specification](https://dart.dev/language/enums)
+/// - [Enums | Dart](https://dart.dev/language/enums)
 class UnstableEnumValues extends DartLintRule {
   /// Create a new instance of [UnstableEnumValues].
   const UnstableEnumValues() : super(code: _code);
 
   static const _code = LintCode(
     name: 'unstable_enum_values',
-    problemMessage: 'Do not use enum values property directly',
+    problemMessage: 'enum values property is unstable',
     url: 'https://github.com/dassssshers/nilts#unstable_enum_values',
   );
 

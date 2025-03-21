@@ -778,7 +778,7 @@ void printColorValue(Color color) {
 
 See also:
 
-- [Enums - Dart language specification](https://dart.dev/language/enums)
+- [Enums | Dart](https://dart.dev/language/enums)
 
 </details>
 
