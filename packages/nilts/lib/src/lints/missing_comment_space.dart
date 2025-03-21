@@ -32,7 +32,7 @@ final class MissingCommentSpace extends DartLintRule {
 
   static const _code = LintCode(
     name: 'missing_comment_space',
-    problemMessage: 'Please add a space after the comment marker.',
+    problemMessage: 'Space is missing after the comment marker.',
     correctionMessage: 'Try adding a space after the comment marker.',
     url: 'https://github.com/dassssshers/nilts#missing_comment_space',
   );

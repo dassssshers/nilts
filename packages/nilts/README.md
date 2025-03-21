@@ -536,6 +536,7 @@ See also:
 
 **BAD:**
 <!-- prettier-ignore-start -->
+
 ```dart
 //This is a comment
 ///This is a documentation comment
@@ -544,6 +545,7 @@ See also:
 
 **GOOD:**
 <!-- prettier-ignore-start -->
+
 ```dart
 // This is a comment
 /// This is a documentation comment
@@ -788,6 +790,7 @@ See also:
 
 </details>
 
+<<<<<<< HEAD
 #### unsafe_null_assertion
 
 <details>
@@ -841,6 +844,8 @@ See also:
 
 </details>
 
+=======
+>>>>>>> 1727150 (fixup! feat: add rule for)
 ## Assists
 
 Upcoming... 🚀

@@ -41,12 +41,12 @@ class _NiltsLint extends PluginBase {
         const FlakyTestsWithSetUpAll(),
         if (_dartVersion >= const DartVersion(major: 3, minor: 6, patch: 0))
           const LowReadabilityNumericLiterals(),
+        const MissingCommentSpace(),
         const NoSupportMultiTextDirection(),
         const NoSupportWebPlatformCheck(),
         const OpenTypeHierarchy(),
         const ShrinkWrappedScrollView(),
         UnnecessaryRebuildsFromMediaQuery(_dartVersion),
         const UnsafeNullAssertion(),
-        const MissingCommentSpace(),
       ];
 }
