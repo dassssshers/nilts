@@ -1,6 +1,7 @@
 import 'package:analyzer/error/error.dart' as analyzer;
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
+import 'package:nilts/src/change_priority.dart';
 
 /// A class for `open_type_hierarchy` rule.
 ///
@@ -70,7 +71,7 @@ class _AddFinalKeyword extends DartFix {
       reporter
           .createChangeBuilder(
         message: 'Add final keyword',
-        priority: 100,
+        priority: ChangePriority.addFinalKeyword,
       )
           .addDartFileEdit((builder) {
         builder.addSimpleInsertion(
