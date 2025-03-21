@@ -12,6 +12,8 @@ import 'package:nilts/src/lints/no_support_multi_text_direction.dart';
 import 'package:nilts/src/lints/no_support_web_platform_check.dart';
 import 'package:nilts/src/lints/shrink_wrapped_scroll_view.dart';
 import 'package:nilts/src/lints/unnecessary_rebuilds_from_media_query.dart';
+import 'package:nilts/src/lints/unstable_enum_name.dart';
+import 'package:nilts/src/lints/unstable_enum_values.dart';
 import 'package:nilts_core/nilts_core.dart';
 
 /// custom_lint integrates the nilts's plugin from this method on
@@ -43,5 +45,7 @@ class _NiltsLint extends PluginBase {
         const ShrinkWrappedScrollView(),
         if (_dartVersion >= const DartVersion(major: 3, minor: 0, patch: 0))
           UnnecessaryRebuildsFromMediaQuery(_dartVersion),
+        const UnstableEnumName(),
+        const UnstableEnumValues(),
       ];
 }

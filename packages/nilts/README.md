@@ -115,6 +115,8 @@ Some of lint rules support quick fixes on IDE.
 | [no_support_web_platform_check](#no_support_web_platform_check)                 | Checks if `Platform.isXxx` usages.                                             |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
 | [shrink_wrapped_scroll_view](#shrink_wrapped_scroll_view)                       | Checks the content of the scroll view is shrink wrapped.                       |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
 | [unnecessary_rebuilds_from_media_query](#unnecessary_rebuilds_from_media_query) | Checks `MediaQuery.xxxOf(context)` or `MediaQuery.maybeXxxOf(context)` usages. | >= Flutter 3.10.0 (Dart 3.0.0) | Practice  |  Experimental  |    ✅️    |
+| [unstable_enum_name](#unstable_enum_name)                                       | Checks usage of enum name property.                                            |  Any versions nilts supports   | Practice  |  Experimental  |    ❌     |
+| [unstable_enum_values](#unstable_enum_values)                                   | Checks usage of enum values property.                                          |  Any versions nilts supports   | Practice  |  Experimental  |    ❌     |
 
 ### Details
 
@@ -722,6 +724,110 @@ See also:
 
 - [MediaQuery as InheritedModel by moffatman · Pull Request #114459 · flutter/flutter](https://github.com/flutter/flutter/pull/114459)
 - [MediaQuery class - widgets library - Dart API](https://api.flutter.dev/flutter/widgets/MediaQuery-class.html)
+
+</details>
+
+#### unstable_enum_name
+
+<details>
+
+<!-- prettier-ignore-start -->
+- Target SDK     : Any versions nilts supports
+- Rule type      : Practice
+- Maturity level : Experimental
+- Quick fix      : ❌
+<!-- prettier-ignore-end -->
+
+**Consider** using a more stable way to handle enum values.
+The `name` property is a string representation of the enum value,
+which can be changed without breaking the code.
+
+**BAD:**
+<!-- prettier-ignore-start -->
+```dart
+enum Color { red, green, blue }
+
+void printColorValue(Color color) {
+  print(color.name); // 'red', 'green', 'blue'
+}
+```
+<!-- prettier-ignore-end -->
+
+**GOOD:**
+
+<!-- prettier-ignore-start -->
+```dart
+enum Color {
+  red,
+  green,
+  blue,
+  ;
+
+  String get id => switch (this) {
+    red => 'red',
+    green => 'green',
+    blue => 'blue',
+  };
+}
+
+void printColorValue(Color color) {
+  print(color.id);
+}
+```
+<!-- prettier-ignore-end -->
+
+See also:
+
+- [Enums | Dart](https://dart.dev/language/enums)
+
+</details>
+
+#### unstable_enum_values
+
+<details>
+
+<!-- prettier-ignore-start -->
+- Target SDK     : Any versions nilts supports
+- Rule type      : Practice
+- Maturity level : Experimental
+- Quick fix      : ❌
+<!-- prettier-ignore-end -->
+
+**Consider** using a more stable way to handle enum values.
+The `values` property returns a mutable List, which can be modified
+and may cause unexpected behavior.
+
+**BAD:**
+<!-- prettier-ignore-start -->
+```dart
+enum Color { red, green, blue }
+
+void printColors() {
+  for (final color in Color.values) {
+    print(color);
+  }
+}
+```
+<!-- prettier-ignore-end -->
+
+**GOOD:**
+
+<!-- prettier-ignore-start -->
+```dart
+enum Color { red, green, blue }
+
+void printColors() {
+  final colors = [Color.red, Color.green, Color.blue];
+  for (final color in colors) {
+    print(color);
+  }
+}
+```
+<!-- prettier-ignore-end -->
+
+See also:
+
+- [Enums - Dart language specification](https://dart.dev/language/enums)
 
 </details>
 
