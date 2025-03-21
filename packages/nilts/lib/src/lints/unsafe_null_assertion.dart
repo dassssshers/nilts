@@ -7,15 +7,15 @@ import 'package:nilts/src/change_priority.dart';
 
 /// A class for `unsafe_null_assertion` rule.
 ///
-/// This rule checks if `!` operator is used to force unwrap a value.
+/// This rule checks if `!` operator is used to force type casting a value.
 ///
 /// - Target SDK     : Any versions nilts supports
 /// - Rule type      : Practice
 /// - Maturity level : Experimental
 /// - Quick fix      : ✅
 ///
-/// **Consider** using null coalescing operator or pattern matching instead of
-/// force unwrapping.
+/// **Consider** using if-null operator, null-aware operator or pattern matching
+/// instead of force type casting with `!` operator.
 ///
 /// **BAD:**
 /// ```dart
@@ -39,15 +39,15 @@ import 'package:nilts/src/change_priority.dart';
 ///
 /// See also:
 ///
-/// - [Null coalescing operator - Dart language specification](https://dart.dev/language/operators#null-coalescing-operator)
-/// - [Pattern matching - Dart language specification](https://dart.dev/language/patterns)
+/// - [Operators | Dart](https://dart.dev/language/operators)
+/// - [Patterns | Dart](https://dart.dev/language/patterns)
 class UnsafeNullAssertion extends DartLintRule {
   /// Create a new instance of [UnsafeNullAssertion].
   const UnsafeNullAssertion() : super(code: _code);
 
   static const _code = LintCode(
     name: 'unsafe_null_assertion',
-    problemMessage: 'Do not force unwrap',
+    problemMessage: 'Do not force type casting with !',
     url: 'https://github.com/dassssshers/nilts#unsafe_null_assertion',
   );
 
@@ -87,7 +87,7 @@ class _AddIfNullOperator extends DartFix {
 
       reporter
           .createChangeBuilder(
-        message: 'Replace with null coalescing operator',
+        message: 'Add if-null operator',
         priority: ChangePriority.addIfNullOperator,
       )
           .addDartFileEdit((builder) {
@@ -113,7 +113,6 @@ class _ReplaceWithNullAwareOperator extends DartFix {
       if (!node.sourceRange.intersects(analysisError.sourceRange)) return;
       if (node.operator.type != TokenType.BANG) return;
 
-      // 親ノードがメンバーアクセスの場合のみ適用
       final parent = node.parent;
       if (parent is! PropertyAccess && parent is! MethodInvocation) return;
 

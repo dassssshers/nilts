@@ -6,4 +6,5 @@ void main() {
   nullableString!.length;
   (nullableString ?? '').length;
   nonNullableString.length;
+  nullableString?.length;
 }

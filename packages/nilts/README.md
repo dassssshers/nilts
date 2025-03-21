@@ -115,7 +115,7 @@ Some of lint rules support quick fixes on IDE.
 | [no_support_web_platform_check](#no_support_web_platform_check)                 | Checks if `Platform.isXxx` usages.                                             |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
 | [shrink_wrapped_scroll_view](#shrink_wrapped_scroll_view)                       | Checks the content of the scroll view is shrink wrapped.                       |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
 | [unnecessary_rebuilds_from_media_query](#unnecessary_rebuilds_from_media_query) | Checks `MediaQuery.xxxOf(context)` or `MediaQuery.maybeXxxOf(context)` usages. | >= Flutter 3.10.0 (Dart 3.0.0) | Practice  |  Experimental  |    ✅️    |
-| [unsafe_null_assertion](#unsafe_null_assertion)                                 | Checks usage of the `!` operator for forced unwrapping.                        |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
+| [unsafe_null_assertion](#unsafe_null_assertion)                                 | Checks usage of the `!` operator for forced type casting.                        |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
 
 ### Details
 
@@ -737,7 +737,7 @@ See also:
 - Quick fix      : ✅
 <!-- prettier-ignore-end -->
 
-**Prefer** using null coalescing operator or pattern matching instead of force unwrapping with `!` operator.
+**Prefer** using if-null operator, null-aware operator or pattern matching instead of force type casting with `!` operator.
 
 **BAD:**
 <!-- prettier-ignore-start -->
@@ -774,8 +774,8 @@ if (someValue case final actualValue?) {
 
 See also:
 
-- [Null coalescing operator - Dart language specification](https://dart.dev/language/operators#null-coalescing-operator)
-- [Pattern matching - Dart language specification](https://dart.dev/language/patterns)
+- [Operators | Dart](https://dart.dev/language/operators)
+- [Patterns | Dart](https://dart.dev/language/patterns)
 
 </details>
 
