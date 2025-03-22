@@ -14,7 +14,7 @@ import 'package:nilts/src/change_priority.dart';
 /// - Maturity level : Experimental
 /// - Quick fix      : ✅
 ///
-/// **Consider** using if-null operator, null-aware operator or pattern matching
+/// **Prefer** using if-null operator, null-aware operator or pattern matching
 /// instead of force type casting with `!` operator.
 ///
 /// **BAD:**
@@ -66,13 +66,13 @@ class UnsafeNullAssertion extends DartLintRule {
 
   @override
   List<Fix> getFixes() => [
-        _AddIfNullOperator(),
-        _ReplaceWithNullAwareOperator(),
         _ReplaceWithPatternMatching(),
+        _ReplaceWithNullAwareOperator(),
+        _ReplaceWithIfNullOperator(),
       ];
 }
 
-class _AddIfNullOperator extends DartFix {
+class _ReplaceWithIfNullOperator extends DartFix {
   @override
   void run(
     CustomLintResolver resolver,
@@ -87,8 +87,8 @@ class _AddIfNullOperator extends DartFix {
 
       reporter
           .createChangeBuilder(
-        message: 'Add if-null operator',
-        priority: ChangePriority.addIfNullOperator,
+        message: 'Replace with if-null operator',
+        priority: ChangePriority.replaceWithIfNullOperator,
       )
           .addDartFileEdit((builder) {
         builder.addSimpleReplacement(
@@ -147,7 +147,7 @@ class _ReplaceWithPatternMatching extends DartFix {
       reporter
           .createChangeBuilder(
         message: 'Replace with pattern matching',
-        priority: ChangePriority.addPatternMatching,
+        priority: ChangePriority.replaceWithPatternMatching,
       )
           .addDartFileEdit((builder) {
         builder.addSimpleReplacement(
