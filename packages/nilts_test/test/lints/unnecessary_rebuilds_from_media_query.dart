@@ -5,7 +5,7 @@
 
 import 'package:flutter/material.dart';
 
-class MainApp extends StatelessWidget {
+final class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
   @override

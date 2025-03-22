@@ -12,7 +12,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class MainButton extends StatelessWidget {
+final class MainButton extends StatelessWidget {
   const MainButton(
     Future<void> Function() this.onPressed,
     AsyncValueGetter<int> this.onAliasPressed,
