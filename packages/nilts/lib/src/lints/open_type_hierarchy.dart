@@ -5,14 +5,16 @@ import 'package:nilts/src/change_priority.dart';
 
 /// A class for `open_type_hierarchy` rule.
 ///
-/// This rule checks if the class is not intended to be extended.
+/// This rule checks if the class is intended to be neither extended nor
+/// implemented.
 ///
 /// - Target SDK     : Any versions nilts supports
 /// - Rule type      : Practice
 /// - Maturity level : Experimental
 /// - Quick fix      : ✅
 ///
-/// **Consider** add class modifier to the class declaration.
+/// **Consider** adding a class modifier (final, sealed, etc.) to explicitly
+/// define the inheritance policy of your class.
 ///
 /// **BAD:**
 /// ```dart
@@ -29,8 +31,9 @@ class OpenTypeHierarchy extends DartLintRule {
 
   static const _code = LintCode(
     name: 'open_type_hierarchy',
-    problemMessage: 'Please add the class modifier to the class declaration.',
-    correctionMessage: 'Try adding a class modifier to the class declaration.',
+    problemMessage:
+        'This class is intended to be neither extended nor implemented.',
+    correctionMessage: 'Try adding class modifiers to the class declaration.',
     url: 'https://github.com/dassssshers/nilts#open_type_hierarchy',
   );
 
