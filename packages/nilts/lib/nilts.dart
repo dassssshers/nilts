@@ -44,8 +44,7 @@ class _NiltsLint extends PluginBase {
         const NoSupportWebPlatformCheck(),
         const OpenTypeHierarchy(),
         const ShrinkWrappedScrollView(),
-        if (_dartVersion >= const DartVersion(major: 3, minor: 0, patch: 0))
-          UnnecessaryRebuildsFromMediaQuery(_dartVersion),
+        UnnecessaryRebuildsFromMediaQuery(_dartVersion),
         const UnsafeNullAssertion(),
       ];
 }
