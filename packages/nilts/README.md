@@ -113,6 +113,7 @@ Some of lint rules support quick fixes on IDE.
 | [low_readability_numeric_literals](#low_readability_numeric_literals)           | Checks numeric literals with 5 or more digits.                                 | >= Flutter 3.27.0 (Dart 3.6.0) | Practice  |  Experimental  |    ✅️    |
 | [no_support_multi_text_direction](#no_support_multi_text_direction)             | Checks if supports `TextDirection` changes.                                    |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
 | [no_support_web_platform_check](#no_support_web_platform_check)                 | Checks if `Platform.isXxx` usages.                                             |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
+| [open_type_hierarchy](#open_type_hierarchy)                                     | Checks if class modifiers exsist (final, sealed, etc.)                         |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
 | [shrink_wrapped_scroll_view](#shrink_wrapped_scroll_view)                       | Checks the content of the scroll view is shrink wrapped.                       |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
 | [unnecessary_rebuilds_from_media_query](#unnecessary_rebuilds_from_media_query) | Checks `MediaQuery.xxxOf(context)` or `MediaQuery.maybeXxxOf(context)` usages. | >= Flutter 3.10.0 (Dart 3.0.0) | Practice  |  Experimental  |    ✅️    |
 | [unsafe_null_assertion](#unsafe_null_assertion)                                 | Checks usage of the `!` operator for forced type casting.                      |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
@@ -641,6 +642,36 @@ bool get isIOS => !kIsWeb && defaultTargetPlatform == TargetPlatform.iOS;
 See also:
 
 - [defaultTargetPlatform property - foundation library - Dart API](https://api.flutter.dev/flutter/foundation/defaultTargetPlatform.html)
+
+</details>
+
+#### open_type_hierarchy
+
+<details>
+
+<!-- prettier-ignore-start -->
+- Target SDK     : Any versions nilts supports
+- Rule type      : Practice
+- Maturity level : Experimental
+- Quick fix      : ✅
+<!-- prettier-ignore-end -->
+
+**Consider** adding a class modifier (final, sealed, etc.) to explicitly define the inheritance policy of your class.
+
+**BAD:**
+<!-- prettier-ignore-start -->
+```dart
+class MyClass {}
+```
+<!-- prettier-ignore-end -->
+
+**GOOD:**
+
+<!-- prettier-ignore-start -->
+```dart
+final class MyClass {}
+```
+<!-- prettier-ignore-end -->
 
 </details>
 
