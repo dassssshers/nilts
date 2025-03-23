@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.22.0](https://github.com/dassssshers/nilts/compare/nilts-v0.21.0...nilts-v0.22.0) (2025-03-23)
+
+
+### New Features
+
+* add rule for `open_type_hierarchy` ([#278](https://github.com/dassssshers/nilts/issues/278)) ([665c305](https://github.com/dassssshers/nilts/commit/665c3057868600bd332a0770783a4509113272a7))
+
 ## [0.21.0](https://github.com/dassssshers/nilts/compare/nilts-v0.20.0...nilts-v0.21.0) (2025-03-22)
 
 
