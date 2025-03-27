@@ -18,23 +18,23 @@ nilts_flutter_hooks is lint rules, quick fixes and assists for Dart and Flutter 
 
 ## Contents
 
-- [nilts\_flutter\_hooks](#nilts_flutter_hooks)
-  - [Contents](#contents)
-  - [Usage](#usage)
-  - [Configuration](#configuration)
-    - [Disabling strategy](#disabling-strategy)
-    - [Enabling strategy](#enabling-strategy)
-  - [Lint rules and quick fixes](#lint-rules-and-quick-fixes)
-    - [Overview](#overview)
-    - [Details](#details)
-      - [unnecessary\_hook\_widget](#unnecessary_hook_widget)
-  - [Assists](#assists)
-  - [Known issues](#known-issues)
-    - [Quick fix priorities (Fixed)](#quick-fix-priorities-fixed)
-    - [fix-all assist (Fixed)](#fix-all-assist-fixed)
-  - [Feature requests](#feature-requests)
-  - [Bug reports](#bug-reports)
-  - [Contributing](#contributing)
+- [nilts_flutter_hooks](#nilts_flutter_hooks)
+    - [Contents](#contents)
+    - [Usage](#usage)
+    - [Configuration](#configuration)
+        - [Disabling strategy](#disabling-strategy)
+        - [Enabling strategy](#enabling-strategy)
+    - [Lint rules and quick fixes](#lint-rules-and-quick-fixes)
+        - [Overview](#overview)
+        - [Details](#details)
+            - [unnecessary_hook_widget](#unnecessary_hook_widget)
+    - [Assists](#assists)
+    - [Known issues](#known-issues)
+        - [Quick fix priorities (Fixed)](#quick-fix-priorities-fixed)
+        - [fix-all assist (Fixed)](#fix-all-assist-fixed)
+    - [Feature requests](#feature-requests)
+    - [Bug reports](#bug-reports)
+    - [Contributing](#contributing)
 
 ## Usage
 
@@ -104,9 +104,9 @@ Some of lint rules support quick fixes on IDE.
 
 ### Overview
 
-| Rule name                                                                       | Overview                                                                       |                Target SDK                 | Rule type | Maturity level | Quick fix |
-| ------------------------------------------------------------------------------- | :----------------------------------------------------------------------------- | :---------------------------------------: | :-------: | :------------: | :-------: |
-| [unnecessary_hook_widget](#unnecessary_hook_widget)                             | Checks if the widget is unnecessary to use `HookWidget`.                       | Any versions nilts_flutter_hooks supports | Practice  |  Experimental  |    ✅️    |
+| Rule name                                           | Overview                                                 |                Target SDK                 | Rule type | Maturity level | Quick fix |
+| --------------------------------------------------- | :------------------------------------------------------- | :---------------------------------------: | :-------: | :------------: | :-------: |
+| [unnecessary_hook_widget](#unnecessary_hook_widget) | Checks if the widget is unnecessary to use `HookWidget`. | Any versions nilts_flutter_hooks supports | Practice  |  Experimental  |    ✅️    |
 
 ### Details
 
