@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.22.0](https://github.com/dassssshers/nilts/compare/nilts-v0.21.0...nilts-v0.22.0) (2025-03-23)
+
+
+### New Features
+
+* add rule for `open_type_hierarchy` ([#278](https://github.com/dassssshers/nilts/issues/278)) ([665c305](https://github.com/dassssshers/nilts/commit/665c3057868600bd332a0770783a4509113272a7))
+
+## [0.21.0](https://github.com/dassssshers/nilts/compare/nilts-v0.20.0...nilts-v0.21.0) (2025-03-22)
+
+
+### New Features
+
+* add rule for `unsafe_null_assertion` ([#272](https://github.com/dassssshers/nilts/issues/272)) ([35bf867](https://github.com/dassssshers/nilts/commit/35bf8678f84979e809ecb1af493e05649bae953a))
+
 ## [0.20.0](https://github.com/dassssshers/nilts/compare/nilts-v0.19.0...nilts-v0.20.0) (2025-03-02)
 
 

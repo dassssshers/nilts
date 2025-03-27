@@ -38,8 +38,17 @@ class ChangePriority {
   /// The priority for [_ReplaceWithEdgeInsetsDirectional].
   static const int replaceWithEdgeInsetsDirectional = 100;
 
+  /// The priority for [_ReplaceWithIfNullOperator].
+  static const int replaceWithIfNullOperator = 80;
+
   /// The priority for [_ReplaceWithMediaQueryXxxOf].
   static const int replaceWithMediaQueryXxxOf = 100;
+
+  /// The priority for [_ReplaceWithNullAwareOperator].
+  static const int replaceWithNullAwareOperator = 90;
+
+  /// The priority for [_ReplaceWithPatternMatching].
+  static const int replaceWithPatternMatching = 100;
 
   /// The priority for [_ReplaceWithPositionedDirectional].
   static const int replaceWithPositionedDirectional = 90;
@@ -67,4 +76,7 @@ class ChangePriority {
 
   /// The priority for [_UnwrapSetUpAll].
   static const int unwrapSetUpAll = 90;
+
+  /// The priority for [_AddFinalKeyword].
+  static const int addFinalKeyword = 100;
 }

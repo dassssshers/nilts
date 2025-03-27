@@ -10,8 +10,10 @@ import 'package:nilts/src/lints/flaky_tests_with_set_up_all.dart';
 import 'package:nilts/src/lints/low_readability_numeric_literals.dart';
 import 'package:nilts/src/lints/no_support_multi_text_direction.dart';
 import 'package:nilts/src/lints/no_support_web_platform_check.dart';
+import 'package:nilts/src/lints/open_type_hierarchy.dart';
 import 'package:nilts/src/lints/shrink_wrapped_scroll_view.dart';
 import 'package:nilts/src/lints/unnecessary_rebuilds_from_media_query.dart';
+import 'package:nilts/src/lints/unsafe_null_assertion.dart';
 import 'package:nilts_core/nilts_core.dart';
 
 /// custom_lint integrates the nilts's plugin from this method on
@@ -40,8 +42,9 @@ class _NiltsLint extends PluginBase {
           const LowReadabilityNumericLiterals(),
         const NoSupportMultiTextDirection(),
         const NoSupportWebPlatformCheck(),
+        const OpenTypeHierarchy(),
         const ShrinkWrappedScrollView(),
-        if (_dartVersion >= const DartVersion(major: 3, minor: 0, patch: 0))
-          UnnecessaryRebuildsFromMediaQuery(_dartVersion),
+        UnnecessaryRebuildsFromMediaQuery(_dartVersion),
+        const UnsafeNullAssertion(),
       ];
 }

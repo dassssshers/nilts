@@ -3,7 +3,7 @@
 
 import 'package:flutter/material.dart';
 
-class Alignments extends StatelessWidget {
+final class Alignments extends StatelessWidget {
   const Alignments({super.key});
 
   @override
@@ -43,7 +43,7 @@ class Alignments extends StatelessWidget {
   }
 }
 
-class Insets extends StatelessWidget {
+final class Insets extends StatelessWidget {
   const Insets({super.key});
 
   @override
@@ -77,7 +77,7 @@ class Insets extends StatelessWidget {
   }
 }
 
-class Positions extends StatelessWidget {
+final class Positions extends StatelessWidget {
   const Positions({super.key});
 
   @override

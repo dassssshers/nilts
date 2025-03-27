@@ -99,23 +99,24 @@ Some of lint rules support quick fixes on IDE.
 
 ### Overview
 
-| Rule name                                                                       | Overview                                                                       |                Target SDK                 | Rule type | Maturity level | Quick fix |
-| ------------------------------------------------------------------------------- | :----------------------------------------------------------------------------- | :---------------------------------------: | :-------: | :------------: | :-------: |
-| [defined_async_callback_type](#defined_async_callback_type)                     | Checks `Future<void> Function()` definitions.                                  |        Any versions nilts supports        | Practice  |  Experimental  |    ✅️    |
-| [defined_async_value_getter_type](#defined_async_value_getter_type)             | Checks `Future<T> Function()` definitions.                                     |        Any versions nilts supports        | Practice  |  Experimental  |    ✅️    |
-| [defined_async_value_setter_type](#defined_async_value_setter_type)             | Checks `Future<void> Function(T value)` definitions.                           |        Any versions nilts supports        | Practice  |  Experimental  |    ✅️    |
-| [defined_value_changed_type](#defined_value_changed_type)                       | Checks `void Function(T value)` definitions.                                   |        Any versions nilts supports        | Practice  |  Experimental  |    ✅️    |
-| [defined_value_getter_type](#defined_value_getter_type)                         | Checks `T Function()` definitions.                                             |        Any versions nilts supports        | Practice  |  Experimental  |    ✅️    |
-| [defined_value_setter_type](#defined_value_setter_type)                         | Checks `void Function(T value)` definitions.                                   |        Any versions nilts supports        | Practice  |  Experimental  |    ✅️    |
-| [defined_void_callback_type](#defined_void_callback_type)                       | Checks `void Function()` definitions.                                          |        Any versions nilts supports        | Practice  |  Experimental  |    ✅️    |
-| [fixed_text_scale_rich_text](#fixed_text_scale_rich_text)                       | Checks usage of `textScaler` or `textScaleFactor` in `RichText` constructor.   |        Any versions nilts supports        | Practice  |  Experimental  |    ✅️    |
-| [flaky_tests_with_set_up_all](#flaky_tests_with_set_up_all)                     | Checks `setUpAll` usages.                                                      |        Any versions nilts supports        | Practice  |  Experimental  |    ✅️    |
-| [low_readability_numeric_literals](#low_readability_numeric_literals)           | Checks numeric literals with 5 or more digits.                                 |      >= Flutter 3.27.0 (Dart 3.6.0)       | Practice  |  Experimental  |    ✅️    |
-| [no_support_multi_text_direction](#no_support_multi_text_direction)             | Checks if supports `TextDirection` changes.                                    |        Any versions nilts supports        | Practice  |  Experimental  |    ✅️    |
-| [no_support_web_platform_check](#no_support_web_platform_check)                 | Checks if `Platform.isXxx` usages.                                             |        Any versions nilts supports        | Practice  |  Experimental  |    ✅️    |
-| [shrink_wrapped_scroll_view](#shrink_wrapped_scroll_view)                       | Checks the content of the scroll view is shrink wrapped.                       |        Any versions nilts supports        | Practice  |  Experimental  |    ✅️    |
-| [unnecessary_rebuilds_from_media_query](#unnecessary_rebuilds_from_media_query) | Checks `MediaQuery.xxxOf(context)` or `MediaQuery.maybeXxxOf(context)` usages. |      >= Flutter 3.10.0 (Dart 3.0.0)       | Practice  |  Experimental  |    ✅️    |
-| [unnecessary_hook_widget](#unnecessary_hook_widget)                             | Checks if the widget is unnecessary to use `HookWidget`.                       | Any versions nilts_flutter_hooks supports | Practice  |  Experimental  |    ✅️    |
+| Rule name                                                                       | Overview                                                                       |           Target SDK           | Rule type | Maturity level | Quick fix |
+| ------------------------------------------------------------------------------- | :----------------------------------------------------------------------------- | :----------------------------: | :-------: | :------------: | :-------: |
+| [defined_async_callback_type](#defined_async_callback_type)                     | Checks `Future<void> Function()` definitions.                                  |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
+| [defined_async_value_getter_type](#defined_async_value_getter_type)             | Checks `Future<T> Function()` definitions.                                     |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
+| [defined_async_value_setter_type](#defined_async_value_setter_type)             | Checks `Future<void> Function(T value)` definitions.                           |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
+| [defined_value_changed_type](#defined_value_changed_type)                       | Checks `void Function(T value)` definitions.                                   |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
+| [defined_value_getter_type](#defined_value_getter_type)                         | Checks `T Function()` definitions.                                             |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
+| [defined_value_setter_type](#defined_value_setter_type)                         | Checks `void Function(T value)` definitions.                                   |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
+| [defined_void_callback_type](#defined_void_callback_type)                       | Checks `void Function()` definitions.                                          |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
+| [fixed_text_scale_rich_text](#fixed_text_scale_rich_text)                       | Checks usage of `textScaler` or `textScaleFactor` in `RichText` constructor.   |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
+| [flaky_tests_with_set_up_all](#flaky_tests_with_set_up_all)                     | Checks `setUpAll` usages.                                                      |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
+| [low_readability_numeric_literals](#low_readability_numeric_literals)           | Checks numeric literals with 5 or more digits.                                 | >= Flutter 3.27.0 (Dart 3.6.0) | Practice  |  Experimental  |    ✅️    |
+| [no_support_multi_text_direction](#no_support_multi_text_direction)             | Checks if supports `TextDirection` changes.                                    |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
+| [no_support_web_platform_check](#no_support_web_platform_check)                 | Checks if `Platform.isXxx` usages.                                             |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
+| [open_type_hierarchy](#open_type_hierarchy)                                     | Checks if class modifiers exsist (final, sealed, etc.)                         |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
+| [shrink_wrapped_scroll_view](#shrink_wrapped_scroll_view)                       | Checks the content of the scroll view is shrink wrapped.                       |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
+| [unnecessary_rebuilds_from_media_query](#unnecessary_rebuilds_from_media_query) | Checks `MediaQuery.xxxOf(context)` or `MediaQuery.maybeXxxOf(context)` usages. |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
+| [unsafe_null_assertion](#unsafe_null_assertion)                                 | Checks usage of the `!` operator for forced type casting.                      |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
 
 ### Details
 
@@ -644,6 +645,36 @@ See also:
 
 </details>
 
+#### open_type_hierarchy
+
+<details>
+
+<!-- prettier-ignore-start -->
+- Target SDK     : Any versions nilts supports
+- Rule type      : Practice
+- Maturity level : Experimental
+- Quick fix      : ✅
+<!-- prettier-ignore-end -->
+
+**Consider** adding a class modifier (final, sealed, etc.) to explicitly define the inheritance policy of your class.
+
+**BAD:**
+<!-- prettier-ignore-start -->
+```dart
+class MyClass {}
+```
+<!-- prettier-ignore-end -->
+
+**GOOD:**
+
+<!-- prettier-ignore-start -->
+```dart
+final class MyClass {}
+```
+<!-- prettier-ignore-end -->
+
+</details>
+
 #### shrink_wrapped_scroll_view
 
 <details>
@@ -691,7 +722,7 @@ See also:
 <details>
 
 <!-- prettier-ignore-start -->
-- Target SDK     : >= Flutter 3.10.0 (Dart 3.0.0)
+- Target SDK     : Any versions nilts supports
 - Rule type      : Practice
 - Maturity level : Experimental
 - Quick fix      : ✅
@@ -726,28 +757,23 @@ See also:
 
 </details>
 
-#### unnecessary_hook_widget
+#### unsafe_null_assertion
 
 <details>
 
 <!-- prettier-ignore-start -->
-- Target SDK     : Any versions nilts_flutter_hooks supports
+- Target SDK     : Any versions nilts supports
 - Rule type      : Practice
 - Maturity level : Experimental
 - Quick fix      : ✅
 <!-- prettier-ignore-end -->
 
-**Prefer**  using `StatelessWidget` instead of `HookWidget` when no hooks are used within the widget.
+**Prefer** using if-null operator, null-aware operator or pattern matching instead of force type casting with `!` operator.
 
 **BAD:**
 <!-- prettier-ignore-start -->
 ```dart
-class MyWidget extends HookWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
+final value = someValue!;
 ```
 <!-- prettier-ignore-end -->
 
@@ -755,19 +781,32 @@ class MyWidget extends HookWidget {
 
 <!-- prettier-ignore-start -->
 ```dart
-class MyWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
+final value = someValue ?? /* default value */;
+```
+<!-- prettier-ignore-end -->
+
+**GOOD:**
+
+<!-- prettier-ignore-start -->
+```dart
+final value = someValue?.someMethod();
+```
+<!-- prettier-ignore-end -->
+
+**GOOD:**
+
+<!-- prettier-ignore-start -->
+```dart
+if (someValue case final actualValue?) {
+  print('value: $actualValue');
 }
 ```
 <!-- prettier-ignore-end -->
 
 See also:
 
-- [HookWidget class - flutter_hooks API](https://pub.dev/documentation/flutter_hooks/latest/flutter_hooks/HookWidget-class.html)
-- [StatelessWidget class - widgets library - Dart API](https://api.flutter.dev/flutter/widgets/StatelessWidget-class.html)
+- [Operators | Dart](https://dart.dev/language/operators)
+- [Patterns | Dart](https://dart.dev/language/patterns)
 
 </details>
 
