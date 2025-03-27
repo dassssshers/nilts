@@ -103,10 +103,20 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   @override
   void visitMethodInvocation(MethodInvocation node) {
-    if (node.methodName.name.startsWith('use')) {
+    if (node.methodName.name.startsWith('use') ||
+        node.methodName.name.startsWith('_use')) {
       onHookFound();
     }
     super.visitMethodInvocation(node);
+  }
+
+  @override
+  void visitFunctionExpressionInvocation(FunctionExpressionInvocation node) {
+    if (node.function.toString().startsWith('use') ||
+        node.function.toString().startsWith('_use')) {
+      onHookFound();
+    }
+    super.visitFunctionExpressionInvocation(node);
   }
 }
 
