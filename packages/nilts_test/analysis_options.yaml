@@ -8,5 +8,5 @@ linter:
   rules:
     public_member_api_docs: false
 
-custom_list:
+custom_lint:
   debug: true
