@@ -108,14 +108,6 @@ class _Visitor extends RecursiveAstVisitor<void> {
     }
     super.visitMethodInvocation(node);
   }
-
-  @override
-  void visitFunctionExpressionInvocation(FunctionExpressionInvocation node) {
-    if (node.function.toString().startsWith('use')) {
-      onHookFound();
-    }
-    super.visitFunctionExpressionInvocation(node);
-  }
 }
 
 class _ReplaceWithStatelessWidget extends DartFix {
