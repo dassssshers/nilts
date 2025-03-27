@@ -722,7 +722,7 @@ See also:
 <details>
 
 <!-- prettier-ignore-start -->
-- Target SDK     : Any versions nilts supports
+- Target SDK     : Any versions nilts supports 
 - Rule type      : Practice
 - Maturity level : Experimental
 - Quick fix      : ✅
