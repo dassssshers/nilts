@@ -6,6 +6,7 @@ import 'package:analyzer/error/error.dart' hide LintCode;
 import 'package:analyzer/error/listener.dart';
 import 'package:analyzer/source/source_range.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
+import 'package:nilts_core/nilts_core.dart';
 import 'package:nilts_flutter_hooks/src/change_priority.dart';
 
 /// A class for `unnecessary_hook_widget` rule.
@@ -70,6 +71,10 @@ class UnnecessaryHookWidget extends DartLintRule {
   ) {
     context.registry.addClassDeclaration((node) {
       final superclass = node.extendsClause?.superclass;
+      final library = superclass?.element?.library;
+      if (library == null) return;
+      if (!library.checkPackage(packageName: 'flutter_hooks')) return;
+
       if (superclass == null || superclass.toString() != 'HookWidget') return;
 
       var hasHooks = false;
