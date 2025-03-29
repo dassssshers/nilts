@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/dassssshers/nilts/compare/nilts_core-v0.2.0...nilts_core-v0.2.1) (2025-03-29)
+
+
+### Documentation
+
+* prepare release for nilts_flutter_hooks 0.1.0 ([#293](https://github.com/dassssshers/nilts/issues/293)) ([37cf0aa](https://github.com/dassssshers/nilts/commit/37cf0aa29d98ecedca3ef8e9683dfc51fcafd88b))
+
 ## [0.2.0](https://github.com/dassssshers/nilts/compare/nilts_core-v0.1.0...nilts_core-v0.2.0) (2025-03-29)
 
 
