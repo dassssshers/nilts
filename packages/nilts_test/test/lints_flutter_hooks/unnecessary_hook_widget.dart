@@ -81,9 +81,12 @@ final class UseCustomHooks extends HookWidget {
   @override
   Widget build(BuildContext context) {
     useCustom();
+    useInternalCustom();
     final _ = useCustom();
     return const Text('Hello World!');
   }
+
+  void useInternalCustom() {}
 }
 
 final class UseCustomPrivateHooks extends HookWidget {
@@ -92,9 +95,12 @@ final class UseCustomPrivateHooks extends HookWidget {
   @override
   Widget build(BuildContext context) {
     _useCustomPrivate();
+    _useInternalCustomPrivate();
     final _ = _useCustomPrivate();
     return const Text('Hello World!');
   }
+
+  void _useInternalCustomPrivate() {}
 }
 
 UseCustomHook useCustom() {
