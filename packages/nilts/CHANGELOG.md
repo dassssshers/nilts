@@ -1,16 +1,11 @@
 # Changelog
 
-## [0.2.0](https://github.com/dassssshers/nilts/compare/nilts-v0.22.0...nilts-v0.2.0) (2025-03-29)
+## [0.22.1](https://github.com/dassssshers/nilts/compare/nilts-v0.22.0...nilts-v0.22.1) (2025-03-29)
 
 
 ### Code Cleanup
 
 * sdk version constraint for unnecessary_rebuilds_from_media_query ([#286](https://github.com/dassssshers/nilts/issues/286)) ([702a3c7](https://github.com/dassssshers/nilts/commit/702a3c755ac5285735146f93fb7d1bb4c62453fb))
-
-
-### New Features
-
-* Add `unnecessary_hook_widget` lint rule and quick fix ([#271](https://github.com/dassssshers/nilts/issues/271)) ([2606997](https://github.com/dassssshers/nilts/commit/26069975d4eac3fe4137e08ee03a4b4531877117))
 
 
 ### Dependency Upgrades
