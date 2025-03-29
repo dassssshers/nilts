@@ -39,6 +39,16 @@ final class UseHooks2 extends HookWidget {
   }
 }
 
+final class UseHooks3 extends HookWidget {
+  const UseHooks3({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    useTextEditingController.call(text: '0');
+    return const Text('Hello World!');
+  }
+}
+
 final class WithWidgetUseHooks extends HookWidget with WidgetsBindingObserver {
   const WithWidgetUseHooks({super.key});
 

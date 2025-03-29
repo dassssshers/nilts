@@ -3,7 +3,7 @@ name: nilts
 repository:
   type: github
   origin: https://github.com/dassssshers/nilts
-  owner: ronnnnn
+  owner: dassssshers
   name: nilts
 
 packages:
@@ -17,20 +17,6 @@ ide:
 command:
   bootstrap:
     enforceLockfile: true
-
-  version:
-    message: |
-      release: publish packages
-
-      {new_package_versions}
-    includeCommitId: true
-    changelogs:
-      - path: packages/nilts/CHANGELOG.md
-        description: |
-          All notable changes to nilts packages will be documented in this file.
-        packageFilters:
-          scope: nilts
-    releaseUrl: true
 
 scripts:
   prepare:

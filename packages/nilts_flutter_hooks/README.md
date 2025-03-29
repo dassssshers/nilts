@@ -18,27 +18,22 @@ nilts_flutter_hooks is lint rules, quick fixes and assists for Dart and Flutter 
 
 ## Contents
 
-- [nilts_flutter_hooks](#nilts_flutter_hooks)
-    - [Contents](#contents)
-    - [Usage](#usage)
-    - [Configuration](#configuration)
-        - [Disabling strategy](#disabling-strategy)
-        - [Enabling strategy](#enabling-strategy)
-    - [Lint rules and quick fixes](#lint-rules-and-quick-fixes)
-        - [Overview](#overview)
-        - [Details](#details)
-            - [unnecessary_hook_widget](#unnecessary_hook_widget)
-    - [Assists](#assists)
-    - [Known issues](#known-issues)
-        - [Quick fix priorities (Fixed)](#quick-fix-priorities-fixed)
-        - [fix-all assist (Fixed)](#fix-all-assist-fixed)
-    - [Feature requests](#feature-requests)
-    - [Bug reports](#bug-reports)
-    - [Contributing](#contributing)
+- [Usage](#usage)
+- [Configuration](#configuration)
+    - [Disabling strategy](#disabling-strategy)
+    - [Enabling strategy](#enabling-strategy)
+- [Lint rules and quick fixes](#lint-rules-and-quick-fixes)
+    - [Overview](#overview)
+    - [Details](#details)
+- [Assists](#assists)
+- [Known issues](#known-issues)
+- [Feature requests](#feature-requests)
+- [Bug reports](#bug-reports)
+- [Contributing](#contributing)
 
 ## Usage
 
-nilts depends on [`custom_lint`](https://github.com/invertase/dart_custom_lint).
+nilts_flutter_hooks depends on [`custom_lint`](https://github.com/invertase/dart_custom_lint).
 You should add `nilts_flutter_hooks` and `custom_lint` to your `dev_dependencies` in `pubspec.yaml` file.
 
 <!-- prettier-ignore-start -->
@@ -89,7 +84,7 @@ custom_lint:
   # Disable all lint rules depends on custom_lint.
   enable_all_lint_rules: false
   rules:
-    - unnecessary_rebuilds_from_media_query: true
+    - unnecessary_hook_widget: true
 ```
 <!-- prettier-ignore-end -->
 
@@ -121,7 +116,7 @@ Some of lint rules support quick fixes on IDE.
 - Quick fix      : ✅
 <!-- prettier-ignore-end -->
 
-**Prefer**  using `StatelessWidget` instead of `HookWidget` when no hooks are used within the widget.
+**Prefer** using `StatelessWidget` instead of `HookWidget` when no hooks are used within the widget.
 
 **BAD:**
 <!-- prettier-ignore-start -->

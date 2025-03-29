@@ -9,6 +9,11 @@ import 'package:custom_lint_builder/custom_lint_builder.dart';
 import 'package:nilts_core/nilts_core.dart';
 import 'package:nilts_flutter_hooks/src/change_priority.dart';
 
+const _hookWidgetName = 'HookWidget';
+const _hookNameRegex = r'^_?use[A-Z].*$';
+
+const _statelessWidgetName = 'StatelessWidget';
+
 /// A class for `unnecessary_hook_widget` rule.
 ///
 /// This rule checks if [HookWidget] is used without any hooks.
@@ -19,7 +24,7 @@ import 'package:nilts_flutter_hooks/src/change_priority.dart';
 /// - Maturity level : Experimental
 /// - Quick fix      : ✅
 ///
-/// **Consider** using `StatelessWidget` instead of `HookWidget` when no hooks
+/// **Prefer** using `StatelessWidget` instead of `HookWidget` when no hooks
 /// are used within the widget.
 ///
 /// **BAD:**
@@ -71,11 +76,13 @@ class UnnecessaryHookWidget extends DartLintRule {
   ) {
     context.registry.addClassDeclaration((node) {
       final superclass = node.extendsClause?.superclass;
-      final library = superclass?.element?.library;
-      if (library == null) return;
-      if (!library.checkPackage(packageName: 'flutter_hooks')) return;
+      if (superclass == null) return;
 
-      if (superclass == null || superclass.toString() != 'HookWidget') return;
+      final library = superclass.element?.library;
+      if (library == null) return;
+      if (!library.isFlutterHooks) return;
+
+      if (superclass.name2.lexeme != _hookWidgetName) return;
 
       var hasHooks = false;
       node.visitChildren(
@@ -103,18 +110,27 @@ class _Visitor extends RecursiveAstVisitor<void> {
 
   @override
   void visitMethodInvocation(MethodInvocation node) {
-    if (node.methodName.name.startsWith('use') ||
-        node.methodName.name.startsWith('_use')) {
+    if (RegExp(_hookNameRegex).hasMatch(node.methodName.name)) {
       onHookFound();
+    }
+    // for hooks like `useTextEditingController.call()`
+    final target = node.realTarget;
+    if (target != null && target is SimpleIdentifier) {
+      if (RegExp(_hookNameRegex).hasMatch(target.name)) {
+        onHookFound();
+      }
     }
     super.visitMethodInvocation(node);
   }
 
+  // for hooks like `useTextEditingController()`
   @override
   void visitFunctionExpressionInvocation(FunctionExpressionInvocation node) {
-    if (node.function.toString().startsWith('use') ||
-        node.function.toString().startsWith('_use')) {
-      onHookFound();
+    final function = node.function;
+    if (function is SimpleIdentifier) {
+      if (RegExp(_hookNameRegex).hasMatch(function.name)) {
+        onHookFound();
+      }
     }
     super.visitFunctionExpressionInvocation(node);
   }
@@ -129,32 +145,25 @@ class _ReplaceWithStatelessWidget extends DartFix {
     AnalysisError analysisError,
     List<AnalysisError> __,
   ) {
-    context.registry.addClassDeclaration((declaration) {
-      final superclass = declaration.extendsClause?.superclass;
-      if (superclass == null ||
-          !analysisError.sourceRange.intersects(superclass.sourceRange)) {
+    context.registry.addClassDeclaration((node) {
+      if (!analysisError.sourceRange.intersects(node.sourceRange)) {
         return;
       }
 
-      final replacement = _getReplacementWidget(superclass.toString());
-      if (replacement == null) return;
+      final superclass = node.extendsClause?.superclass;
+      if (superclass == null) return;
 
       reporter
           .createChangeBuilder(
-        message: 'Replace With $replacement',
+        message: 'Replace With $_statelessWidgetName',
         priority: ChangePriority.replaceWithStatelessWidget,
       )
           .addDartFileEdit((builder) {
         builder.addSimpleReplacement(
           SourceRange(superclass.offset, superclass.length),
-          replacement,
+          _statelessWidgetName,
         );
       });
     });
   }
-
-  String? _getReplacementWidget(String className) => switch (className) {
-        'HookWidget' => 'StatelessWidget',
-        _ => null,
-      };
 }
