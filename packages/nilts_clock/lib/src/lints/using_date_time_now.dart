@@ -9,6 +9,7 @@ import 'package:nilts_clock/src/change_priority.dart';
 const _dateTimeClassName = 'DateTime';
 const _dateTimeNowConstructorName = 'now';
 
+const _clockPackageUri = 'package:clock/clock.dart';
 const _clockGetterName = 'clock';
 
 /// A class for `using_date_time_now` rule.
@@ -94,6 +95,10 @@ class _ReplaceWithClockNow extends DartFix {
         priority: ChangePriority.replaceWithClockNow,
       )
           .addDartFileEdit((builder) {
+        final uri = Uri.parse(_clockPackageUri);
+        if (!builder.importsLibrary(uri)) {
+          builder.importLibrary(uri);
+        }
         builder.addSimpleReplacement(
           SourceRange(clazz.offset, clazz.length),
           _clockGetterName,
