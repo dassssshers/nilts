@@ -1,5 +1,5 @@
 name: nilts_flutter_hooks
-version: 0.1.0
+version: 0.2.0
 description: nilts_flutter_hooks is lint rules, quick fixes and assists for Dart and Flutter projects using flutter_hooks that helps you enforce best practices, and avoid errors.
 homepage: https://github.com/dassssshers/nilts
 repository: https://github.com/dassssshers/nilts
