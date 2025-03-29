@@ -1,63 +1,153 @@
 <div align="center">
 
-# nilts
+# nilts_clock
 
-nilts is lint rules, quick fixes and assists for Dart and Flutter projects that helps you enforce best practices, and avoid errors.
+nilts_clock is lint rules, quick fixes and assists for Dart and Flutter projects using [clock](https://pub.dev/packages/clock) package that helps you enforce best practices, and avoid errors.
 
 [![build][badge-build]](https://github.com/dassssshers/nilts/actions/workflows/build.yml)
-[![license][badge-license]](https://github.com/dassssshers/nilts/blob/main/packages/nilts/LICENSE)
+[![pub][badge-pub]](https://pub.dev/packages/nilts_clock)
+[![license][badge-license]](https://github.com/dassssshers/nilts/blob/main/packages/nilts_clock/LICENSE)
 
 [badge-build]: https://img.shields.io/github/actions/workflow/status/dassssshers/nilts/build.yml?style=for-the-badge&logo=github%20actions&logoColor=%232088FF&color=gray&link=https%3A%2F%2Fgithub.com%2Fdassssshers%2Fnilts%2Factions%2Fworkflows%2Fbuild.yml
-[badge-license]: https://img.shields.io/badge/license-mit-green?style=for-the-badge&logo=github&logoColor=%23181717&color=gray&link=https%3A%2F%2Fgithub.com%2Fdassssshers%2Fnilts%2Fblob%2Fmain%2Fpackages%2Fnilts%2FLICENSE
+[badge-pub]: https://img.shields.io/pub/v/nilts_clock?style=for-the-badge&logo=dart&logoColor=%230175C2&color=gray&link=https%3A%2F%2Fpub.dev%2Fpackages%2Fnilts_clock
+[badge-license]: https://img.shields.io/badge/license-mit-green?style=for-the-badge&logo=github&logoColor=%23181717&color=gray&link=https%3A%2F%2Fgithub.com%2Fdassssshers%2Fnilts%2Fblob%2Fmain%2Fpackages%nilts_clock%2FLICENSE
 
 </div>
 
 ---
 
-![Quick fix demo](https://github.com/ronnnnn/nilts/assets/12420269/2205daf8-1bbd-4a16-a5eb-47eb75f08536)
-
 ## Contents
 
-- [Packages](#packages)
 - [Usage](#usage)
+- [Configuration](#configuration)
+    - [Disabling strategy](#disabling-strategy)
+    - [Enabling strategy](#enabling-strategy)
+- [Lint rules and quick fixes](#lint-rules-and-quick-fixes)
+    - [Overview](#overview)
+    - [Details](#details)
+- [Assists](#assists)
 - [Known issues](#known-issues)
 - [Feature requests](#feature-requests)
 - [Bug reports](#bug-reports)
 - [Contributing](#contributing)
 
-## Packages
-
-This repository is a collection of the following packages.
-
-| Package                                                                                            | pub.dev                                                                               | description                                                                        |
-| -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| [nilts](https://github.com/dassssshers/nilts/tree/main/packages/nilts)                             | [![pub][badge-pub-nilts]](https://pub.dev/packages/nilts)                             | For Dart and Flutter projects                                                      |
-| [nilts_clock](https://github.com/dassssshers/nilts/tree/main/packages/nilts_clock)                 | [![pub][badge-pub-nilts-clock]](https://pub.dev/packages/nilts_clock)                 | For Dart and Flutter projects using [clock](https://pub.dev/packages/clock)        |
-| [nilts_core](https://github.com/dassssshers/nilts/tree/main/packages/nilts_core)                   | [![pub][badge-pub-nilts-core]](https://pub.dev/packages/nilts_core)                   | Helper package for another packages                                                |
-| [nilts_flutter_hooks](https://github.com/dassssshers/nilts/tree/main/packages/nilts_flutter_hooks) | [![pub][badge-pub-nilts-flutter-hooks]](https://pub.dev/packages/nilts_flutter_hooks) | For Flutter projects using [flutter_hooks](https://pub.dev/packages/flutter_hooks) |
-
-[badge-pub-nilts]: https://img.shields.io/pub/v/nilts?style=for-the-badge&logo=dart&logoColor=%230175C2&color=gray&link=https%3A%2F%2Fpub.dev%2Fpackages%2Fnilts
-[badge-pub-nilts-clock]: https://img.shields.io/pub/v/nilts_clock?style=for-the-badge&logo=dart&logoColor=%230175C2&color=gray&link=https%3A%2F%2Fpub.dev%2Fpackages%2Fnilts_clock
-[badge-pub-nilts-core]: https://img.shields.io/pub/v/nilts_core?style=for-the-badge&logo=dart&logoColor=%230175C2&color=gray&link=https%3A%2F%2Fpub.dev%2Fpackages%2Fnilts_core
-[badge-pub-nilts-flutter-hooks]: https://img.shields.io/pub/v/nilts_flutter_hooks?style=for-the-badge&logo=dart&logoColor=%230175C2&color=gray&link=https%3A%2F%2Fpub.dev%2Fpackages%2Fnilts_flutter_hooks
-
 ## Usage
 
-Check out the each package's README for more details.
+nilts_clock depends on [`custom_lint`](https://github.com/invertase/dart_custom_lint).
+You should add `nilts_clock` and `custom_lint` to your `dev_dependencies` in `pubspec.yaml` file.
 
-## Known issues
+<!-- prettier-ignore-start -->
+```yaml
+dev_dependencies:
+  custom_lint: <version>
+  nilts_clock: <version>
+```
+<!-- prettier-ignore-end -->
 
-### Lint rule errors don't appear and quick fixes don't work in IDE (Fixed)
+And also, add `custom_lint` to your `analysis_options.yaml` file.
 
-> [!IMPORTANT]
-> This issue is solved on nilts 0.18.3 using custom_lint 0.7.3.
+<!-- prettier-ignore-start -->
+```yaml
+analyzer:
+  plugins:
+    - custom_lint
+```
+<!-- prettier-ignore-end -->
 
-Since custom_lint 0.6.7, the IDE has not shown lint rule errors in some cases.
+## Configuration
+
+You can configure all lint rules provided by `nilts_clock` in `analysis_options.yaml` file.
+Choice one of the following configuration strategies.
+
+### Disabling strategy
+
+All of `nilts_clock` rules are enabled by default.
+Add lint rule name and set `false` to disable it.
+
+<!-- prettier-ignore-start -->
+```yaml
+custom_lint:
+  rules:
+    # Disable particular lint rules if you want ignore them whole package.
+    - unnecessary_hook_widget: false
+```
+<!-- prettier-ignore-end -->
+
+### Enabling strategy
+
+You can disable all lint rules depends on custom_lint by setting `enable_all_lint_rules` to `false`.
+Add lint rule name and set `true` to enable it.
+
+<!-- prettier-ignore-start -->
+```yaml
+custom_lint:
+  # Disable all lint rules depends on custom_lint.
+  enable_all_lint_rules: false
+  rules:
+    - unnecessary_hook_widget: true
+```
+<!-- prettier-ignore-end -->
+
+**NOTE: If you `enable_all_lint_rules` set to `false`, all of lint rules (not only all of nilts_clock's lint rules) depends on `custom_lint` will be disabled by default.**
+
+## Lint rules and quick fixes
+
+Read below to learn about each lint rules intend to.
+Some of lint rules support quick fixes on IDE.
+
+![Quick fix demo](https://github.com/ronnnnn/nilts/assets/12420269/2205daf8-1bbd-4a16-a5eb-47eb75f08536)
+
+### Overview
+
+| Rule name                                   | Overview                            |            Target SDK             | Rule type  | Maturity level | Quick fix |
+| ------------------------------------------- | :---------------------------------- | :-------------------------------: | :--------: | :------------: | :-------: |
+| [using_date_time_now](#using_date_time_now) | Checks if `DateTime.now()` is used. | Any versions nilts_clock supports | ErrorProne |  Experimental  |    ✅️    |
+
+### Details
+
+#### using_date_time_now
+
+<details>
+
+<!-- prettier-ignore-start -->
+- Target SDK     : Any versions nilts_clock supports
+- Rule type      : ErrorProne
+- Maturity level : Experimental
+- Quick fix      : ✅
+<!-- prettier-ignore-end -->
+
+**DON'T** use `DateTime.now()`.
+
+If your project depends on `clock` package and expects current time is encapsulated,
+always use `clock.now()` instead for consistency.
+
+**BAD:**
+
+<!-- prettier-ignore-start -->
+```dart
+final dateTimeNow = DateTime.now();
+```
+<!-- prettier-ignore-end -->
+
+**GOOD:**
+
+<!-- prettier-ignore-start -->
+```dart
+final clockNow = clock.now();
+```
+<!-- prettier-ignore-end -->
 
 See also:
 
-- [analysis.setContextRoots failed - RequestErrorCode.PLUGIN_ERROR ProcessException: / No such file or directory / Command: flutter pub get · Issue #270 · invertase/dart_custom_lint](https://github.com/invertase/dart_custom_lint/issues/270)
-- [IntelliJ and Android Studio don't show custom lints · Issue #307 · invertase/dart_custom_lint](https://github.com/invertase/dart_custom_lint/issues/307)
+- [clock | Dart package](https://pub.dev/packages/clock)
+
+</details>
+
+## Assists
+
+Upcoming... 🚀
+
+## Known issues
 
 ### Quick fix priorities (Fixed)
 

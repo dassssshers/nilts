@@ -9,6 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  clock: 1.1.2
   flutter_hooks: 0.21.2
 
 dev_dependencies:
@@ -20,6 +22,8 @@ dev_dependencies:
 
   nilts:
     path: ../nilts
+  nilts_clock:
+    path: ../nilts_clock
   nilts_flutter_hooks:
     path: ../nilts_flutter_hooks
 
