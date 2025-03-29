@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.22.1](https://github.com/dassssshers/nilts/compare/nilts-v0.22.0...nilts-v0.22.1) (2025-03-29)
+
+
+### Code Cleanup
+
+* sdk version constraint for unnecessary_rebuilds_from_media_query ([#286](https://github.com/dassssshers/nilts/issues/286)) ([702a3c7](https://github.com/dassssshers/nilts/commit/702a3c755ac5285735146f93fb7d1bb4c62453fb))
+
+
+### Dependency Upgrades
+
+* nilts_core 0.2.0 ([#292](https://github.com/dassssshers/nilts/issues/292)) ([c65385c](https://github.com/dassssshers/nilts/commit/c65385cf57826a7a3c1e0fcb6f173b4c0ffcf06c))
+
+
+### Release
+
+* **nilts_core:** release 0.2.0 ([#290](https://github.com/dassssshers/nilts/issues/290)) ([6e91867](https://github.com/dassssshers/nilts/commit/6e918673f903964d61f2d695e52efc8646b2f409))
+
 ## [0.22.0](https://github.com/dassssshers/nilts/compare/nilts-v0.21.0...nilts-v0.22.0) (2025-03-23)
 
 
