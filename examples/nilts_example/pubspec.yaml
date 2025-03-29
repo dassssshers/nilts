@@ -18,6 +18,8 @@ dev_dependencies:
 
   nilts:
     path: ../../packages/nilts
+  nilts_clock:
+    path: ../../packages/nilts_clock
   nilts_flutter_hooks:
     path: ../../packages/nilts_flutter_hooks
 
