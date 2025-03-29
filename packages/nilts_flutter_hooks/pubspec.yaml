@@ -24,7 +24,7 @@ environment:
   sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
-  nilts_core: ^0.1.0
+  nilts_core: ^0.2.0
 
   analyzer: ^7.0.0
   analyzer_plugin: ^0.13.0
