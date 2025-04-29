@@ -111,7 +111,7 @@ Some of lint rules support quick fixes on IDE.
 | [fixed_text_scale_rich_text](#fixed_text_scale_rich_text)                       | Checks usage of `textScaler` or `textScaleFactor` in `RichText` constructor.   |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
 | [flaky_tests_with_set_up_all](#flaky_tests_with_set_up_all)                     | Checks `setUpAll` usages.                                                      |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
 | [low_readability_numeric_literals](#low_readability_numeric_literals)           | Checks numeric literals with 5 or more digits.                                 | >= Flutter 3.27.0 (Dart 3.6.0) | Practice  |  Experimental  |    ✅️    |
-| [missing_comment_space](#missing_comment_space)                                 | Checks if comments have a space after the comment marker.                      |  Any versions nilts supports   | Style     |  Experimental  |    ✅️    |
+| [missing_comment_space](#missing_comment_space)                                 | Checks if comments have a space after the comment marker.                      |  Any versions nilts supports   |   Style   |  Experimental  |    ✅️    |
 | [no_support_multi_text_direction](#no_support_multi_text_direction)             | Checks if supports `TextDirection` changes.                                    |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
 | [no_support_web_platform_check](#no_support_web_platform_check)                 | Checks if `Platform.isXxx` usages.                                             |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
 | [open_type_hierarchy](#open_type_hierarchy)                                     | Checks if class modifiers exsist (final, sealed, etc.)                         |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
@@ -544,6 +544,7 @@ See also:
 <!-- prettier-ignore-end -->
 
 **GOOD:**
+
 <!-- prettier-ignore-start -->
 
 ```dart
@@ -791,6 +792,7 @@ See also:
 </details>
 
 <<<<<<< HEAD
+
 #### unsafe_null_assertion
 
 <details>
@@ -845,7 +847,9 @@ See also:
 </details>
 
 =======
->>>>>>> 1727150 (fixup! feat: add rule for)
+
+> > > > > > > 1727150 (fixup! feat: add rule for)
+
 ## Assists
 
 Upcoming... 🚀
