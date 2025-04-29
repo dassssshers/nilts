@@ -117,8 +117,8 @@ Some of lint rules support quick fixes on IDE.
 | [shrink_wrapped_scroll_view](#shrink_wrapped_scroll_view)                       | Checks the content of the scroll view is shrink wrapped.                       |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
 | [unnecessary_rebuilds_from_media_query](#unnecessary_rebuilds_from_media_query) | Checks `MediaQuery.xxxOf(context)` or `MediaQuery.maybeXxxOf(context)` usages. |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
 | [unsafe_null_assertion](#unsafe_null_assertion)                                 | Checks usage of the `!` operator for forced type casting.                      |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
-| [unstable_enum_name](#unstable_enum_name)                                       | Checks usage of enum name property.                                            |  Any versions nilts supports   | Practice  |  Experimental  |    ❌    |
-| [unstable_enum_values](#unstable_enum_values)                                   | Checks usage of enum values property.                                          |  Any versions nilts supports   | Practice  |  Experimental  |    ❌    |
+| [unstable_enum_name](#unstable_enum_name)                                       | Checks usage of enum name property.                                            |  Any versions nilts supports   | Practice  |  Experimental  |    ❌     |
+| [unstable_enum_values](#unstable_enum_values)                                   | Checks usage of enum values property.                                          |  Any versions nilts supports   | Practice  |  Experimental  |    ❌     |
 
 ### Details
 
