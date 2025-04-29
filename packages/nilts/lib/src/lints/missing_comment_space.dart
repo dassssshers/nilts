@@ -1,8 +1,12 @@
+import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/error/error.dart' as analyzer;
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 import 'package:nilts/src/change_priority.dart';
+
+const _documentCommentPrefix = '///';
+const _regularCommentPrefix = '//';
 
 /// A class for `missing_comment_space` rule.
 ///
@@ -43,53 +47,26 @@ final class MissingCommentSpace extends DartLintRule {
     ErrorReporter reporter,
     CustomLintContext context,
   ) {
-    context.registry.addRegularComment((token) {
-      int? commentErrorOffset(Token comment) {
-        final lexeme = comment.lexeme;
-        var contentStart = 0;
-
-        // Skip the leading slashes
-        for (; contentStart < lexeme.length; contentStart++) {
-          if (lexeme[contentStart] != '/') {
-            break;
-          }
-        }
-
-        // Return the offset if there is no space after the slashes
-        if (contentStart < lexeme.length && lexeme[contentStart] != ' ') {
-          return contentStart;
-        }
-        return null;
-      }
-
-      if (commentErrorOffset(token) case final contentStart?) {
-        reporter.atOffset(
-          offset: token.offset + contentStart,
-          length: token.length,
-          errorCode: _code,
+    // for regular comment (eg. // comments)
+    context.registry.addRegularComment((node, token) {
+      if (token.lexeme.length > _regularCommentPrefix.length &&
+          token.lexeme[_regularCommentPrefix.length] != ' ') {
+        reporter.atNode(
+          node,
+          _code,
         );
       }
     });
+
+    // for documentation comment (eg. /// comments)
     context.registry.addComment((node) {
       for (final token in node.tokens) {
-        String? commentPrefix;
-        if (token.lexeme.startsWith('///')) {
-          commentPrefix = '///';
-        } else if (token.lexeme.startsWith('//')) {
-          commentPrefix = '//';
-        } else {
-          commentPrefix = null;
-        }
-
-        if (commentPrefix != null) {
-          final prefixLength = commentPrefix.length;
-          if (token.lexeme.length > prefixLength &&
-              !token.lexeme.startsWith('$commentPrefix ')) {
-            reporter.atNode(
-              node,
-              _code,
-            );
-          }
+        if (token.lexeme.length > _documentCommentPrefix.length &&
+            token.lexeme[_documentCommentPrefix.length] != ' ') {
+          reporter.atNode(
+            node,
+            _code,
+          );
         }
       }
     });
@@ -114,7 +91,9 @@ final class _AddCommentSpace extends DartFix {
       if (!node.sourceRange.intersects(analysisError.sourceRange)) return;
 
       final text = node.toString();
-      final offset = text.startsWith('///') ? 3 : 2;
+      final offset = text.startsWith(_documentCommentPrefix)
+          ? _documentCommentPrefix.length
+          : _regularCommentPrefix.length;
 
       reporter
           .createChangeBuilder(
@@ -132,19 +111,17 @@ final class _AddCommentSpace extends DartFix {
 }
 
 extension on LintRuleNodeRegistry {
-  void addRegularComment(void Function(Token comment) listener) {
+  void addRegularComment(
+    void Function(CompilationUnit node, Token comment) listener,
+  ) {
     addCompilationUnit((node) {
-      bool isRegularComment(Token token) {
-        final lexeme = token.lexeme;
-        return !lexeme.startsWith('///') && lexeme.startsWith('//');
-      }
-
       Token? currentToken = node.root.beginToken;
       while (currentToken != null) {
         Token? precedingComment = currentToken.precedingComments;
         while (precedingComment != null) {
-          if (isRegularComment(precedingComment)) {
-            listener(precedingComment);
+          if (precedingComment.lexeme.startsWith(_regularCommentPrefix) &&
+              !precedingComment.lexeme.startsWith(_documentCommentPrefix)) {
+            listener(node, precedingComment);
           }
           precedingComment = precedingComment.next;
         }
