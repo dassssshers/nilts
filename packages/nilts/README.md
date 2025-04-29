@@ -776,7 +776,6 @@ See also:
 <!-- prettier-ignore-start -->
 ```dart
 final value = someValue!;
-enum Color { red, green, blue }
 ```
 <!-- prettier-ignore-end -->
 
