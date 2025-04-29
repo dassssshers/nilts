@@ -61,6 +61,7 @@ final class MissingCommentSpace extends DartLintRule {
     // for documentation comment (eg. /// comments)
     context.registry.addComment((node) {
       for (final token in node.tokens) {
+        if (token is! CommentToken) continue;
         if (token.lexeme.length > _documentCommentPrefix.length &&
             token.lexeme[_documentCommentPrefix.length] != ' ') {
           reporter.atNode(
@@ -87,13 +88,9 @@ final class _AddCommentSpace extends DartFix {
     analyzer.AnalysisError analysisError,
     List<analyzer.AnalysisError> others,
   ) {
-    context.registry.addComment((node) {
+    // for regular comment (eg. // comments)
+    context.registry.addRegularComment((node, token) {
       if (!node.sourceRange.intersects(analysisError.sourceRange)) return;
-
-      final text = node.toString();
-      final offset = text.startsWith(_documentCommentPrefix)
-          ? _documentCommentPrefix.length
-          : _regularCommentPrefix.length;
 
       reporter
           .createChangeBuilder(
@@ -102,7 +99,24 @@ final class _AddCommentSpace extends DartFix {
       )
           .addDartFileEdit((builder) {
         builder.addSimpleInsertion(
-          node.offset + offset,
+          node.offset + _regularCommentPrefix.length,
+          ' ',
+        );
+      });
+    });
+
+    // for documentation comment (eg. /// comments)
+    context.registry.addComment((node) {
+      if (!node.sourceRange.intersects(analysisError.sourceRange)) return;
+
+      reporter
+          .createChangeBuilder(
+        message: 'Add space after comment marker',
+        priority: ChangePriority.addCommentSpace,
+      )
+          .addDartFileEdit((builder) {
+        builder.addSimpleInsertion(
+          node.offset + _documentCommentPrefix.length,
           ' ',
         );
       });
