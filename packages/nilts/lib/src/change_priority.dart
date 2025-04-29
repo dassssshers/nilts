@@ -8,6 +8,9 @@
 /// See also:
 ///   - [IgnoreCode](https://github.com/invertase/dart_custom_lint/blob/1df2851a80ccdc5a2bda4418006560f49c03b8ec/packages/custom_lint_builder/lib/src/ignore.dart#L102)
 class ChangePriority {
+  /// The priority for [_AddCommentSpace].
+  static const int addCommentSpace = 100;
+
   /// The priority for [_AddDigitSeparators]
   static const int addDigitSeparators = 100;
 
@@ -79,7 +82,4 @@ class ChangePriority {
 
   /// The priority for [_AddFinalKeyword].
   static const int addFinalKeyword = 100;
-
-  /// The priority for [_AddCommentSpace].
-  static const int addCommentSpace = 100;
 }

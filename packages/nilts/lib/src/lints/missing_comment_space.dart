@@ -65,7 +65,7 @@ final class MissingCommentSpace extends DartLintRule {
       if (commentErrorOffset(token) case final contentStart?) {
         reporter.atOffset(
           offset: token.offset + contentStart,
-          length: 0,
+          length: token.length,
           errorCode: _code,
         );
       }
