@@ -58,11 +58,12 @@ class UnstableEnumValues extends DartLintRule {
     CustomLintContext context,
   ) {
     context.registry.addPrefixedIdentifier((node) {
-      if (node.identifier.name == 'values' &&
-          node.prefix.staticElement is EnumElement &&
-          (node.prefix.staticElement?.isPublic ?? true)) {
-        reporter.atNode(node, _code, arguments: []);
-      }
+      final staticElement = node.prefix.staticElement;
+      if (staticElement is! EnumElement) return;
+      if (!staticElement.isPublic) return;
+      if (node.identifier.name != 'values') return;
+
+      reporter.atNode(node, _code);
     });
   }
 

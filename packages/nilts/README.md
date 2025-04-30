@@ -724,7 +724,7 @@ See also:
 <details>
 
 <!-- prettier-ignore-start -->
-- Target SDK     : Any versions nilts supports 
+- Target SDK     : Any versions nilts supports
 - Rule type      : Practice
 - Maturity level : Experimental
 - Quick fix      : ✅
@@ -818,6 +818,7 @@ The `name` property is a string representation of the enum value,
 which can be changed without breaking the code.
 
 **BAD:**
+
 <!-- prettier-ignore-start -->
 ```dart
 void printColorValue(Color color) {
@@ -828,10 +829,6 @@ void printColorValue(Color color) {
 
 **GOOD:**
 
-<!-- prettier-ignore-start -->
-```dart
-if (someValue case final actualValue?) {
-  print('value: $actualValue');
 <!-- prettier-ignore-start -->
 ```dart
 enum Color {
@@ -875,6 +872,7 @@ The `values` property returns a mutable List, which can be modified
 and may cause unexpected behavior.
 
 **BAD:**
+
 <!-- prettier-ignore-start -->
 ```dart
 enum Color { red, green, blue }

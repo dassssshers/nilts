@@ -64,10 +64,10 @@ class UnstableEnumName extends DartLintRule {
     CustomLintContext context,
   ) {
     context.registry.addPropertyAccess((node) {
-      if (node.propertyName.name == 'name' &&
-          node.target?.staticType?.element is EnumElement) {
-        reporter.atNode(node, _code);
-      }
+      if (node.target?.staticType?.element is! EnumElement) return;
+      if (node.propertyName.name != 'name') return;
+
+      reporter.atNode(node, _code);
     });
   }
 
