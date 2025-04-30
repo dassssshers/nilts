@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.23.0](https://github.com/dassssshers/nilts/compare/nilts-v0.22.1...nilts-v0.23.0) (2025-04-30)
+
+
+### New Features
+
+* add rule for `unstable_enum_values` & `unstable_enum_name` ([#282](https://github.com/dassssshers/nilts/issues/282)) ([709763d](https://github.com/dassssshers/nilts/commit/709763dfbeb91f39469285582983b1ae34045bcd))
+
 ## [0.22.1](https://github.com/dassssshers/nilts/compare/nilts-v0.22.0...nilts-v0.22.1) (2025-03-29)
 
 
