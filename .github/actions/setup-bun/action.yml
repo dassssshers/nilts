@@ -5,7 +5,7 @@ runs:
   using: 'composite'
   steps:
     - name: Setup Bun
-      uses: oven-sh/setup-bun@54cb141c5c91e2fdc396be3155a391f28e1822eb
+      uses: oven-sh/setup-bun@735343b667d3e6f658f44d0eca948eb6282f2b76
 
     - name: Bun Install
       shell: bash
