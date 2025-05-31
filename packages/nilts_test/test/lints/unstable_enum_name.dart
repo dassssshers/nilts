@@ -11,6 +11,6 @@ enum Hoge {
 }
 
 // expect_lint: unstable_enum_name
-final name = Hoge.a.name;
+final String name = Hoge.a.name;
 
-final id = Hoge.a.id;
+final String id = Hoge.a.id;

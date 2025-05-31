@@ -1,7 +1,7 @@
 enum Hoge { a, b, c }
 
 // expect_lint: unstable_enum_values
-const errorValues = Hoge.values;
+const List<Hoge> errorValues = Hoge.values;
 
 enum Fuga {
   a,
@@ -11,8 +11,10 @@ enum Fuga {
   static List<Fuga> get staticValues => [Fuga.a, Fuga.b, Fuga.c];
 }
 
-final errorValues2 = Fuga.staticValues;
+final List<Fuga> errorValues2 = Fuga.staticValues;
 
 enum _Hoo { a, b, c }
 
-const errorValues3 = _Hoo.values;
+// This is a test case for private enum.
+// ignore: unused_element
+const List<_Hoo> _errorValues3 = _Hoo.values;
