@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/dassssshers/nilts/compare/nilts_core-v0.2.1...nilts_core-v0.2.2) (2025-05-31)
+
+
+### Dependency Upgrades
+
+* flutter 3.32 for development ([#329](https://github.com/dassssshers/nilts/issues/329)) ([3443548](https://github.com/dassssshers/nilts/commit/3443548c90a44da93d4f03477faaa41bce88c257))
+
 ## [0.2.1](https://github.com/dassssshers/nilts/compare/nilts_core-v0.2.0...nilts_core-v0.2.1) (2025-04-21)
 
 
