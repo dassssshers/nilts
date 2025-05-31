@@ -8,3 +8,6 @@ custom_lint:
   rules:
     # Disable particular lint rules if you want ignore them whole package.
     # - unnecessary_rebuilds_from_media_query: false
+
+formatter:
+  trailing_commas: preserve
