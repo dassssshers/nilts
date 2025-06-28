@@ -78,8 +78,14 @@ class UnnecessaryHookWidget extends DartLintRule {
       final superclass = node.extendsClause?.superclass;
       if (superclass == null) return;
 
+      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
+      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
+      // ignore: deprecated_member_use
       final library = superclass.element?.library;
       if (library == null) return;
+      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
+      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
+      // ignore: deprecated_member_use
       if (!library.isFlutterHooks) return;
 
       if (superclass.name2.lexeme != _hookWidgetName) return;

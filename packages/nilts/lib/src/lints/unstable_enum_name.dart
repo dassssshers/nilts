@@ -64,6 +64,9 @@ class UnstableEnumName extends DartLintRule {
     CustomLintContext context,
   ) {
     context.registry.addPropertyAccess((node) {
+      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
+      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
+      // ignore: deprecated_member_use
       if (node.target?.staticType?.element is! EnumElement) return;
       if (node.propertyName.name != 'name') return;
 

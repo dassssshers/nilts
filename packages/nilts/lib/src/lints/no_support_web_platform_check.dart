@@ -81,6 +81,9 @@ class NoSupportWebPlatformCheck extends DartLintRule {
       }
 
       // Do nothing if the package of identifier is not `dart.io`.
+      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
+      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
+      // ignore: deprecated_member_use
       final library = identifierName.staticElement?.library;
       if (library == null) return;
       if (library.name != 'dart.io') return;

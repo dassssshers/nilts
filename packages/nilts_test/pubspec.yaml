@@ -18,7 +18,7 @@ dev_dependencies:
     sdk: flutter
 
   custom_lint: 0.7.5
-  very_good_analysis: 8.0.0
+  very_good_analysis: 9.0.0
 
   nilts:
     path: ../nilts

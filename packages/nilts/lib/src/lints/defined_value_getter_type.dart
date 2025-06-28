@@ -58,6 +58,9 @@ class DefinedValueGetterType extends DartLintRule {
       if (type is! FunctionType) return;
 
       // Do nothing if Function has parameters.
+      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
+      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
+      // ignore: deprecated_member_use
       if (type.parameters.isNotEmpty) return;
 
       // Do nothing if the return type is not void.
@@ -101,6 +104,9 @@ class _ReplaceWithValueGetter extends DartFix {
         final returnType = (node.type! as FunctionType).returnType;
         final isSuffixNullable =
             returnType.nullabilitySuffix == NullabilitySuffix.question;
+        // FIXME: migrate when upgrade to analyzer 7.4.0 or later
+        // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
+        // ignore: deprecated_member_use
         final returnTypeName = returnType.element!.displayName;
 
         final delta = node.question != null ? -1 : 0;
