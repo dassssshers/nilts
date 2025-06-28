@@ -58,8 +58,14 @@ class DefinedAsyncValueSetterType extends DartLintRule {
       if (type is! FunctionType) return;
 
       // Do nothing if Function doesn't have a parameter.
+      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
+      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
+      // ignore: deprecated_member_use
       if (type.parameters.length != 1) return;
 
+      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
+      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
+      // ignore: deprecated_member_use
       final param = type.parameters.first;
       // Do nothing if the parameter is named or optional.
       if (param.isNamed || param.isOptional) return;
@@ -100,9 +106,15 @@ class _ReplaceWithAsyncValueSetter extends DartFix {
         priority: ChangePriority.replaceWithAsyncValueSetter,
       )
           .addDartFileEdit((builder) {
+        // FIXME: migrate when upgrade to analyzer 7.4.0 or later
+        // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
+        // ignore: deprecated_member_use
         final paramType = (node.type! as FunctionType).parameters.first.type;
         final isParamTypeNullable =
             paramType.nullabilitySuffix == NullabilitySuffix.question;
+        // FIXME: migrate when upgrade to analyzer 7.4.0 or later
+        // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
+        // ignore: deprecated_member_use
         final paramTypeName = paramType.element!.displayName;
 
         final delta = node.question != null ? -1 : 0;

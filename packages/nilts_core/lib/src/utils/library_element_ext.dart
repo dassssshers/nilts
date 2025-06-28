@@ -8,6 +8,9 @@ extension LibraryElementExt on LibraryElement {
   /// Returns `true` if this library is from the package
   /// with the given [packageName].
   bool checkPackage({required String packageName}) {
+    // FIXME: migrate when upgrade to analyzer 7.4.0 or later
+    // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
+    // ignore: deprecated_member_use
     final libraryUri = Uri.tryParse(identifier);
     if (libraryUri == null) return false;
     if (libraryUri.scheme != 'package') return false;
@@ -30,6 +33,9 @@ extension LibraryElement2Ext on LibraryElement2 {
   /// Returns `true` if this library is from the package
   /// with the given [packageName].
   bool checkPackage({required String packageName}) {
+    // FIXME: migrate when upgrade to analyzer 7.4.0 or later
+    // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
+    // ignore: deprecated_member_use
     final libraryUri = Uri.tryParse(identifier);
     if (libraryUri == null) return false;
     if (libraryUri.scheme != 'package') return false;

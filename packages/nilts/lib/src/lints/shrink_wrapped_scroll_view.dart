@@ -67,11 +67,17 @@ class ShrinkWrappedScrollView extends DartLintRule {
     context.registry.addInstanceCreationExpression((node) {
       // Do nothing if the package of constructor is not `flutter`.
       final constructorName = node.constructorName;
+      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
+      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
+      // ignore: deprecated_member_use
       final library = constructorName.staticElement?.library;
       if (library == null) return;
       if (!library.isFlutter) return;
 
       // Do nothing if the constructor is not sub class of `ScrollView`.
+      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
+      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
+      // ignore: deprecated_member_use
       if (!_scrollViewSubClasses.contains(constructorName.type.element?.name)) {
         return;
       }
@@ -119,6 +125,9 @@ class _RemoveShrinkWrapArgument extends DartFix {
 
       // Do nothing if the constructor is not sub class of `ScrollView`.
       final constructorName = node.constructorName;
+      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
+      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
+      // ignore: deprecated_member_use
       if (!_scrollViewSubClasses.contains(constructorName.type.element?.name)) {
         return;
       }

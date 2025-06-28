@@ -91,8 +91,14 @@ class NoSupportMultiTextDirection extends DartLintRule {
     // Check for `Alignment`.
     context.registry.addPrefixedIdentifier((node) {
       // Do nothing if the package of class is not `flutter`.
+      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
+      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
+      // ignore: deprecated_member_use
       final library = node.staticType?.element?.library;
       if (library == null) return;
+      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
+      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
+      // ignore: deprecated_member_use
       if (!library.isFlutter) return;
 
       // Do nothing if the class name is not `Alignment`.
@@ -126,12 +132,21 @@ class NoSupportMultiTextDirection extends DartLintRule {
     // Check for `EdgeInsets`.
     context.registry.addInstanceCreationExpression((node) {
       // Do nothing if the package of constructor is not `flutter`.
+      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
+      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
+      // ignore: deprecated_member_use
       final library = node.constructorName.type.element?.library;
       if (library == null) return;
+      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
+      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
+      // ignore: deprecated_member_use
       if (!library.isFlutter) return;
 
-      // Do nothing if the class is not `EdgeInsets`.
       final isEdgeInsets =
+          // Do nothing if the class is not `EdgeInsets`.
+          // FIXME: migrate when upgrade to analyzer 7.4.0 or later
+          // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
+          // ignore: deprecated_member_use
           node.constructorName.type.element?.name == 'EdgeInsets';
       if (!isEdgeInsets) return;
 
@@ -156,12 +171,21 @@ class NoSupportMultiTextDirection extends DartLintRule {
     // Check for `Positioned`.
     context.registry.addInstanceCreationExpression((node) {
       // Do nothing if the package of constructor is not `flutter`.
+      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
+      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
+      // ignore: deprecated_member_use
       final library = node.constructorName.type.element?.library;
       if (library == null) return;
+      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
+      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
+      // ignore: deprecated_member_use
       if (!library.isFlutter) return;
 
-      // Do nothing if the class is not `Positioned`.
       final isEdgeInsets =
+          // Do nothing if the class is not `Positioned`.
+          // FIXME: migrate when upgrade to analyzer 7.4.0 or later
+          // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
+          // ignore: deprecated_member_use
           node.constructorName.type.element?.name == 'Positioned';
       if (!isEdgeInsets) return;
 
@@ -259,8 +283,11 @@ class _ReplaceWithEdgeInsetsDirectional extends DartFix {
     context.registry.addInstanceCreationExpression((node) {
       if (!node.sourceRange.intersects(analysisError.sourceRange)) return;
 
-      // Do nothing if the class is not `EdgeInsets`.
       final isEdgeInsets =
+          // Do nothing if the class is not `EdgeInsets`.
+          // FIXME: migrate when upgrade to analyzer 7.4.0 or later
+          // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
+          // ignore: deprecated_member_use
           node.constructorName.type.element?.name == 'EdgeInsets';
       if (!isEdgeInsets) return;
 
@@ -313,8 +340,11 @@ class _ReplaceWithPositionedDirectionalClass extends DartFix {
     context.registry.addInstanceCreationExpression((node) {
       if (!node.sourceRange.intersects(analysisError.sourceRange)) return;
 
-      // Do nothing if the class is not `Positioned`.
       final isEdgeInsets =
+          // Do nothing if the class is not `Positioned`.
+          // FIXME: migrate when upgrade to analyzer 7.4.0 or later
+          // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
+          // ignore: deprecated_member_use
           node.constructorName.type.element?.name == 'Positioned';
       if (!isEdgeInsets) return;
 
@@ -361,8 +391,11 @@ class _ReplaceWithPositionedDirectional extends DartFix {
     context.registry.addInstanceCreationExpression((node) {
       if (!node.sourceRange.intersects(analysisError.sourceRange)) return;
 
-      // Do nothing if the class is not `Positioned`.
       final isEdgeInsets =
+          // Do nothing if the class is not `Positioned`.
+          // FIXME: migrate when upgrade to analyzer 7.4.0 or later
+          // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
+          // ignore: deprecated_member_use
           node.constructorName.type.element?.name == 'Positioned';
       if (!isEdgeInsets) return;
 

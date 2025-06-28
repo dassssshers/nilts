@@ -82,6 +82,9 @@ class FlakyTestsWithSetUpAll extends DartLintRule {
       if (firstArgument is! FunctionType) return;
 
       // Do nothing if the package of method is not `flutter_test`.
+      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
+      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
+      // ignore: deprecated_member_use
       final library = methodName.staticElement?.library;
       if (library == null) return;
       if (!library.isFlutterTest) return;
