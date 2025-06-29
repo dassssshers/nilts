@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.23.2](https://github.com/dassssshers/nilts/compare/nilts-v0.23.1...nilts-v0.23.2) (2025-06-29)
+
+
+### Dependency Upgrades
+
+* packages ([131361d](https://github.com/dassssshers/nilts/commit/131361d8d9aba2de49aaa4ad17259bbe31c5ef69))
+* upgrade packages ([#344](https://github.com/dassssshers/nilts/issues/344)) ([131361d](https://github.com/dassssshers/nilts/commit/131361d8d9aba2de49aaa4ad17259bbe31c5ef69))
+
 ## [0.23.1](https://github.com/dassssshers/nilts/compare/nilts-v0.23.0...nilts-v0.23.1) (2025-05-31)
 
 
