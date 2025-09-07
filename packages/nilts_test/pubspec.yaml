@@ -3,8 +3,10 @@ description: A new Flutter module project.
 publish_to: 'none'
 
 environment:
-  sdk: '>=3.8.1 <4.0.0'
-  flutter: '>=3.32.1'
+  sdk: '>=3.9.2 <4.0.0'
+  flutter: '>=3.35.3'
+
+resolution: workspace
 
 dependencies:
   flutter:
@@ -17,15 +19,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  custom_lint: 0.7.5
+  custom_lint: 0.8.0
   very_good_analysis: 9.0.0
-
-  nilts:
-    path: ../nilts
-  nilts_clock:
-    path: ../nilts_clock
-  nilts_flutter_hooks:
-    path: ../nilts_flutter_hooks
 
 flutter:
   uses-material-design: true
