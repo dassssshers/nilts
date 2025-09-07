@@ -21,14 +21,16 @@ topics:
   - tools
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: '>=3.6.0 <4.0.0'
+
+resolution: workspace
 
 dependencies:
   nilts_core: ^0.2.0
 
   analyzer: ^7.0.0
   analyzer_plugin: ^0.13.0
-  custom_lint_builder: ^0.7.3
+  custom_lint_builder: ^0.8.0
 
 dev_dependencies:
   very_good_analysis: ^9.0.0

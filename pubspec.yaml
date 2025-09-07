@@ -2,8 +2,121 @@ name: nilts_workspace
 publish_to: 'none'
 
 environment:
-  sdk: '3.8.1'
+  sdk: '>=3.9.2 <4.0.0'
+
+workspace:
+  - examples/nilts_example
+  - packages/nilts
+  - packages/nilts_clock
+  - packages/nilts_core
+  - packages/nilts_flutter_hooks
+  - packages/nilts_test
 
 dev_dependencies:
-  melos: 6.3.3
+  melos: 7.1.0
   very_good_analysis: 9.0.0
+
+melos:
+  repository:
+    type: github
+    origin: https://github.com/dassssshers/nilts
+    owner: dassssshers
+    name: nilts
+
+  ide:
+    intellij: true
+
+  command:
+    bootstrap:
+      enforceLockfile: true
+
+  scripts:
+    prepare:
+      run: |
+        flutter pub global activate custom_lint 0.8.0 && \
+        flutter pub global activate very_good_cli 0.27.0
+      description: prepare for develop
+
+    get:
+      run: melos exec -c 1 --fail-fast -- flutter pub get
+      description: pub get
+
+    lint:
+      run: |
+        melos lint:dart && \
+        melos lint:flutter
+      description: lint
+
+    lint:dart:
+      run: melos exec -c 1 --ignore="nilts_test" -- dart analyze --fatal-infos --fatal-warnings
+      description: lint with dart
+
+    lint:flutter:
+      exec: flutter analyze --fatal-infos --fatal-warnings
+      packageFilters:
+        scope: nilts_test
+      description: lint with flutter
+
+    fmt:
+      run: |
+        melos fix && \
+        melos fmt:dart
+      description: format
+
+    fmt:dry:
+      run: |
+        melos fix:dry && \
+        melos fmt:dart:dry
+      description: format (dry-run)
+
+    fmt:dart:
+      run: melos exec -c 1 --fail-fast -- dart format .
+      description: format dart
+
+    fmt:dart:dry:
+      run: melos exec -c 1 --fail-fast -- dart format --set-exit-if-changed .
+      description: format dart (dry-run)
+
+    fix:
+      run: melos exec -c 1 --fail-fast -- dart fix --apply
+      description: fix dart
+
+    fix:dry:
+      run: melos exec -c 1 --fail-fast -- dart fix --dry-run
+      description: fix dart (dry-run)
+
+    test:
+      run: |
+        melos test:custom_lint && \
+        melos test:unit
+      description: test
+
+    test:custom_lint:
+      exec: flutter pub run custom_lint
+      packageFilters:
+        scope: nilts_test
+      description: custom_lint test
+
+    test:unit:
+      exec: very_good test
+      packageFilters:
+        scope: nilts_core
+      description: unit test
+
+    build:example:
+      run: |
+        melos build:example:android && \
+        melos build:example:ios
+      description: build on nilts_example
+
+    build:example:android:
+      exec: flutter build appbundle
+      packageFilters:
+        scope: nilts_example
+      description: build android on nilts_example
+
+    build:example:ios:
+      exec: flutter build ios --no-codesign
+      packageFilters:
+        scope: nilts_example
+      description: build ios on nilts_example
