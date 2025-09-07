@@ -1,6 +1,6 @@
 {
   "packages/nilts": "0.23.1",
-  "packages/nilts_clock": "0.1.1",
+  "packages/nilts_clock": "0.2.0",
   "packages/nilts_core": "0.3.0",
   "packages/nilts_flutter_hooks": "0.1.1"
 }
