@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.4.0](https://github.com/dassssshers/nilts/compare/nilts_core-v0.3.0...nilts_core-v0.4.0) (2025-09-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* update min dart sdk version and upgrade packages ([#370](https://github.com/dassssshers/nilts/issues/370))
+
+### Dependency Upgrades
+
+* packages ([131361d](https://github.com/dassssshers/nilts/commit/131361d8d9aba2de49aaa4ad17259bbe31c5ef69))
+* update min dart sdk version and upgrade packages ([#370](https://github.com/dassssshers/nilts/issues/370)) ([8ccfa33](https://github.com/dassssshers/nilts/commit/8ccfa33e2666b42d1062b8a209af34dc24f6f58b))
+* upgrade packages ([#344](https://github.com/dassssshers/nilts/issues/344)) ([131361d](https://github.com/dassssshers/nilts/commit/131361d8d9aba2de49aaa4ad17259bbe31c5ef69))
+
+
+### Release
+
+* nilts_core 0.3.0 ([#348](https://github.com/dassssshers/nilts/issues/348)) ([fcc4721](https://github.com/dassssshers/nilts/commit/fcc47219f02a0b052c39ffeb5ff74afa7e1e25c8))
+
 ## [0.3.0](https://github.com/dassssshers/nilts/compare/nilts_core-v0.2.2...nilts_core-v0.3.0) (2025-09-07)
 
 
