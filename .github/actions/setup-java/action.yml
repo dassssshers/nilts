@@ -14,7 +14,7 @@ runs:
         java=${{ steps.asdf.outputs.java }}
         echo "distribution=$(echo $java | cut -d '-' -f 1)" >> $GITHUB_OUTPUT
         echo "version=$(echo $java | cut -d '-' -f 2)" >> $GITHUB_OUTPUT
-    - uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4
+    - uses: actions/setup-java@dded0888837ed1f317902acf8a20df0ad188d165 # v5
       with:
         distribution: ${{ steps.extract_distribution_and_version.outputs.distribution }}
         java-version: ${{ steps.extract_distribution_and_version.outputs.version }}
