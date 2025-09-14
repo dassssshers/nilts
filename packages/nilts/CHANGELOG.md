@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.24.1](https://github.com/dassssshers/nilts/compare/nilts-v0.24.0...nilts-v0.24.1) (2025-09-14)
+
+
+### Dependency Upgrades
+
+* support analyzer 8 ([#381](https://github.com/dassssshers/nilts/issues/381)) ([c5cb685](https://github.com/dassssshers/nilts/commit/c5cb685bd077294ff94c078f3188ce9cbbf833e8))
+
 ## [0.24.0](https://github.com/dassssshers/nilts/compare/nilts-v0.23.1...nilts-v0.24.0) (2025-09-07)
 
 
