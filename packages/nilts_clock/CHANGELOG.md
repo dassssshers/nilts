@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/dassssshers/nilts/compare/nilts_clock-v0.2.0...nilts_clock-v0.2.1) (2025-09-14)
+
+
+### Dependency Upgrades
+
+* support analyzer 8 ([#381](https://github.com/dassssshers/nilts/issues/381)) ([c5cb685](https://github.com/dassssshers/nilts/commit/c5cb685bd077294ff94c078f3188ce9cbbf833e8))
+
 ## [0.2.0](https://github.com/dassssshers/nilts/compare/nilts_clock-v0.1.1...nilts_clock-v0.2.0) (2025-09-07)
 
 
