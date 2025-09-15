@@ -13,7 +13,7 @@ workspace:
   - packages/nilts_test
 
 dev_dependencies:
-  melos: 7.1.0
+  melos: 7.1.1
   very_good_analysis: 9.0.0
 
 melos:
@@ -38,24 +38,12 @@ melos:
       description: prepare for develop
 
     get:
-      run: melos exec -c 1 --fail-fast -- flutter pub get
+      run: flutter pub get
       description: pub get
 
     lint:
-      run: |
-        melos lint:dart && \
-        melos lint:flutter
+      run: flutter analyze --fatal-infos --fatal-warnings
       description: lint
-
-    lint:dart:
-      run: melos exec -c 1 --ignore="nilts_test" -- dart analyze --fatal-infos --fatal-warnings
-      description: lint with dart
-
-    lint:flutter:
-      exec: flutter analyze --fatal-infos --fatal-warnings
-      packageFilters:
-        scope: nilts_test
-      description: lint with flutter
 
     fmt:
       run: |
