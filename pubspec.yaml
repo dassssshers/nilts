@@ -42,9 +42,7 @@ melos:
       description: pub get
 
     lint:
-      run: |
-        dart analyze --fatal-infos --fatal-warnings && \
-        flutter analyze --fatal-infos --fatal-warnings
+      run: flutter analyze --fatal-infos --fatal-warnings
       description: lint
 
     fmt:
