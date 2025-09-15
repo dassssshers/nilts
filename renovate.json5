@@ -33,10 +33,10 @@
   customManagers: [
     {
       customType: 'regex',
-      fileMatch: ['^pubspec.yaml$'],
+      managerFilePatterns: ['^pubspec.yaml$'],
       matchStrings: [
         // https://semver.org/spec/v2.0.0.html
-        'dart pub global activate (?<depName>\\w+) (?<currentValue>(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+(?:[0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?)',
+        'flutter pub global activate (?<depName>\\w+) (?<currentValue>(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+(?:[0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?)',
       ],
       datasourceTemplate: 'dart',
       // same versioning as dart datasource
