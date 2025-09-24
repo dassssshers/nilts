@@ -4,7 +4,7 @@ publish_to: 'none'
 
 environment:
   sdk: '>=3.9.2 <4.0.0'
-  flutter: '>=3.35.3'
+  flutter: '>=3.35.4'
 
 resolution: workspace
 
@@ -19,7 +19,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  custom_lint: 0.8.0
+  custom_lint: 0.8.1
   very_good_analysis: 9.0.0
 
 flutter:

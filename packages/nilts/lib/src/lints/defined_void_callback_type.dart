@@ -1,7 +1,7 @@
 // ignore_for_file: comment_references to avoid unnecessary imports
 
 import 'package:analyzer/dart/element/type.dart';
-import 'package:analyzer/error/error.dart' as analyzer;
+import 'package:analyzer/diagnostic/diagnostic.dart';
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 import 'package:nilts/src/change_priority.dart';
@@ -44,7 +44,7 @@ class DefinedVoidCallbackType extends DartLintRule {
   @override
   void run(
     CustomLintResolver resolver,
-    ErrorReporter reporter,
+    DiagnosticReporter reporter,
     CustomLintContext context,
   ) {
     context.registry.addTypeAnnotation((node) {
@@ -57,10 +57,7 @@ class DefinedVoidCallbackType extends DartLintRule {
       if (type is! FunctionType) return;
 
       // Do nothing if Function has parameters.
-      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
-      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
-      // ignore: deprecated_member_use
-      if (type.parameters.isNotEmpty) return;
+      if (type.formalParameters.isNotEmpty) return;
 
       // Do nothing if the return type is not void.
       final returnType = type.returnType;
@@ -82,8 +79,8 @@ class _ReplaceWithVoidCallbackType extends DartFix {
     CustomLintResolver resolver,
     ChangeReporter reporter,
     CustomLintContext context,
-    analyzer.AnalysisError analysisError,
-    List<analyzer.AnalysisError> others,
+    Diagnostic analysisError,
+    List<Diagnostic> others,
   ) {
     context.registry.addTypeAnnotation((node) {
       if (!node.sourceRange.intersects(analysisError.sourceRange)) return;

@@ -1,4 +1,4 @@
-import 'package:analyzer/error/error.dart' as analyzer;
+import 'package:analyzer/diagnostic/diagnostic.dart';
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 import 'package:nilts/src/change_priority.dart';
@@ -40,7 +40,7 @@ class OpenTypeHierarchy extends DartLintRule {
   @override
   void run(
     CustomLintResolver resolver,
-    ErrorReporter reporter,
+    DiagnosticReporter reporter,
     CustomLintContext context,
   ) {
     context.registry.addClassDeclaration((node) {
@@ -65,8 +65,8 @@ class _AddFinalKeyword extends DartFix {
     CustomLintResolver resolver,
     ChangeReporter reporter,
     CustomLintContext context,
-    analyzer.AnalysisError analysisError,
-    List<analyzer.AnalysisError> others,
+    Diagnostic analysisError,
+    List<Diagnostic> others,
   ) {
     context.registry.addClassDeclaration((node) {
       if (!node.sourceRange.intersects(analysisError.sourceRange)) return;

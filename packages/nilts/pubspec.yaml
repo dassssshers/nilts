@@ -31,9 +31,9 @@ resolution: workspace
 dependencies:
   nilts_core: ^0.3.0
 
-  analyzer: '>=7.0.0 <9.0.0'
+  analyzer: '>=8.0.0 <9.0.0'
   analyzer_plugin: ^0.13.0
-  custom_lint_builder: ^0.8.0
+  custom_lint_builder: ^0.8.1
 
 dev_dependencies:
   very_good_analysis: ^9.0.0

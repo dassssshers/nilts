@@ -1,7 +1,7 @@
 // ignore_for_file: comment_references to avoid unnecessary imports
 
 import 'package:analyzer/dart/ast/token.dart';
-import 'package:analyzer/error/error.dart' as analyzer;
+import 'package:analyzer/diagnostic/diagnostic.dart';
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 import 'package:nilts/src/change_priority.dart';
@@ -59,7 +59,7 @@ class NoSupportWebPlatformCheck extends DartLintRule {
   @override
   void run(
     CustomLintResolver resolver,
-    ErrorReporter reporter,
+    DiagnosticReporter reporter,
     CustomLintContext context,
   ) {
     context.registry.addPrefixedIdentifier((node) {
@@ -81,10 +81,7 @@ class NoSupportWebPlatformCheck extends DartLintRule {
       }
 
       // Do nothing if the package of identifier is not `dart.io`.
-      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
-      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
-      // ignore: deprecated_member_use
-      final library = identifierName.staticElement?.library;
+      final library = identifierName.element?.library;
       if (library == null) return;
       if (library.name != 'dart.io') return;
 
@@ -122,8 +119,8 @@ class _ReplaceWithDefaultTargetPlatform extends DartFix {
     CustomLintResolver resolver,
     ChangeReporter reporter,
     CustomLintContext context,
-    analyzer.AnalysisError analysisError,
-    List<analyzer.AnalysisError> others,
+    Diagnostic analysisError,
+    List<Diagnostic> others,
   ) {
     context.registry.addPrefixedIdentifier((node) {
       if (!node.sourceRange.intersects(analysisError.sourceRange)) return;

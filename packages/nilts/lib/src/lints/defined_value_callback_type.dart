@@ -2,7 +2,7 @@
 
 import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
-import 'package:analyzer/error/error.dart' as analyzer;
+import 'package:analyzer/diagnostic/diagnostic.dart';
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 import 'package:nilts/src/change_priority.dart';
@@ -119,7 +119,7 @@ class _DefinedValueCallbackType extends DartLintRule {
   @override
   void run(
     CustomLintResolver resolver,
-    ErrorReporter reporter,
+    DiagnosticReporter reporter,
     CustomLintContext context,
   ) {
     context.registry.addTypeAnnotation((node) {
@@ -132,15 +132,9 @@ class _DefinedValueCallbackType extends DartLintRule {
       if (type is! FunctionType) return;
 
       // Do nothing if Function doesn't have a parameter.
-      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
-      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
-      // ignore: deprecated_member_use
-      if (type.parameters.length != 1) return;
+      if (type.formalParameters.length != 1) return;
 
-      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
-      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
-      // ignore: deprecated_member_use
-      final param = type.parameters.first;
+      final param = type.formalParameters.first;
       // Do nothing if the parameter is named or optional.
       if (param.isNamed || param.isOptional) return;
 
@@ -167,8 +161,8 @@ class _ReplaceWithValueCallbackType extends DartFix {
     CustomLintResolver resolver,
     ChangeReporter reporter,
     CustomLintContext context,
-    analyzer.AnalysisError analysisError,
-    List<analyzer.AnalysisError> others,
+    Diagnostic analysisError,
+    List<Diagnostic> others,
   ) {
     context.registry.addTypeAnnotation((node) {
       if (!node.sourceRange.intersects(analysisError.sourceRange)) return;
@@ -180,15 +174,10 @@ class _ReplaceWithValueCallbackType extends DartFix {
         priority: _changePriority,
       )
           .addDartFileEdit((builder) {
-        // FIXME: migrate when upgrade to analyzer 7.4.0 or later
-        // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
-        // ignore: deprecated_member_use
-        final paramType = (node.type! as FunctionType).parameters.first.type;
+        final paramType =
+            (node.type! as FunctionType).formalParameters.first.type;
         final isSuffixNullable =
             paramType.nullabilitySuffix == NullabilitySuffix.question;
-        // FIXME: migrate when upgrade to analyzer 7.4.0 or later
-        // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
-        // ignore: deprecated_member_use
         final paramTypeName = paramType.element!.displayName;
 
         final delta = node.question != null ? -1 : 0;
