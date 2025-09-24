@@ -33,7 +33,7 @@ melos:
   scripts:
     prepare:
       run: |
-        flutter pub global activate custom_lint 0.8.0 && \
+        flutter pub global activate custom_lint 0.8.1 && \
         flutter pub global activate very_good_cli 0.27.0
       description: prepare for develop
 

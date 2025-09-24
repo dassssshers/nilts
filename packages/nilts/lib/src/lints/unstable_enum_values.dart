@@ -54,17 +54,11 @@ class UnstableEnumValues extends DartLintRule {
   @override
   void run(
     CustomLintResolver resolver,
-    ErrorReporter reporter,
+    DiagnosticReporter reporter,
     CustomLintContext context,
   ) {
     context.registry.addPrefixedIdentifier((node) {
-      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
-      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
-      // ignore: deprecated_member_use
-      final staticElement = node.prefix.staticElement;
-      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
-      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
-      // ignore: deprecated_member_use
+      final staticElement = node.prefix.element;
       if (staticElement is! EnumElement) return;
       if (!staticElement.isPublic) return;
       if (node.identifier.name != 'values') return;

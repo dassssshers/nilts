@@ -2,7 +2,7 @@
 
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
-import 'package:analyzer/error/error.dart' hide LintCode;
+import 'package:analyzer/diagnostic/diagnostic.dart';
 import 'package:analyzer/error/listener.dart';
 import 'package:analyzer/source/source_range.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
@@ -71,24 +71,18 @@ class UnnecessaryHookWidget extends DartLintRule {
   @override
   void run(
     CustomLintResolver _,
-    ErrorReporter reporter,
+    DiagnosticReporter reporter,
     CustomLintContext context,
   ) {
     context.registry.addClassDeclaration((node) {
       final superclass = node.extendsClause?.superclass;
       if (superclass == null) return;
 
-      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
-      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
-      // ignore: deprecated_member_use
       final library = superclass.element?.library;
       if (library == null) return;
-      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
-      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
-      // ignore: deprecated_member_use
       if (!library.isFlutterHooks) return;
 
-      if (superclass.name2.lexeme != _hookWidgetName) return;
+      if (superclass.name.lexeme != _hookWidgetName) return;
 
       var hasHooks = false;
       node.visitChildren(
@@ -148,8 +142,8 @@ class _ReplaceWithStatelessWidget extends DartFix {
     CustomLintResolver _,
     ChangeReporter reporter,
     CustomLintContext context,
-    AnalysisError analysisError,
-    List<AnalysisError> __,
+    Diagnostic analysisError,
+    List<Diagnostic> __,
   ) {
     context.registry.addClassDeclaration((node) {
       if (!analysisError.sourceRange.intersects(node.sourceRange)) {

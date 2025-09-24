@@ -1,6 +1,6 @@
 // ignore_for_file: comment_references to avoid unnecessary imports
 
-import 'package:analyzer/error/error.dart' hide LintCode;
+import 'package:analyzer/diagnostic/diagnostic.dart';
 import 'package:analyzer/error/listener.dart';
 import 'package:analyzer/source/source_range.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
@@ -51,25 +51,16 @@ class UsingDateTimeNow extends DartLintRule {
   @override
   void run(
     CustomLintResolver _,
-    ErrorReporter reporter,
+    DiagnosticReporter reporter,
     CustomLintContext context,
   ) {
     context.registry.addInstanceCreationExpression((node) {
-      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
-      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
-      // ignore: deprecated_member_use
-      final element = node.constructorName.staticElement;
+      final element = node.constructorName.element;
       if (element == null) return;
-      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
-      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
-      // ignore: deprecated_member_use
       if (!element.library.isDartCore) return;
       if (element.name != _dateTimeNowConstructorName) return;
 
       final type = node.constructorName.type;
-      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
-      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
-      // ignore: deprecated_member_use
       if (type.element?.name != _dateTimeClassName) return;
 
       reporter.atNode(node, code);
@@ -88,8 +79,8 @@ class _ReplaceWithClockNow extends DartFix {
     CustomLintResolver _,
     ChangeReporter reporter,
     CustomLintContext context,
-    AnalysisError analysisError,
-    List<AnalysisError> __,
+    Diagnostic analysisError,
+    List<Diagnostic> __,
   ) {
     context.registry.addInstanceCreationExpression((node) {
       if (!analysisError.sourceRange.intersects(node.sourceRange)) {

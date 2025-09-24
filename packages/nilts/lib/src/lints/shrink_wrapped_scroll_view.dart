@@ -1,7 +1,7 @@
 // ignore_for_file: comment_references to avoid unnecessary imports
 
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:analyzer/error/error.dart' as analyzer;
+import 'package:analyzer/diagnostic/diagnostic.dart';
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 import 'package:nilts/src/change_priority.dart';
@@ -61,23 +61,17 @@ class ShrinkWrappedScrollView extends DartLintRule {
   @override
   void run(
     CustomLintResolver resolver,
-    ErrorReporter reporter,
+    DiagnosticReporter reporter,
     CustomLintContext context,
   ) {
     context.registry.addInstanceCreationExpression((node) {
       // Do nothing if the package of constructor is not `flutter`.
       final constructorName = node.constructorName;
-      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
-      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
-      // ignore: deprecated_member_use
-      final library = constructorName.staticElement?.library;
+      final library = constructorName.element?.library;
       if (library == null) return;
       if (!library.isFlutter) return;
 
       // Do nothing if the constructor is not sub class of `ScrollView`.
-      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
-      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
-      // ignore: deprecated_member_use
       if (!_scrollViewSubClasses.contains(constructorName.type.element?.name)) {
         return;
       }
@@ -117,17 +111,14 @@ class _RemoveShrinkWrapArgument extends DartFix {
     CustomLintResolver resolver,
     ChangeReporter reporter,
     CustomLintContext context,
-    analyzer.AnalysisError analysisError,
-    List<analyzer.AnalysisError> others,
+    Diagnostic analysisError,
+    List<Diagnostic> others,
   ) {
     context.registry.addInstanceCreationExpression((node) {
       if (!node.sourceRange.intersects(analysisError.sourceRange)) return;
 
       // Do nothing if the constructor is not sub class of `ScrollView`.
       final constructorName = node.constructorName;
-      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
-      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
-      // ignore: deprecated_member_use
       if (!_scrollViewSubClasses.contains(constructorName.type.element?.name)) {
         return;
       }

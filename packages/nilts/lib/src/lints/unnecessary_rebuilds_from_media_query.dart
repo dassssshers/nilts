@@ -2,7 +2,7 @@
 
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/token.dart';
-import 'package:analyzer/error/error.dart' as analyzer;
+import 'package:analyzer/diagnostic/diagnostic.dart';
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 import 'package:nilts/src/change_priority.dart';
@@ -62,7 +62,7 @@ class UnnecessaryRebuildsFromMediaQuery extends DartLintRule {
   @override
   void run(
     CustomLintResolver resolver,
-    ErrorReporter reporter,
+    DiagnosticReporter reporter,
     CustomLintContext context,
   ) {
     context.registry.addMethodInvocation((node) {
@@ -82,14 +82,8 @@ class UnnecessaryRebuildsFromMediaQuery extends DartLintRule {
       if (!hasContextParam) return;
 
       // Do nothing if the package of method is not `flutter`.
-      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
-      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
-      // ignore: deprecated_member_use
-      final library = methodName.staticElement?.library;
+      final library = methodName.element?.library;
       if (library == null) return;
-      // FIXME: migrate when upgrade to analyzer 7.4.0 or later
-      // https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md
-      // ignore: deprecated_member_use
       if (!library.isFlutter) return;
 
       // Do nothing if the operator of method is not `.`.
@@ -230,8 +224,8 @@ class _ReplaceWithMediaQueryXxxOf extends DartFix {
     CustomLintResolver resolver,
     ChangeReporter reporter,
     CustomLintContext context,
-    analyzer.AnalysisError analysisError,
-    List<analyzer.AnalysisError> others,
+    Diagnostic analysisError,
+    List<Diagnostic> others,
   ) {
     context.registry.addPropertyAccess((node) {
       if (!node.sourceRange.intersects(analysisError.sourceRange)) return;
