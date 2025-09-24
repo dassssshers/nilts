@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.3.0](https://github.com/dassssshers/nilts/compare/nilts_clock-v0.2.1...nilts_clock-v0.3.0) (2025-09-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* analyzer 8 ([#392](https://github.com/dassssshers/nilts/issues/392))
+
+### Dependency Upgrades
+
+* analyzer 8 ([#392](https://github.com/dassssshers/nilts/issues/392)) ([635291b](https://github.com/dassssshers/nilts/commit/635291b6dea641c15c46cd1c87f886f11b20d409))
+
+
+### Release
+
+* nilts_core 0.4.0 ([#396](https://github.com/dassssshers/nilts/issues/396)) ([ce3d654](https://github.com/dassssshers/nilts/commit/ce3d6549a6013197f26b6fee9dd17ccbd0cea973))
+
 ## [0.2.1](https://github.com/dassssshers/nilts/compare/nilts_clock-v0.2.0...nilts_clock-v0.2.1) (2025-09-14)
 
 
