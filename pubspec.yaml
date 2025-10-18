@@ -13,7 +13,7 @@ workspace:
   - packages/nilts_test
 
 dev_dependencies:
-  melos: 7.1.1
+  melos: 7.2.0
   very_good_analysis: 9.0.0
 
 melos:
