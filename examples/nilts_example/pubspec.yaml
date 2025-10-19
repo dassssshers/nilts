@@ -3,8 +3,8 @@ description: A new Flutter project.
 publish_to: 'none'
 
 environment:
-  sdk: '3.9.2'
-  flutter: '3.35.4'
+  sdk: '>=3.9.2 <4.0.0'
+  flutter: '>=3.35.4'
 
 resolution: workspace
 

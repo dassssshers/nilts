@@ -34,7 +34,7 @@ dependencies:
 
 dev_dependencies:
   test: ^1.26.3
-  very_good_analysis: ^9.0.0
+  very_good_analysis: 10.0.0
 
 dependency_overrides:
   test_api: ^0.7.7

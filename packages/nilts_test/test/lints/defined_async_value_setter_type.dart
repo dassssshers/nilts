@@ -76,7 +76,7 @@ final class MainButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FilledButton(
-      onPressed: () {
+      onPressed: () async {
         _onPressed(
           () async {},
           (value) async {},
@@ -84,7 +84,7 @@ final class MainButton extends StatelessWidget {
           ({value}) async {},
           ({required int value}) async {},
         );
-        onPressed();
+        return onPressed();
       },
       child: const Text('Hello World!'),
     );

@@ -13,8 +13,8 @@ workspace:
   - packages/nilts_test
 
 dev_dependencies:
-  melos: 7.1.1
-  very_good_analysis: 9.0.0
+  melos: 7.2.0
+  very_good_analysis: 10.0.0
 
 melos:
   repository:
@@ -34,7 +34,7 @@ melos:
     prepare:
       run: |
         flutter pub global activate custom_lint 0.8.1 && \
-        flutter pub global activate very_good_cli 0.27.0
+        flutter pub global activate very_good_cli 0.28.0
       description: prepare for develop
 
     get:
