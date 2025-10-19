@@ -42,6 +42,17 @@
       // same versioning as dart datasource
       versioningTemplate: 'npm',
     },
+    {
+      customType: 'regex',
+      managerFilePatterns: ['^analysis_options.yaml$'],
+      matchStrings: [
+        // https://semver.org/spec/v2.0.0.html
+        'include: package:(?<depName>\\w+)\\/analysis_options\\.(?<currentValue>(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+(?:[0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?)\\.yaml',
+      ],
+      datasourceTemplate: 'dart',
+      // same versioning as dart datasource
+      versioningTemplate: 'npm',
+    }
   ],
   packageRules: [
     {

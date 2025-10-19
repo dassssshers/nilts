@@ -1,5 +1,3 @@
-// ignore_for_file: comment_references to avoid unnecessary imports
-
 import 'package:analyzer/diagnostic/diagnostic.dart';
 import 'package:analyzer/error/listener.dart';
 import 'package:analyzer/source/source_range.dart';

@@ -1,8 +1,6 @@
 import 'package:analyzer/dart/element/element.dart';
 
-// ignore: deprecated_member_use remove this after nilts_core is updated
 /// Extension methods for [LibraryElement].
-// ignore: deprecated_member_use remove this after nilts_core is updated
 extension LibraryElementExt on LibraryElement {
   /// Returns `true` if this library is from the package
   /// with the given [packageName].

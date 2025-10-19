@@ -36,4 +36,4 @@ dependencies:
   custom_lint_builder: ^0.8.1
 
 dev_dependencies:
-  very_good_analysis: ^9.0.0
+  very_good_analysis: 10.0.0

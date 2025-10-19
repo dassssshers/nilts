@@ -10,6 +10,7 @@ void main() {
   nullableString?.length;
 }
 
+// ignore: unreachable_from_main for testing purposes
 int length(String? string) {
   if (string case final value?) return value.length;
   return 0;
