@@ -52,7 +52,7 @@
       datasourceTemplate: 'dart',
       // same versioning as dart datasource
       versioningTemplate: 'npm',
-    }
+    },
   ],
   packageRules: [
     {
