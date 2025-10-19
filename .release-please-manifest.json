@@ -1,5 +1,5 @@
 {
-  "packages/nilts": "0.25.0",
+  "packages/nilts": "0.25.1",
   "packages/nilts_clock": "0.3.0",
   "packages/nilts_core": "0.4.0",
   "packages/nilts_flutter_hooks": "0.3.0"
