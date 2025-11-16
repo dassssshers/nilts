@@ -1,7 +1,8 @@
 enum Hoge {
   a,
   b,
-  c;
+  c
+  ;
 
   String get id => switch (this) {
     a => 'a',

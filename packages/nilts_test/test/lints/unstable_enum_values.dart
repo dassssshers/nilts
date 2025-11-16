@@ -6,7 +6,8 @@ const List<Hoge> errorValues = Hoge.values;
 enum Fuga {
   a,
   b,
-  c;
+  c
+  ;
 
   static List<Fuga> get staticValues => [Fuga.a, Fuga.b, Fuga.c];
 }

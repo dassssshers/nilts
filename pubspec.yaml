@@ -2,7 +2,7 @@ name: nilts_workspace
 publish_to: 'none'
 
 environment:
-  sdk: '>=3.9.2 <4.0.0'
+  sdk: '>=3.10.0 <4.0.0'
 
 workspace:
   - examples/nilts_example
@@ -13,7 +13,7 @@ workspace:
   - packages/nilts_test
 
 dev_dependencies:
-  melos: 7.2.0
+  melos: 7.3.0
   very_good_analysis: 10.0.0
 
 melos:
