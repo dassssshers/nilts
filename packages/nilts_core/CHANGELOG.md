@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/dassssshers/nilts/compare/nilts_core-v0.4.0...nilts_core-v0.4.1) (2025-11-16)
+
+
+### Dependency Upgrades
+
+* packages ([#403](https://github.com/dassssshers/nilts/issues/403)) ([2ebd040](https://github.com/dassssshers/nilts/commit/2ebd0402cb7be9305e80ee7882d097b888266859))
+
 ## [0.4.0](https://github.com/dassssshers/nilts/compare/nilts_core-v0.3.1...nilts_core-v0.4.0) (2025-09-24)
 
 
