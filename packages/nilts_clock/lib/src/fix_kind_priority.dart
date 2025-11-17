@@ -1,0 +1,12 @@
+// ignore_for_file: comment_references because referencing to private classes
+
+/// A class for defining priorities of quick fix.
+///
+/// Priority to ignore rules is defined on [DartFixKindPriority.ignore] as 30.
+///
+/// See also:
+///   - [DartFixKindPriority](https://pub.dev/documentation/analysis_server_plugin/latest/edit_dart_dart_fix_kind_priority/DartFixKindPriority-class.html)
+abstract final class FixKindPriority {
+  /// The priority for [_ReplaceWithClockNow]
+  static const int replaceWithClockNow = 100;
+}
