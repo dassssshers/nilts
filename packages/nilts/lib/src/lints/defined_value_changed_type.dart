@@ -15,36 +15,38 @@ import 'package:analyzer_plugin/utilities/change_builder/change_builder_core.dar
 import 'package:analyzer_plugin/utilities/fixes/fixes.dart';
 import 'package:nilts/src/fix_kind_priority.dart';
 
-const _description = '`ValueGetter<T>` type is defined in Flutter SDK.';
+const _description = '`ValueChanged<T>` type is defined in Flutter SDK.';
 
-/// A class for `defined_value_getter_type` rule.
+/// A class for `defined_value_changed_type` rule.
 ///
-/// This rule checks defining `T Function()` type.
+/// This rule checks defining `void Function(T)` type.
 ///
 /// - Target SDK     : Any versions nilts supports
 /// - Rule type      : Practice
 /// - Maturity level : Experimental
 /// - Quick fix      : ✅
 ///
-/// **Consider** replace `T Function()` with [ValueGetter] which is defined
-/// in Flutter SDK.
+/// **Consider** replace `void Function(T)` with [ValueChanged]
+/// which is defined in Flutter SDK.
+/// If the value has been set, use [ValueSetter] instead.
 ///
 /// **BAD:**
 /// ```dart
-/// final int Function() callback;
+/// final void Function(int) callback;
 /// ```
 ///
 /// **GOOD:**
 /// ```dart
-/// final ValueGetter<int> callback;
+/// final ValueChanged<int> callback;
 /// ```
 ///
 /// See also:
 ///
-/// - [ValueGetter typedef - foundation library - Dart API](https://api.flutter.dev/flutter/foundation/ValueGetter.html)
-class DefinedValueGetterType extends AnalysisRule {
-  /// Create a new instance of [DefinedValueGetterType].
-  DefinedValueGetterType()
+/// - [ValueChanged typedef - foundation library - Dart API](https://api.flutter.dev/flutter/foundation/ValueChanged.html)
+/// - [ValueSetter typedef - foundation library - Dart API](https://api.flutter.dev/flutter/foundation/ValueSetter.html)
+class DefinedValueChangedType extends AnalysisRule {
+  /// Create a new instance of [DefinedValueChangedType].
+  DefinedValueChangedType()
     : super(
         name: ruleName,
         description: _description,
@@ -52,13 +54,13 @@ class DefinedValueGetterType extends AnalysisRule {
       );
 
   /// The name of this lint rule.
-  static const String ruleName = 'defined_value_getter_type';
+  static const String ruleName = 'defined_value_changed_type';
 
   /// The lint code for this rule.
   static const LintCode code = LintCode(
     ruleName,
     _description,
-    correctionMessage: 'Replace with ValueGetter<T>',
+    correctionMessage: 'Replace with ValueChanged<T>',
   );
 
   @override
@@ -92,33 +94,32 @@ class _Visitor extends SimpleAstVisitor<void> {
     // Do nothing if the type is not Function.
     if (type is! FunctionType) return;
 
-    // Do nothing if Function has parameters.
-    if (type.formalParameters.isNotEmpty) return;
+    // Do nothing if Function doesn't have exactly one parameter.
+    if (type.formalParameters.length != 1) return;
 
-    // Do nothing if the return type is void, InvalidType, NeverType, or Future.
+    final param = type.formalParameters.first;
+    // Do nothing if the parameter is named or optional.
+    if (param.isNamed || param.isOptional) return;
+
+    // Do nothing if the return type is not void.
     final returnType = type.returnType;
-    if (returnType is VoidType ||
-        returnType is InvalidType ||
-        returnType is NeverType ||
-        returnType.isDartAsyncFuture) {
-      return;
-    }
+    if (returnType is! VoidType) return;
 
     rule.reportAtNode(node);
   }
 }
 
-/// A class for fixing `defined_value_getter_type` rule.
+/// A class for fixing `defined_value_changed_type` rule.
 ///
-/// This fix replaces `T Function()` with `ValueGetter<T>`.
-class ReplaceWithValueGetter extends ResolvedCorrectionProducer {
-  /// Create a new instance of [ReplaceWithValueGetter].
-  ReplaceWithValueGetter({required super.context});
+/// This fix replaces `void Function(T)` with `ValueChanged<T>`.
+class ReplaceWithValueChanged extends ResolvedCorrectionProducer {
+  /// Create a new instance of [ReplaceWithValueChanged].
+  ReplaceWithValueChanged({required super.context});
 
   static const _fixKind = FixKind(
-    'nilts.fix.replaceWithValueGetter',
-    FixKindPriority.replaceWithValueGetter,
-    'Replace with ValueGetter<T>',
+    'nilts.fix.replaceWithValueChanged',
+    FixKindPriority.replaceWithValueChanged,
+    'Replace with ValueChanged<T>',
   );
 
   @override
@@ -137,29 +138,28 @@ class ReplaceWithValueGetter extends ResolvedCorrectionProducer {
     final type = genericFunctionType.type;
     if (type?.alias != null) return;
     if (type is! FunctionType) return;
-    if (type.formalParameters.isNotEmpty) return;
+    if (type.formalParameters.length != 1) return;
+
+    final param = type.formalParameters.first;
+    if (param.isNamed || param.isOptional) return;
 
     final returnType = type.returnType;
-    if (returnType is VoidType ||
-        returnType is InvalidType ||
-        returnType is NeverType ||
-        returnType.isDartAsyncFuture) {
-      return;
-    }
+    if (returnType is! VoidType) return;
 
     await builder.addDartFileEdit(file, (builder) {
-      final isReturnTypeNullable =
-          returnType.nullabilitySuffix == NullabilitySuffix.question;
-      final returnTypeName = returnType.element!.name;
+      final paramType = param.type;
+      final isParamTypeNullable =
+          paramType.nullabilitySuffix == NullabilitySuffix.question;
+      final paramTypeName = paramType.element!.name;
 
       final delta = genericFunctionType.question != null ? -1 : 0;
-      final suffix = isReturnTypeNullable ? '?' : '';
+      final suffix = isParamTypeNullable ? '?' : '';
       builder.addSimpleReplacement(
         SourceRange(
           genericFunctionType.offset,
           genericFunctionType.length + delta,
         ),
-        'ValueGetter<$returnTypeName$suffix>',
+        'ValueChanged<$paramTypeName$suffix>',
       );
     });
   }

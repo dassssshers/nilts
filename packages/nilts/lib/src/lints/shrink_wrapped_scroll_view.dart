@@ -1,11 +1,27 @@
 // ignore_for_file: comment_references to avoid unnecessary imports
 
+import 'package:analysis_server_plugin/edit/dart/correction_producer.dart';
+import 'package:analyzer/analysis_rule/analysis_rule.dart';
+import 'package:analyzer/analysis_rule/rule_context.dart';
+import 'package:analyzer/analysis_rule/rule_state.dart';
+import 'package:analyzer/analysis_rule/rule_visitor_registry.dart';
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:analyzer/diagnostic/diagnostic.dart';
-import 'package:analyzer/error/listener.dart';
-import 'package:custom_lint_builder/custom_lint_builder.dart';
-import 'package:nilts/src/change_priority.dart';
+import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:analyzer/error/error.dart';
+import 'package:analyzer/source/source_range.dart';
+import 'package:analyzer_plugin/utilities/change_builder/change_builder_core.dart';
+import 'package:analyzer_plugin/utilities/fixes/fixes.dart';
+import 'package:nilts/src/fix_kind_priority.dart';
 import 'package:nilts_core/nilts_core.dart';
+
+const _description =
+    'Shrink wrapping the content of the scroll view is significantly more expensive than expanding to the maximum allowed size.';
+
+const _scrollViewSubClasses = [
+  'ListView',
+  'GridView',
+  'CustomScrollView',
+];
 
 /// A class for `shrink_wrapped_scroll_view` rule.
 ///
@@ -46,103 +62,115 @@ import 'package:nilts_core/nilts_core.dart';
 ///
 /// - [shrinkWrap property - ScrollView class - widgets library - Dart API](https://api.flutter.dev/flutter/widgets/ScrollView/shrinkWrap.html)
 /// - [ShrinkWrap vs Slivers | Decoding Flutter - YouTube](https://youtu.be/LUqDNnv_dh0)
-class ShrinkWrappedScrollView extends DartLintRule {
+class ShrinkWrappedScrollView extends AnalysisRule {
   /// Create a new instance of [ShrinkWrappedScrollView].
-  const ShrinkWrappedScrollView() : super(code: _code);
+  ShrinkWrappedScrollView()
+    : super(
+        name: ruleName,
+        description: _description,
+        state: const RuleState.experimental(),
+      );
 
-  static const _code = LintCode(
-    name: 'shrink_wrapped_scroll_view',
-    problemMessage: 'Shrink wrapping the content of the scroll view is '
-        'significantly more expensive than '
-        'expanding to the maximum allowed size.',
-    url: 'https://github.com/dassssshers/nilts#shrink_wrapped_scroll_view',
+  static const String ruleName = 'shrink_wrapped_scroll_view';
+
+  static const LintCode code = LintCode(
+    ruleName,
+    _description,
   );
 
   @override
-  void run(
-    CustomLintResolver resolver,
-    DiagnosticReporter reporter,
-    CustomLintContext context,
+  DiagnosticCode get diagnosticCode => code;
+
+  @override
+  void registerNodeProcessors(
+    RuleVisitorRegistry registry,
+    RuleContext context,
   ) {
-    context.registry.addInstanceCreationExpression((node) {
-      // Do nothing if the package of constructor is not `flutter`.
-      final constructorName = node.constructorName;
-      final library = constructorName.element?.library;
-      if (library == null) return;
-      if (!library.isFlutter) return;
+    registry.addInstanceCreationExpression(this, _Visitor(this, context));
+  }
+}
 
-      // Do nothing if the constructor is not sub class of `ScrollView`.
-      if (!_scrollViewSubClasses.contains(constructorName.type.element?.name)) {
-        return;
-      }
+class _Visitor extends SimpleAstVisitor<void> {
+  _Visitor(this.rule, this.context);
 
-      // Do nothing if the constructor doesn't have `shrinkWrap` argument.
-      final arguments = node.argumentList.arguments;
-      final isShrinkWrapSet = arguments.any(
+  final AnalysisRule rule;
+  final RuleContext context;
+
+  @override
+  void visitInstanceCreationExpression(InstanceCreationExpression node) {
+    // Do nothing if the package of constructor is not `flutter`.
+    final constructorName = node.constructorName;
+    final library = constructorName.element?.library;
+    if (library == null) return;
+    if (!library.isFlutter) return;
+
+    // Do nothing if the constructor is not sub class of `ScrollView`.
+    if (!_scrollViewSubClasses.contains(constructorName.type.element?.name)) {
+      return;
+    }
+
+    // Do nothing if the constructor doesn't have `shrinkWrap` argument.
+    final arguments = node.argumentList.arguments;
+    final isShrinkWrapSet = arguments.any(
+      (argument) =>
+          argument is NamedExpression &&
+          argument.name.label.name == 'shrinkWrap',
+    );
+    if (!isShrinkWrapSet) return;
+
+    // Do nothing if `shrinkWrap: true` is not set.
+    final isShrinkWrapped = arguments.any(
+      (argument) =>
+          argument is NamedExpression &&
+          argument.name.label.name == 'shrinkWrap' &&
+          argument.expression is BooleanLiteral &&
+          (argument.expression as BooleanLiteral).value,
+    );
+    if (!isShrinkWrapped) return;
+
+    rule.reportAtNode(node);
+  }
+}
+
+/// A class for fixing `shrink_wrapped_scroll_view` rule.
+///
+/// This fix removes `shrinkWrap` argument from the scroll view constructor.
+class RemoveShrinkWrap extends ResolvedCorrectionProducer {
+  /// Create a new instance of [RemoveShrinkWrap].
+  RemoveShrinkWrap({required super.context});
+
+  static const _fixKind = FixKind(
+    'nilts.fix.removeShrinkWrap',
+    FixKindPriority.removeShrinkWrap,
+    'Remove shrinkWrap',
+  );
+
+  @override
+  CorrectionApplicability get applicability =>
+      CorrectionApplicability.acrossFiles;
+
+  @override
+  FixKind? get fixKind => _fixKind;
+
+  @override
+  Future<void> compute(ChangeBuilder builder) async {
+    if (node is! InstanceCreationExpression) return;
+    final instanceCreation = node as InstanceCreationExpression;
+
+    // Do nothing if the constructor is not sub class of `ScrollView`.
+    final constructorName = instanceCreation.constructorName;
+    if (!_scrollViewSubClasses.contains(constructorName.type.element?.name)) {
+      return;
+    }
+
+    await builder.addDartFileEdit(file, (builder) {
+      final arguments = instanceCreation.argumentList.arguments;
+      final argument = arguments.firstWhere(
         (argument) =>
             argument is NamedExpression &&
             argument.name.label.name == 'shrinkWrap',
       );
-      if (!isShrinkWrapSet) return;
-
-      // Do nothing if `shrinkWrap: true` is not set.
-      final isShrinkWrapped = arguments.any(
-        (argument) =>
-            argument is NamedExpression &&
-            argument.name.label.name == 'shrinkWrap' &&
-            argument.expression is BooleanLiteral &&
-            (argument.expression as BooleanLiteral).value,
-      );
-      if (!isShrinkWrapped) return;
-
-      reporter.atNode(node, _code);
-    });
-  }
-
-  @override
-  List<Fix> getFixes() => [
-        _RemoveShrinkWrapArgument(),
-      ];
-}
-
-class _RemoveShrinkWrapArgument extends DartFix {
-  @override
-  void run(
-    CustomLintResolver resolver,
-    ChangeReporter reporter,
-    CustomLintContext context,
-    Diagnostic analysisError,
-    List<Diagnostic> others,
-  ) {
-    context.registry.addInstanceCreationExpression((node) {
-      if (!node.sourceRange.intersects(analysisError.sourceRange)) return;
-
-      // Do nothing if the constructor is not sub class of `ScrollView`.
-      final constructorName = node.constructorName;
-      if (!_scrollViewSubClasses.contains(constructorName.type.element?.name)) {
-        return;
-      }
-
-      reporter
-          .createChangeBuilder(
-        message: 'Remove shrinkWrap',
-        priority: ChangePriority.removeShrinkWrap,
-      )
-          .addDartFileEdit((builder) {
-        final arguments = node.argumentList.arguments;
-        final argument = arguments.firstWhere(
-          (argument) =>
-              argument is NamedExpression &&
-              argument.name.label.name == 'shrinkWrap',
-        );
-        builder.addDeletion(argument.sourceRange);
-      });
+      builder.addDeletion(SourceRange(argument.offset, argument.length));
     });
   }
 }
-
-const _scrollViewSubClasses = [
-  'ListView',
-  'GridView',
-  'CustomScrollView',
-];

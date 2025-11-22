@@ -2,8 +2,6 @@
   "separate-pull-requests": true,
   "packages": {
     "packages/nilts": {
-      "bump-minor-pre-major": true,
-      "bump-patch-for-minor-pre-major": false,
       "changelog-path": "CHANGELOG.md",
       "changelog-sections": [
         {
@@ -65,8 +63,6 @@
       "release-type": "dart"
     },
     "packages/nilts_clock": {
-      "bump-minor-pre-major": true,
-      "bump-patch-for-minor-pre-major": false,
       "changelog-path": "CHANGELOG.md",
       "changelog-sections": [
         {
@@ -128,8 +124,6 @@
       "release-type": "dart"
     },
     "packages/nilts_core": {
-      "bump-minor-pre-major": true,
-      "bump-patch-for-minor-pre-major": false,
       "changelog-path": "CHANGELOG.md",
       "changelog-sections": [
         {
@@ -191,8 +185,6 @@
       "release-type": "dart"
     },
     "packages/nilts_flutter_hooks": {
-      "bump-minor-pre-major": true,
-      "bump-patch-for-minor-pre-major": false,
       "changelog-path": "CHANGELOG.md",
       "changelog-sections": [
         {
