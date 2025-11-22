@@ -1,10 +1,20 @@
+import 'package:analysis_server_plugin/edit/dart/correction_producer.dart';
+import 'package:analyzer/analysis_rule/analysis_rule.dart';
+import 'package:analyzer/analysis_rule/rule_context.dart';
+import 'package:analyzer/analysis_rule/rule_state.dart';
+import 'package:analyzer/analysis_rule/rule_visitor_registry.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/token.dart';
-import 'package:analyzer/diagnostic/diagnostic.dart';
-import 'package:analyzer/error/listener.dart';
-import 'package:custom_lint_builder/custom_lint_builder.dart';
-import 'package:nilts/src/change_priority.dart';
+import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:analyzer/error/error.dart';
+import 'package:analyzer/source/source_range.dart';
+import 'package:analyzer_plugin/utilities/change_builder/change_builder_core.dart';
+import 'package:analyzer_plugin/utilities/fixes/fixes.dart';
+import 'package:nilts/src/fix_kind_priority.dart';
 import 'package:nilts_core/nilts_core.dart';
+
+const _description =
+    'This configuration is not affected by changes of `TextDirection`.';
 
 /// A class for `no_support_multi_text_direction` rule.
 ///
@@ -71,133 +81,180 @@ import 'package:nilts_core/nilts_core.dart';
 /// - [AlignmentDirectional class - painting library - Dart API](https://api.flutter.dev/flutter/painting/AlignmentDirectional-class.html)
 /// - [EdgeInsetsDirectional class - painting library - Dart API](https://api.flutter.dev/flutter/painting/EdgeInsetsDirectional-class.html)
 /// - [PositionedDirectional class - widgets library - Dart API](https://api.flutter.dev/flutter/widgets/PositionedDirectional-class.html)
-class NoSupportMultiTextDirection extends DartLintRule {
+class NoSupportMultiTextDirection extends AnalysisRule {
   /// Create a new instance of [NoSupportMultiTextDirection].
-  const NoSupportMultiTextDirection() : super(code: _code);
+  NoSupportMultiTextDirection()
+    : super(
+        name: ruleName,
+        description: _description,
+        state: const RuleState.experimental(),
+      );
 
-  static const _code = LintCode(
-    name: 'no_support_multi_text_direction',
-    problemMessage:
-        'This configuration is not affected by changes of `TextDirection`.',
-    url: 'https://github.com/dassssshers/nilts#no_support_multi_text_direction',
+  static const String ruleName = 'no_support_multi_text_direction';
+
+  static const LintCode code = LintCode(
+    ruleName,
+    _description,
   );
 
   @override
-  void run(
-    CustomLintResolver resolver,
-    DiagnosticReporter reporter,
-    CustomLintContext context,
+  DiagnosticCode get diagnosticCode => code;
+
+  @override
+  void registerNodeProcessors(
+    RuleVisitorRegistry registry,
+    RuleContext context,
   ) {
-    // Check for `Alignment`.
-    context.registry.addPrefixedIdentifier((node) {
-      // Do nothing if the package of class is not `flutter`.
-      final library = node.staticType?.element?.library;
-      if (library == null) return;
-      if (!library.isFlutter) return;
+    registry
+      ..addPrefixedIdentifier(this, _AlignmentVisitor(this, context))
+      ..addInstanceCreationExpression(this, _EdgeInsetsVisitor(this, context))
+      ..addInstanceCreationExpression(this, _PositionedVisitor(this, context));
+  }
+}
 
-      // Do nothing if the class name is not `Alignment`.
-      final isAlignment = node.prefix.name == 'Alignment';
-      if (!isAlignment) return;
+class _AlignmentVisitor extends SimpleAstVisitor<void> {
+  _AlignmentVisitor(this.rule, this.context);
 
-      // Do nothing if the period is not `.`.
-      final operatorToken = node.period;
-      if (operatorToken.type != TokenType.PERIOD) return;
+  final AnalysisRule rule;
+  final RuleContext context;
 
-      // Do nothing if the variable name is not
-      // - `bottomLeft`
-      // - `bottomRight`
-      // - `centerLeft`
-      // - `centerRight`
-      // - `topLeft`
-      // - `topRight`
-      final propertyName = node.identifier.name;
-      if (propertyName != 'bottomLeft' &&
-          propertyName != 'bottomRight' &&
-          propertyName != 'centerLeft' &&
-          propertyName != 'centerRight' &&
-          propertyName != 'topLeft' &&
-          propertyName != 'topRight') {
-        return;
-      }
+  @override
+  void visitPrefixedIdentifier(PrefixedIdentifier node) {
+    // Do nothing if the package of class is not `flutter`.
+    final library = node.staticType?.element?.library;
+    if (library == null) return;
+    if (!library.isFlutter) return;
 
-      reporter.atNode(node, _code);
-    });
+    // Do nothing if the class name is not `Alignment`.
+    final isAlignment = node.prefix.name == 'Alignment';
+    if (!isAlignment) return;
 
-    // Check for `EdgeInsets`.
-    context.registry.addInstanceCreationExpression((node) {
-      // Do nothing if the package of constructor is not `flutter`.
-      final library = node.constructorName.type.element?.library;
-      if (library == null) return;
-      if (!library.isFlutter) return;
+    // Do nothing if the period is not `.`.
+    final operatorToken = node.period;
+    if (operatorToken.type != TokenType.PERIOD) return;
 
-      final isEdgeInsets =
-          // Do nothing if the class is not `EdgeInsets`.
-          node.constructorName.type.element?.name == 'EdgeInsets';
-      if (!isEdgeInsets) return;
+    // Do nothing if the variable name is not
+    // - `bottomLeft`
+    // - `bottomRight`
+    // - `centerLeft`
+    // - `centerRight`
+    // - `topLeft`
+    // - `topRight`
+    final propertyName = node.identifier.name;
+    if (propertyName != 'bottomLeft' &&
+        propertyName != 'bottomRight' &&
+        propertyName != 'centerLeft' &&
+        propertyName != 'centerRight' &&
+        propertyName != 'topLeft' &&
+        propertyName != 'topRight') {
+      return;
+    }
 
-      // Do nothing if the constructor is not named constructor.
-      final operatorToken = node.constructorName.period;
-      if (operatorToken?.type != TokenType.PERIOD) return;
+    rule.reportAtNode(node);
+  }
+}
 
-      // Do nothing if the named constructor name is not
-      // - `fromLTRB`
-      // - `only`
-      final constructorName = node.constructorName.name?.name;
-      if (constructorName != 'fromLTRB' && constructorName != 'only') return;
+class _EdgeInsetsVisitor extends SimpleAstVisitor<void> {
+  _EdgeInsetsVisitor(this.rule, this.context);
 
-      if (constructorName == 'only') {
-        // Do nothing if the constructor has not `left` or `right` parameter.
-        if (!_hasLRArgument(node.argumentList)) return;
-      }
+  final AnalysisRule rule;
+  final RuleContext context;
 
-      reporter.atNode(node, _code);
-    });
+  @override
+  void visitInstanceCreationExpression(InstanceCreationExpression node) {
+    // Do nothing if the package of constructor is not `flutter`.
+    final library = node.constructorName.type.element?.library;
+    if (library == null) return;
+    if (!library.isFlutter) return;
 
-    // Check for `Positioned`.
-    context.registry.addInstanceCreationExpression((node) {
-      // Do nothing if the package of constructor is not `flutter`.
-      final library = node.constructorName.type.element?.library;
-      if (library == null) return;
-      if (!library.isFlutter) return;
+    final isEdgeInsets =
+        // Do nothing if the class is not `EdgeInsets`.
+        node.constructorName.type.element?.name == 'EdgeInsets';
+    if (!isEdgeInsets) return;
 
-      final isEdgeInsets =
-          // Do nothing if the class is not `Positioned`.
-          node.constructorName.type.element?.name == 'Positioned';
-      if (!isEdgeInsets) return;
+    // Do nothing if the constructor is not named constructor.
+    final operatorToken = node.constructorName.period;
+    if (operatorToken?.type != TokenType.PERIOD) return;
 
-      // Do nothing if the named constructor name is not
-      // - primary constructor
-      // - `fill`
-      final constructorName = node.constructorName.name?.name;
-      if (constructorName != null && constructorName != 'fill') return;
+    // Do nothing if the named constructor name is not
+    // - `fromLTRB`
+    // - `only`
+    final constructorName = node.constructorName.name?.name;
+    if (constructorName != 'fromLTRB' && constructorName != 'only') return;
 
+    if (constructorName == 'only') {
       // Do nothing if the constructor has not `left` or `right` parameter.
       if (!_hasLRArgument(node.argumentList)) return;
+    }
 
-      reporter.atNode(node, _code);
-    });
+    rule.reportAtNode(node);
   }
 
   bool _hasLRArgument(ArgumentList argumentList) {
     // Do nothing if the constructor has not `left` or `right` parameter.
     final arguments = argumentList.arguments;
     return arguments.whereType<NamedExpression>().any(
-          (argument) =>
-              argument.name.label.name == 'left' ||
-              argument.name.label.name == 'right',
-        );
+      (argument) =>
+          argument.name.label.name == 'left' ||
+          argument.name.label.name == 'right',
+    );
   }
-
-  @override
-  List<Fix> getFixes() => [
-        _ReplaceWithAlignmentDirectional(),
-        _ReplaceWithEdgeInsetsDirectional(),
-        _ReplaceWithPositionedDirectionalClass(),
-        _ReplaceWithPositionedDirectional(),
-      ];
 }
 
-class _ReplaceWithAlignmentDirectional extends DartFix {
+class _PositionedVisitor extends SimpleAstVisitor<void> {
+  _PositionedVisitor(this.rule, this.context);
+
+  final AnalysisRule rule;
+  final RuleContext context;
+
+  @override
+  void visitInstanceCreationExpression(InstanceCreationExpression node) {
+    // Do nothing if the package of constructor is not `flutter`.
+    final library = node.constructorName.type.element?.library;
+    if (library == null) return;
+    if (!library.isFlutter) return;
+
+    final isPositioned =
+        // Do nothing if the class is not `Positioned`.
+        node.constructorName.type.element?.name == 'Positioned';
+    if (!isPositioned) return;
+
+    // Do nothing if the named constructor name is not
+    // - primary constructor
+    // - `fill`
+    final constructorName = node.constructorName.name?.name;
+    if (constructorName != null && constructorName != 'fill') return;
+
+    // Do nothing if the constructor has not `left` or `right` parameter.
+    if (!_hasLRArgument(node.argumentList)) return;
+
+    rule.reportAtNode(node);
+  }
+
+  bool _hasLRArgument(ArgumentList argumentList) {
+    // Do nothing if the constructor has not `left` or `right` parameter.
+    final arguments = argumentList.arguments;
+    return arguments.whereType<NamedExpression>().any(
+      (argument) =>
+          argument.name.label.name == 'left' ||
+          argument.name.label.name == 'right',
+    );
+  }
+}
+
+/// A class for fixing `no_support_multi_text_direction` rule.
+///
+/// This fix replaces [Alignment] with [AlignmentDirectional].
+class ReplaceWithAlignmentDirectional extends ResolvedCorrectionProducer {
+  /// Create a new instance of [ReplaceWithAlignmentDirectional].
+  ReplaceWithAlignmentDirectional({required super.context});
+
+  static const _fixKind = FixKind(
+    'nilts.fix.replaceWithAlignmentDirectional',
+    FixKindPriority.replaceWithAlignmentDirectional,
+    'Replace with AlignmentDirectional',
+  );
+
   final _identifierMap = {
     'bottomLeft': 'bottomStart',
     'bottomRight': 'bottomEnd',
@@ -208,197 +265,246 @@ class _ReplaceWithAlignmentDirectional extends DartFix {
   };
 
   @override
-  void run(
-    CustomLintResolver resolver,
-    ChangeReporter reporter,
-    CustomLintContext context,
-    Diagnostic analysisError,
-    List<Diagnostic> others,
-  ) {
-    context.registry.addPrefixedIdentifier((node) {
-      if (!node.sourceRange.intersects(analysisError.sourceRange)) return;
+  CorrectionApplicability get applicability =>
+      CorrectionApplicability.acrossFiles;
 
-      // Do nothing if the class name is not `Alignment`.
-      final isAlignment = node.prefix.name == 'Alignment';
-      if (!isAlignment) return;
+  @override
+  FixKind? get fixKind => _fixKind;
 
-      reporter
-          .createChangeBuilder(
-        message: 'Replace with AlignmentDirectional',
-        priority: ChangePriority.replaceWithAlignmentDirectional,
-      )
-          .addDartFileEdit((builder) {
-        builder
-          ..addSimpleReplacement(
-            node.identifier.sourceRange,
-            _identifierMap[node.identifier.name]!,
-          )
-          ..addSimpleReplacement(
-            node.prefix.sourceRange,
-            'AlignmentDirectional',
-          );
-      });
+  @override
+  Future<void> compute(ChangeBuilder builder) async {
+    if (node is! PrefixedIdentifier) return;
+    final prefixedIdentifier = node as PrefixedIdentifier;
+
+    // Do nothing if the class name is not `Alignment`.
+    final isAlignment = prefixedIdentifier.prefix.name == 'Alignment';
+    if (!isAlignment) return;
+
+    await builder.addDartFileEdit(file, (builder) {
+      builder
+        ..addSimpleReplacement(
+          SourceRange(
+            prefixedIdentifier.identifier.offset,
+            prefixedIdentifier.identifier.length,
+          ),
+          _identifierMap[prefixedIdentifier.identifier.name]!,
+        )
+        ..addSimpleReplacement(
+          SourceRange(
+            prefixedIdentifier.prefix.offset,
+            prefixedIdentifier.prefix.length,
+          ),
+          'AlignmentDirectional',
+        );
     });
   }
 }
 
-class _ReplaceWithEdgeInsetsDirectional extends DartFix {
+/// A class for fixing `no_support_multi_text_direction` rule.
+///
+/// This fix replaces [EdgeInsets] with [EdgeInsetsDirectional].
+class ReplaceWithEdgeInsetsDirectional extends ResolvedCorrectionProducer {
+  /// Create a new instance of [ReplaceWithEdgeInsetsDirectional].
+  ReplaceWithEdgeInsetsDirectional({required super.context});
+
+  static const _fixKind = FixKind(
+    'nilts.fix.replaceWithEdgeInsetsDirectional',
+    FixKindPriority.replaceWithEdgeInsetsDirectional,
+    'Replace with EdgeInsetsDirectional',
+  );
+
   final _argumentMap = {
     'left': 'start',
     'right': 'end',
   };
 
   @override
-  void run(
-    CustomLintResolver resolver,
-    ChangeReporter reporter,
-    CustomLintContext context,
-    Diagnostic analysisError,
-    List<Diagnostic> others,
-  ) {
-    context.registry.addInstanceCreationExpression((node) {
-      if (!node.sourceRange.intersects(analysisError.sourceRange)) return;
+  CorrectionApplicability get applicability =>
+      CorrectionApplicability.acrossFiles;
 
-      final isEdgeInsets =
-          // Do nothing if the class is not `EdgeInsets`.
-          node.constructorName.type.element?.name == 'EdgeInsets';
-      if (!isEdgeInsets) return;
+  @override
+  FixKind? get fixKind => _fixKind;
 
-      reporter
-          .createChangeBuilder(
-        message: 'Replace with EdgeInsetsDirectional',
-        priority: ChangePriority.replaceWithEdgeInsetsDirectional,
-      )
-          .addDartFileEdit((builder) {
-        if (node.constructorName.name?.name == 'fromLTRB') {
-          builder.addSimpleReplacement(
-            node.constructorName.name!.sourceRange,
-            'fromSTEB',
-          );
-        }
-        node.argumentList.arguments.whereType<NamedExpression>().forEach(
-          (argument) {
-            final newArgument = _argumentMap[argument.name.label.name];
-            if (newArgument != null) {
-              builder.addSimpleReplacement(
-                argument.name.label.sourceRange,
-                newArgument,
-              );
-            }
-          },
-        );
+  @override
+  Future<void> compute(ChangeBuilder builder) async {
+    if (node is! InstanceCreationExpression) return;
+    final instanceCreation = node as InstanceCreationExpression;
+
+    final isEdgeInsets =
+        // Do nothing if the class is not `EdgeInsets`.
+        instanceCreation.constructorName.type.element?.name == 'EdgeInsets';
+    if (!isEdgeInsets) return;
+
+    await builder.addDartFileEdit(file, (builder) {
+      if (instanceCreation.constructorName.name?.name == 'fromLTRB') {
         builder.addSimpleReplacement(
-          node.constructorName.type.sourceRange,
-          'EdgeInsetsDirectional',
+          SourceRange(
+            instanceCreation.constructorName.name!.offset,
+            instanceCreation.constructorName.name!.length,
+          ),
+          'fromSTEB',
         );
-      });
+      }
+      instanceCreation.argumentList.arguments
+          .whereType<NamedExpression>()
+          .forEach(
+            (argument) {
+              final newArgument = _argumentMap[argument.name.label.name];
+              if (newArgument != null) {
+                builder.addSimpleReplacement(
+                  SourceRange(
+                    argument.name.label.offset,
+                    argument.name.label.length,
+                  ),
+                  newArgument,
+                );
+              }
+            },
+          );
+      builder.addSimpleReplacement(
+        SourceRange(
+          instanceCreation.constructorName.type.offset,
+          instanceCreation.constructorName.type.length,
+        ),
+        'EdgeInsetsDirectional',
+      );
     });
   }
 }
 
-class _ReplaceWithPositionedDirectionalClass extends DartFix {
+/// A class for fixing `no_support_multi_text_direction` rule.
+///
+/// This fix replaces [Positioned] with [PositionedDirectional].
+class ReplaceWithPositionedDirectionalClass extends ResolvedCorrectionProducer {
+  /// Create a new instance of [ReplaceWithPositionedDirectionalClass].
+  ReplaceWithPositionedDirectionalClass({required super.context});
+
+  static const _fixKind = FixKind(
+    'nilts.fix.replaceWithPositionedDirectionalClass',
+    FixKindPriority.replaceWithPositionedDirectionalClass,
+    'Replace with PositionedDirectional',
+  );
+
   final _argumentMap = {
     'left': 'start',
     'right': 'end',
   };
 
   @override
-  void run(
-    CustomLintResolver resolver,
-    ChangeReporter reporter,
-    CustomLintContext context,
-    Diagnostic analysisError,
-    List<Diagnostic> others,
-  ) {
-    context.registry.addInstanceCreationExpression((node) {
-      if (!node.sourceRange.intersects(analysisError.sourceRange)) return;
+  CorrectionApplicability get applicability =>
+      CorrectionApplicability.acrossFiles;
 
-      final isEdgeInsets =
-          // Do nothing if the class is not `Positioned`.
-          node.constructorName.type.element?.name == 'Positioned';
-      if (!isEdgeInsets) return;
+  @override
+  FixKind? get fixKind => _fixKind;
 
-      reporter
-          .createChangeBuilder(
-        message: 'Replace with PositionedDirectional',
-        priority: ChangePriority.replaceWithPositionedDirectionalClass,
-      )
-          .addDartFileEdit((builder) {
-        node.argumentList.arguments.whereType<NamedExpression>().forEach(
-          (argument) {
-            final newArgument = _argumentMap[argument.name.label.name];
-            if (newArgument != null) {
-              builder.addSimpleReplacement(
-                argument.name.label.sourceRange,
-                newArgument,
-              );
-            }
-          },
-        );
+  @override
+  Future<void> compute(ChangeBuilder builder) async {
+    if (node is! InstanceCreationExpression) return;
+    final instanceCreation = node as InstanceCreationExpression;
+
+    final isPositioned =
+        // Do nothing if the class is not `Positioned`.
+        instanceCreation.constructorName.type.element?.name == 'Positioned';
+    if (!isPositioned) return;
+
+    await builder.addDartFileEdit(file, (builder) {
+      instanceCreation.argumentList.arguments
+          .whereType<NamedExpression>()
+          .forEach(
+            (argument) {
+              final newArgument = _argumentMap[argument.name.label.name];
+              if (newArgument != null) {
+                builder.addSimpleReplacement(
+                  SourceRange(
+                    argument.name.label.offset,
+                    argument.name.label.length,
+                  ),
+                  newArgument,
+                );
+              }
+            },
+          );
+      builder.addSimpleReplacement(
+        SourceRange(
+          instanceCreation.constructorName.offset,
+          instanceCreation.constructorName.length,
+        ),
+        'PositionedDirectional',
+      );
+    });
+  }
+}
+
+/// A class for fixing `no_support_multi_text_direction` rule.
+///
+/// This fix replaces [Positioned] with [Positioned.directional].
+class ReplaceWithPositionedDirectional extends ResolvedCorrectionProducer {
+  /// Create a new instance of [ReplaceWithPositionedDirectional].
+  ReplaceWithPositionedDirectional({required super.context});
+
+  static const _fixKind = FixKind(
+    'nilts.fix.replaceWithPositionedDirectional',
+    FixKindPriority.replaceWithPositionedDirectional,
+    'Replace with Positioned.directional',
+  );
+
+  final _argumentMap = {
+    'left': 'start',
+    'right': 'end',
+  };
+
+  @override
+  CorrectionApplicability get applicability =>
+      CorrectionApplicability.acrossFiles;
+
+  @override
+  FixKind? get fixKind => _fixKind;
+
+  @override
+  Future<void> compute(ChangeBuilder builder) async {
+    if (node is! InstanceCreationExpression) return;
+    final instanceCreation = node as InstanceCreationExpression;
+
+    final isPositioned =
+        // Do nothing if the class is not `Positioned`.
+        instanceCreation.constructorName.type.element?.name == 'Positioned';
+    if (!isPositioned) return;
+
+    await builder.addDartFileEdit(file, (builder) {
+      final constructorName = instanceCreation.constructorName.name?.name;
+
+      instanceCreation.argumentList.arguments
+          .whereType<NamedExpression>()
+          .forEach(
+            (argument) {
+              final newArgument = _argumentMap[argument.name.label.name];
+              if (newArgument != null) {
+                builder.addSimpleReplacement(
+                  SourceRange(
+                    argument.name.label.offset,
+                    argument.name.label.length,
+                  ),
+                  newArgument,
+                );
+              }
+            },
+          );
+
+      if (constructorName == 'fill') {
         builder.addSimpleReplacement(
-          node.constructorName.sourceRange,
-          'PositionedDirectional',
+          SourceRange(
+            instanceCreation.constructorName.offset,
+            instanceCreation.constructorName.length,
+          ),
+          'Positioned.directional',
         );
-      });
-    });
-  }
-}
-
-class _ReplaceWithPositionedDirectional extends DartFix {
-  final _argumentMap = {
-    'left': 'start',
-    'right': 'end',
-  };
-
-  @override
-  void run(
-    CustomLintResolver resolver,
-    ChangeReporter reporter,
-    CustomLintContext context,
-    Diagnostic analysisError,
-    List<Diagnostic> others,
-  ) {
-    context.registry.addInstanceCreationExpression((node) {
-      if (!node.sourceRange.intersects(analysisError.sourceRange)) return;
-
-      final isEdgeInsets =
-          // Do nothing if the class is not `Positioned`.
-          node.constructorName.type.element?.name == 'Positioned';
-      if (!isEdgeInsets) return;
-
-      reporter
-          .createChangeBuilder(
-        message: 'Replace with Positioned.directional',
-        priority: ChangePriority.replaceWithPositionedDirectional,
-      )
-          .addDartFileEdit((builder) {
-        final constructorName = node.constructorName.name?.name;
-
-        node.argumentList.arguments.whereType<NamedExpression>().forEach(
-          (argument) {
-            final newArgument = _argumentMap[argument.name.label.name];
-            if (newArgument != null) {
-              builder.addSimpleReplacement(
-                argument.name.label.sourceRange,
-                newArgument,
-              );
-            }
-          },
+      }
+      if (constructorName == null) {
+        builder.addSimpleInsertion(
+          instanceCreation.constructorName.type.end,
+          '.directional',
         );
-
-        if (constructorName == 'fill') {
-          builder.addSimpleReplacement(
-            node.constructorName.sourceRange,
-            'Positioned.directional',
-          );
-        }
-        if (constructorName == null) {
-          builder.addSimpleInsertion(
-            node.constructorName.type.end,
-            '.directional',
-          );
-        }
-      });
+      }
     });
   }
 }

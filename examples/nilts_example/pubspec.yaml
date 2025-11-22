@@ -4,19 +4,13 @@ publish_to: 'none'
 
 environment:
   sdk: '>=3.10.0 <4.0.0'
-  flutter: '>=3.38.1'
+  flutter: '>=3.38.3'
 
 resolution: workspace
 
 dependencies:
   flutter:
     sdk: flutter
-
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-
-  custom_lint: 0.8.1
 
 flutter:
   uses-material-design: true

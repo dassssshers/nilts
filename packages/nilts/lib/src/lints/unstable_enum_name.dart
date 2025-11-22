@@ -1,6 +1,13 @@
+import 'package:analyzer/analysis_rule/analysis_rule.dart';
+import 'package:analyzer/analysis_rule/rule_context.dart';
+import 'package:analyzer/analysis_rule/rule_state.dart';
+import 'package:analyzer/analysis_rule/rule_visitor_registry.dart';
+import 'package:analyzer/dart/ast/ast.dart';
+import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/dart/element/element.dart';
-import 'package:analyzer/error/listener.dart';
-import 'package:custom_lint_builder/custom_lint_builder.dart';
+import 'package:analyzer/error/error.dart';
+
+const _description = 'enum name property is unstable';
 
 /// A class for `unstable_enum_name` rule.
 ///
@@ -47,30 +54,59 @@ import 'package:custom_lint_builder/custom_lint_builder.dart';
 /// See also:
 ///
 /// - [Enums | Dart](https://dart.dev/language/enums)
-class UnstableEnumName extends DartLintRule {
+class UnstableEnumName extends AnalysisRule {
   /// Create a new instance of [UnstableEnumName].
-  const UnstableEnumName() : super(code: _code);
+  UnstableEnumName()
+    : super(
+        name: ruleName,
+        description: _description,
+        state: const RuleState.experimental(),
+      );
 
-  static const _code = LintCode(
-    name: 'unstable_enum_name',
-    problemMessage: 'enum name property is unstable',
-    url: 'https://github.com/dassssshers/nilts#unstable_enum_name',
+  /// The name of this lint rule.
+  static const String ruleName = 'unstable_enum_name';
+
+  /// The lint code for this rule.
+  static const LintCode code = LintCode(
+    ruleName,
+    _description,
+    correctionMessage: 'Use a custom getter instead of enum.name',
   );
 
   @override
-  void run(
-    CustomLintResolver resolver,
-    DiagnosticReporter reporter,
-    CustomLintContext context,
-  ) {
-    context.registry.addPropertyAccess((node) {
-      if (node.target?.staticType?.element is! EnumElement) return;
-      if (node.propertyName.name != 'name') return;
+  DiagnosticCode get diagnosticCode => code;
 
-      reporter.atNode(node, _code);
-    });
+  @override
+  void registerNodeProcessors(
+    RuleVisitorRegistry registry,
+    RuleContext context,
+  ) {
+    final visitor = _Visitor(this, context);
+    registry
+      ..addPropertyAccess(this, visitor)
+      ..addPrefixedIdentifier(this, visitor);
+  }
+}
+
+class _Visitor extends SimpleAstVisitor<void> {
+  _Visitor(this.rule, this.context);
+
+  final AnalysisRule rule;
+  final RuleContext context;
+
+  @override
+  void visitPropertyAccess(PropertyAccess node) {
+    if (node.target?.staticType?.element is! EnumElement) return;
+    if (node.propertyName.name != 'name') return;
+
+    rule.reportAtNode(node);
   }
 
   @override
-  List<Fix> getFixes() => [];
+  void visitPrefixedIdentifier(PrefixedIdentifier node) {
+    if (node.prefix.staticType?.element is! EnumElement) return;
+    if (node.identifier.name != 'name') return;
+
+    rule.reportAtNode(node);
+  }
 }

@@ -1,18 +1,27 @@
 // ignore_for_file: comment_references to avoid unnecessary imports
 
+import 'package:analysis_server_plugin/edit/dart/correction_producer.dart';
+import 'package:analyzer/analysis_rule/analysis_rule.dart';
+import 'package:analyzer/analysis_rule/rule_context.dart';
+import 'package:analyzer/analysis_rule/rule_state.dart';
+import 'package:analyzer/analysis_rule/rule_visitor_registry.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
-import 'package:analyzer/diagnostic/diagnostic.dart';
-import 'package:analyzer/error/listener.dart';
+import 'package:analyzer/error/error.dart';
 import 'package:analyzer/source/source_range.dart';
-import 'package:custom_lint_builder/custom_lint_builder.dart';
+import 'package:analyzer_plugin/utilities/change_builder/change_builder_core.dart';
+import 'package:analyzer_plugin/utilities/fixes/fixes.dart';
 import 'package:nilts_core/nilts_core.dart';
-import 'package:nilts_flutter_hooks/src/change_priority.dart';
+import 'package:nilts_flutter_hooks/src/fix_kind_priority.dart';
 
 const _hookWidgetName = 'HookWidget';
 const _hookNameRegex = r'^_?use[A-Z].*$';
 
 const _statelessWidgetName = 'StatelessWidget';
+
+const _description =
+    'Consider using StatelessWidget instead of HookWidget '
+    'when no hooks are used within the widget.';
 
 /// A class for `unnecessary_hook_widget` rule.
 ///
@@ -55,56 +64,69 @@ const _statelessWidgetName = 'StatelessWidget';
 /// See also:
 /// - [HookWidget class - flutter_hooks API](https://pub.dev/documentation/flutter_hooks/latest/flutter_hooks/HookWidget-class.html)
 /// - [StatelessWidget class - widgets library - Dart API](https://api.flutter.dev/flutter/widgets/StatelessWidget-class.html)
-class UnnecessaryHookWidget extends DartLintRule {
+class UnnecessaryHookWidget extends AnalysisRule {
   /// Create a new instance of [UnnecessaryHookWidget].
-  const UnnecessaryHookWidget()
-      : super(
-          code: const LintCode(
-            name: 'unnecessary_hook_widget',
-            problemMessage:
-                'Consider using StatelessWidget instead of HookWidget '
-                'when no hooks are used within the widget.',
-            url: 'https://github.com/dassssshers/nilts#unnecessary_hook_widget',
-          ),
-        );
-
-  @override
-  void run(
-    CustomLintResolver _,
-    DiagnosticReporter reporter,
-    CustomLintContext context,
-  ) {
-    context.registry.addClassDeclaration((node) {
-      final superclass = node.extendsClause?.superclass;
-      if (superclass == null) return;
-
-      final library = superclass.element?.library;
-      if (library == null) return;
-      if (!library.isFlutterHooks) return;
-
-      if (superclass.name.lexeme != _hookWidgetName) return;
-
-      var hasHooks = false;
-      node.visitChildren(
-        _Visitor(() {
-          hasHooks = true;
-        }),
+  UnnecessaryHookWidget()
+    : super(
+        name: ruleName,
+        description: _description,
+        state: const RuleState.experimental(),
       );
 
-      if (!hasHooks) {
-        reporter.atNode(superclass, code);
-      }
-    });
-  }
+  /// The name of this lint rule.
+  static const String ruleName = 'unnecessary_hook_widget';
+
+  /// The lint code for this rule.
+  static const LintCode code = LintCode(
+    ruleName,
+    _description,
+    correctionMessage: 'Replace with $_statelessWidgetName',
+  );
 
   @override
-  List<Fix> getFixes() => [
-        _ReplaceWithStatelessWidget(),
-      ];
+  DiagnosticCode get diagnosticCode => code;
+
+  @override
+  void registerNodeProcessors(
+    RuleVisitorRegistry registry,
+    RuleContext context,
+  ) {
+    registry.addClassDeclaration(this, _Visitor(this, context));
+  }
 }
 
-class _Visitor extends RecursiveAstVisitor<void> {
-  const _Visitor(this.onHookFound);
+class _Visitor extends SimpleAstVisitor<void> {
+  _Visitor(this.rule, this.context);
+
+  final AnalysisRule rule;
+  final RuleContext context;
+
+  @override
+  void visitClassDeclaration(ClassDeclaration node) {
+    final superclass = node.extendsClause?.superclass;
+    if (superclass == null) return;
+
+    final library = superclass.element?.library;
+    if (library == null) return;
+    if (!library.isFlutterHooks) return;
+
+    if (superclass.name.lexeme != _hookWidgetName) return;
+
+    var hasHooks = false;
+    node.visitChildren(
+      _HookDetectorVisitor(() {
+        hasHooks = true;
+      }),
+    );
+
+    if (!hasHooks) {
+      rule.reportAtNode(superclass);
+    }
+  }
+}
+
+class _HookDetectorVisitor extends RecursiveAstVisitor<void> {
+  const _HookDetectorVisitor(this.onHookFound);
 
   final void Function() onHookFound;
 
@@ -136,34 +158,39 @@ class _Visitor extends RecursiveAstVisitor<void> {
   }
 }
 
-class _ReplaceWithStatelessWidget extends DartFix {
+/// A class for fixing `unnecessary_hook_widget` rule.
+///
+/// This fix replaces `HookWidget` with `StatelessWidget`.
+class ReplaceWithStatelessWidget extends ResolvedCorrectionProducer {
+  /// Create a new instance of [ReplaceWithStatelessWidget].
+  ReplaceWithStatelessWidget({required super.context});
+
+  static const _fixKind = FixKind(
+    'nilts_flutter_hooks.fix.replaceWithStatelessWidget',
+    FixKindPriority.replaceWithStatelessWidget,
+    'Replace With $_statelessWidgetName',
+  );
+
   @override
-  void run(
-    CustomLintResolver _,
-    ChangeReporter reporter,
-    CustomLintContext context,
-    Diagnostic analysisError,
-    List<Diagnostic> __,
-  ) {
-    context.registry.addClassDeclaration((node) {
-      if (!analysisError.sourceRange.intersects(node.sourceRange)) {
-        return;
-      }
+  CorrectionApplicability get applicability =>
+      CorrectionApplicability.singleLocation;
 
-      final superclass = node.extendsClause?.superclass;
-      if (superclass == null) return;
+  @override
+  FixKind? get fixKind => _fixKind;
 
-      reporter
-          .createChangeBuilder(
-        message: 'Replace With $_statelessWidgetName',
-        priority: ChangePriority.replaceWithStatelessWidget,
-      )
-          .addDartFileEdit((builder) {
-        builder.addSimpleReplacement(
-          SourceRange(superclass.offset, superclass.length),
-          _statelessWidgetName,
-        );
-      });
+  @override
+  Future<void> compute(ChangeBuilder builder) async {
+    final classDeclaration = node.thisOrAncestorOfType<ClassDeclaration>();
+    if (classDeclaration == null) return;
+
+    final superclass = classDeclaration.extendsClause?.superclass;
+    if (superclass == null) return;
+
+    await builder.addDartFileEdit(file, (builder) {
+      builder.addSimpleReplacement(
+        SourceRange(superclass.offset, superclass.length),
+        _statelessWidgetName,
+      );
     });
   }
 }

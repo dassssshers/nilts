@@ -11,7 +11,6 @@ import 'package:analyzer_plugin/utilities/change_builder/change_builder_core.dar
 import 'package:analyzer_plugin/utilities/fixes/fixes.dart';
 import 'package:nilts_clock/src/fix_kind_priority.dart';
 
-const _name = 'using_date_time_now';
 const _description = "Don't use DateTime.now()";
 
 const _dateTimeClassName = 'DateTime';
@@ -51,14 +50,15 @@ class UsingDateTimeNow extends AnalysisRule {
   /// Create a new instance of [UsingDateTimeNow].
   UsingDateTimeNow()
     : super(
-        name: _name,
+        name: ruleName,
         description: _description,
         state: const RuleState.stable(),
       );
 
-  ///
+  static const String ruleName = 'using_date_time_now';
+
   static const LintCode code = LintCode(
-    _name,
+    ruleName,
     _description,
     correctionMessage: 'Replace with clock.now()',
   );

@@ -1,13 +1,10 @@
-analyzer:
-  plugins:
-    - custom_lint
-
-custom_lint:
-  # Disable all lint rules depends on custom_lint.
-  # enable_all_lint_rules: false
-  rules:
-    # Disable particular lint rules if you want ignore them whole package.
-    # - unnecessary_rebuilds_from_media_query: false
+plugins:
+  nilts:
+    path: ../../packages/nilts
+  nilts_clock:
+    path: ../../packages/nilts_clock
+  nilts_flutter_hooks:
+    path: ../../packages/nilts_flutter_hooks
 
 formatter:
   trailing_commas: preserve
