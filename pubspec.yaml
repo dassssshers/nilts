@@ -24,7 +24,6 @@ melos:
 
   ide:
     intellij: true
-    executeInTerminal: false
 
   command:
     bootstrap:
