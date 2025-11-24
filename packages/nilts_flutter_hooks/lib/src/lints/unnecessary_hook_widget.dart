@@ -30,7 +30,8 @@ const _description =
 ///
 /// - Target SDK     : Any versions nilts_flutter_hooks supports
 /// - Rule type      : Practice
-/// - Maturity level : Experimental
+/// - Maturity level : Stable
+/// - Severity       : Info
 /// - Quick fix      : ✅
 ///
 /// **Prefer** using `StatelessWidget` instead of `HookWidget` when no hooks
@@ -70,7 +71,7 @@ class UnnecessaryHookWidget extends AnalysisRule {
     : super(
         name: ruleName,
         description: _description,
-        state: const RuleState.experimental(),
+        state: const RuleState.stable(),
       );
 
   /// The name of this lint rule.

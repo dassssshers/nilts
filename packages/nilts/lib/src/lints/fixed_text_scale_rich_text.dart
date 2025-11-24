@@ -27,7 +27,8 @@ const _descriptionLegacy =
 ///
 /// - Target SDK     : Any versions nilts supports
 /// - Rule type      : Practice
-/// - Maturity level : Experimental
+/// - Maturity level : Stable
+/// - Severity       : Info
 /// - Quick fix      : ✅
 ///
 /// **Consider** using `Text.rich` or adding
@@ -83,7 +84,7 @@ class FixedTextScaleRichText extends AnalysisRule {
     : super(
         name: ruleName,
         description: _description,
-        state: const RuleState.experimental(),
+        state: const RuleState.stable(),
       );
 
   /// The name of this lint rule.
@@ -238,7 +239,7 @@ class FixedTextScaleRichTextLegacy extends AnalysisRule {
     : super(
         name: ruleName,
         description: _descriptionLegacy,
-        state: const RuleState.experimental(),
+        state: const RuleState.stable(),
       );
 
   /// The name of this lint rule.

@@ -21,7 +21,8 @@ const _description =
 ///
 /// - Target SDK     : >= Flutter 3.27.0 (Dart 3.6.0)
 /// - Rule type      : Practice
-/// - Maturity level : Experimental
+/// - Maturity level : Stable
+/// - Severity       : Info
 /// - Quick fix      : ✅
 ///
 /// **Consider** using digit separators for numeric literals with 5 or more
@@ -47,7 +48,7 @@ class LowReadabilityNumericLiterals extends AnalysisRule {
     : super(
         name: ruleName,
         description: _description,
-        state: const RuleState.experimental(),
+        state: const RuleState.stable(),
       );
 
   /// The name of this lint rule.

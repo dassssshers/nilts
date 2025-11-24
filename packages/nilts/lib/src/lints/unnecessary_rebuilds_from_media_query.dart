@@ -75,7 +75,8 @@ const List<String> _propertiesForFlutter310 = [
 ///
 /// - Target SDK     : Any versions nilts supports
 /// - Rule type      : Practice
-/// - Maturity level : Experimental
+/// - Maturity level : Stable
+/// - Severity       : Info
 /// - Quick fix      : ✅
 ///
 /// Prefer using
@@ -109,7 +110,7 @@ class UnnecessaryRebuildsFromMediaQuery extends AnalysisRule {
     : super(
         name: ruleName,
         description: _description,
-        state: const RuleState.experimental(),
+        state: const RuleState.stable(),
       );
 
   final DartVersion _dartVersion;

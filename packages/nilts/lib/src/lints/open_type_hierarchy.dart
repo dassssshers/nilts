@@ -22,7 +22,8 @@ const _correctionMessage =
 ///
 /// - Target SDK     : Any versions nilts supports
 /// - Rule type      : Practice
-/// - Maturity level : Experimental
+/// - Maturity level : Stable
+/// - Severity       : Info
 /// - Quick fix      : ✅
 ///
 /// **Consider** adding a class modifier (final, sealed, etc.) to explicitly
@@ -43,7 +44,7 @@ class OpenTypeHierarchy extends AnalysisRule {
     : super(
         name: ruleName,
         description: _description,
-        state: const RuleState.experimental(),
+        state: const RuleState.stable(),
       );
 
   /// The name of this lint rule.

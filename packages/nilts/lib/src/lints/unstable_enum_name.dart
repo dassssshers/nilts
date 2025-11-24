@@ -15,7 +15,8 @@ const _description = 'enum name property is unstable';
 ///
 /// - Target SDK     : Any versions nilts supports
 /// - Rule type      : Practice
-/// - Maturity level : Experimental
+/// - Maturity level : Stable
+/// - Severity       : Info
 /// - Quick fix      : ❌
 ///
 /// **Consider** using a more stable way to handle enum values.
@@ -60,7 +61,7 @@ class UnstableEnumName extends AnalysisRule {
     : super(
         name: ruleName,
         description: _description,
-        state: const RuleState.experimental(),
+        state: const RuleState.stable(),
       );
 
   /// The name of this lint rule.

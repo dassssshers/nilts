@@ -30,7 +30,8 @@ const _scrollViewSubClasses = [
 ///
 /// - Target SDK     : Any versions nilts supports
 /// - Rule type      : Practice
-/// - Maturity level : Experimental
+/// - Maturity level : Stable
+/// - Severity       : Info
 /// - Quick fix      : ✅
 ///
 /// **Consider** removing `shrinkWrap` argument and update the Widget not to
@@ -69,7 +70,7 @@ class ShrinkWrappedScrollView extends AnalysisRule {
     : super(
         name: ruleName,
         description: _description,
-        state: const RuleState.experimental(),
+        state: const RuleState.stable(),
       );
 
   /// The name of this lint rule.

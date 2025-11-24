@@ -20,7 +20,8 @@ const _description = 'Do not force type casting with !';
 ///
 /// - Target SDK     : Any versions nilts supports
 /// - Rule type      : Practice
-/// - Maturity level : Experimental
+/// - Maturity level : Stable
+/// - Severity       : Info
 /// - Quick fix      : ✅
 ///
 /// **Prefer** using if-null operator, null-aware operator or pattern matching
@@ -56,7 +57,7 @@ class UnsafeNullAssertion extends AnalysisRule {
     : super(
         name: ruleName,
         description: _description,
-        state: const RuleState.experimental(),
+        state: const RuleState.stable(),
       );
 
   /// The name of this lint rule.

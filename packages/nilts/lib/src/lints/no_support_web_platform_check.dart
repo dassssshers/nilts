@@ -32,7 +32,8 @@ const _description =
 ///
 /// - Target SDK     : Any versions nilts supports
 /// - Rule type      : Practice
-/// - Maturity level : Experimental
+/// - Maturity level : Stable
+/// - Severity       : Info
 /// - Quick fix      : ✅
 ///
 /// Prefer using [defaultTargetPlatform] instead of [Platform] API
@@ -62,7 +63,7 @@ class NoSupportWebPlatformCheck extends AnalysisRule {
     : super(
         name: ruleName,
         description: _description,
-        state: const RuleState.experimental(),
+        state: const RuleState.stable(),
       );
 
   /// The name of this lint rule.

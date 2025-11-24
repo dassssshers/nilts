@@ -22,7 +22,8 @@ const _description = '`VoidCallback` type is defined in Flutter SDK.';
 ///
 /// - Target SDK     : Any versions nilts supports
 /// - Rule type      : Practice
-/// - Maturity level : Experimental
+/// - Maturity level : Stable
+/// - Severity       : Info
 /// - Quick fix      : ✅
 ///
 /// **Consider** replace `void Function()` with [VoidCallback] which is defined
@@ -47,7 +48,7 @@ class DefinedVoidCallbackType extends AnalysisRule {
     : super(
         name: ruleName,
         description: _description,
-        state: const RuleState.experimental(),
+        state: const RuleState.stable(),
       );
 
   /// The name of this lint rule.
