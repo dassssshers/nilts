@@ -70,8 +70,10 @@ class FlakyTestsWithSetUpAll extends AnalysisRule {
         state: const RuleState.experimental(),
       );
 
+  /// The name of this lint rule.
   static const String ruleName = 'flaky_tests_with_set_up_all';
 
+  /// The lint code for this rule.
   static const LintCode code = LintCode(
     ruleName,
     _description,

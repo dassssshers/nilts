@@ -46,8 +46,10 @@ class OpenTypeHierarchy extends AnalysisRule {
         state: const RuleState.experimental(),
       );
 
+  /// The name of this lint rule.
   static const String ruleName = 'open_type_hierarchy';
 
+  /// The lint code for this rule.
   static const LintCode code = LintCode(
     ruleName,
     _description,
@@ -74,7 +76,8 @@ class _Visitor extends SimpleAstVisitor<void> {
 
   @override
   void visitClassDeclaration(ClassDeclaration node) {
-    // Do nothing if the class has a modifier keyword (final, sealed, base, etc.)
+    // Do nothing if the class has a modifier keyword
+    // final, sealed, base, etc.
     if (node.classKeyword.previous?.keyword != null) return;
 
     rule.reportAtNode(node);

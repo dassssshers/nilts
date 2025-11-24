@@ -55,8 +55,10 @@ class UsingDateTimeNow extends AnalysisRule {
         state: const RuleState.stable(),
       );
 
+  /// The name of this lint rule.
   static const String ruleName = 'using_date_time_now';
 
+  /// The lint code for this rule.
   static const LintCode code = LintCode(
     ruleName,
     _description,

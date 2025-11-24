@@ -65,8 +65,10 @@ class NoSupportWebPlatformCheck extends AnalysisRule {
         state: const RuleState.experimental(),
       );
 
+  /// The name of this lint rule.
   static const String ruleName = 'no_support_web_platform_check';
 
+  /// The lint code for this rule.
   static const LintCode code = LintCode(
     ruleName,
     _description,

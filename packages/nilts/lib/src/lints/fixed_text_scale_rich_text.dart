@@ -15,7 +15,8 @@ import 'package:nilts/src/fix_kind_priority.dart';
 import 'package:nilts_core/nilts_core.dart';
 
 const _description =
-    'Default `textScaler` or `textScaleFactor` value of `RichText` is fixed value.';
+    'Default `textScaler` or `textScaleFactor` value of `RichText` is '
+    'fixed value.';
 const _descriptionLegacy =
     'Default `textScaleFactor` value of `RichText` is fixed value.';
 
@@ -85,8 +86,10 @@ class FixedTextScaleRichText extends AnalysisRule {
         state: const RuleState.experimental(),
       );
 
+  /// The name of this lint rule.
   static const String ruleName = 'fixed_text_scale_rich_text';
 
+  /// The lint code for this rule.
   static const LintCode code = LintCode(
     ruleName,
     _description,
@@ -121,7 +124,8 @@ class _Visitor extends SimpleAstVisitor<void> {
     // Do nothing if the constructor name is not `RichText`.
     if (constructorName.type.element?.name != 'RichText') return;
 
-    // Do nothing if the constructor has `textScaler` or `textScaleFactor` argument.
+    // Do nothing if the constructor has
+    // `textScaler` or `textScaleFactor` argument.
     final arguments = node.argumentList.arguments;
     final isTextScaleFactorSet = arguments.any(
       (argument) =>
@@ -237,8 +241,10 @@ class FixedTextScaleRichTextLegacy extends AnalysisRule {
         state: const RuleState.experimental(),
       );
 
+  /// The name of this lint rule.
   static const String ruleName = 'fixed_text_scale_rich_text';
 
+  /// The lint code for this rule.
   static const LintCode code = LintCode(
     ruleName,
     _descriptionLegacy,

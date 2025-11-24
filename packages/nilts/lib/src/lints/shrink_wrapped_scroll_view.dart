@@ -15,7 +15,8 @@ import 'package:nilts/src/fix_kind_priority.dart';
 import 'package:nilts_core/nilts_core.dart';
 
 const _description =
-    'Shrink wrapping the content of the scroll view is significantly more expensive than expanding to the maximum allowed size.';
+    'Shrink wrapping the content of the scroll view is significantly more '
+    'expensive than expanding to the maximum allowed size.';
 
 const _scrollViewSubClasses = [
   'ListView',
@@ -71,8 +72,10 @@ class ShrinkWrappedScrollView extends AnalysisRule {
         state: const RuleState.experimental(),
       );
 
+  /// The name of this lint rule.
   static const String ruleName = 'shrink_wrapped_scroll_view';
 
+  /// The lint code for this rule.
   static const LintCode code = LintCode(
     ruleName,
     _description,

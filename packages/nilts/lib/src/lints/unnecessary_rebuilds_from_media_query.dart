@@ -16,7 +16,8 @@ import 'package:nilts/src/fix_kind_priority.dart';
 import 'package:nilts_core/nilts_core.dart';
 
 const _description =
-    'Using `MediaQuery.of` or `MediaQuery.maybeOf` may cause unnecessary rebuilds.';
+    'Using `MediaQuery.of` or `MediaQuery.maybeOf` may cause '
+    'unnecessary rebuilds.';
 
 /// All data that `MediaQueryData` depends on.
 ///
@@ -113,8 +114,10 @@ class UnnecessaryRebuildsFromMediaQuery extends AnalysisRule {
 
   final DartVersion _dartVersion;
 
+  /// The name of this lint rule.
   static const String ruleName = 'unnecessary_rebuilds_from_media_query';
 
+  /// The lint code for this rule.
   static const LintCode code = LintCode(
     ruleName,
     _description,
@@ -220,7 +223,8 @@ class ReplaceWithMediaQueryXxxOf extends ResolvedCorrectionProducer {
 
     final methodInvocation = node.parent?.parent;
     if (methodInvocation is! MethodInvocation) {
-      // node.parent is PropertyAccess, node.parent.parent should be the method invocation's parent
+      // node.parent is PropertyAccess, node.parent.parent should be
+      // the method invocation's parent
       // We need to find the MethodInvocation
       final target = propertyAccess.realTarget;
       if (target is! MethodInvocation) return;

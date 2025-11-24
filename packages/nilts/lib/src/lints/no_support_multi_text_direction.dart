@@ -1,3 +1,5 @@
+// ignore_for_file: comment_references to avoid unnecessary imports
+
 import 'package:analysis_server_plugin/edit/dart/correction_producer.dart';
 import 'package:analyzer/analysis_rule/analysis_rule.dart';
 import 'package:analyzer/analysis_rule/rule_context.dart';
@@ -90,8 +92,10 @@ class NoSupportMultiTextDirection extends AnalysisRule {
         state: const RuleState.experimental(),
       );
 
+  /// The name of this lint rule.
   static const String ruleName = 'no_support_multi_text_direction';
 
+  /// The lint code for this rule.
   static const LintCode code = LintCode(
     ruleName,
     _description,

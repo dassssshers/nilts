@@ -12,7 +12,8 @@ import 'package:analyzer_plugin/utilities/fixes/fixes.dart';
 import 'package:nilts/src/fix_kind_priority.dart';
 
 const _description =
-    'Numeric literals with 5 or more digits should use digit separators for better readability.';
+    'Numeric literals with 5 or more digits should use digit separators for '
+    'better readability.';
 
 /// A class for `low_readability_numeric_literals` rule.
 ///
@@ -49,8 +50,10 @@ class LowReadabilityNumericLiterals extends AnalysisRule {
         state: const RuleState.experimental(),
       );
 
+  /// The name of this lint rule.
   static const String ruleName = 'low_readability_numeric_literals';
 
+  /// The lint code for this rule.
   static const LintCode code = LintCode(
     ruleName,
     _description,
