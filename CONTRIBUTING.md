@@ -1,47 +1,47 @@
-## Contribute flows
+## Contribution Flow
 
 1. [Create or find an issue](#create-or-find-an-issue)
-2. [Fork this repository and setup](#fork-this-repository-and-setup)
-3. [Create a branch and make commit your changes](#create-a-branch-and-make-commit-your-changes)
-4. [Create a new Pull Request](#create-a-new-pull-request)
+2. [Fork this repository and set up](#fork-this-repository-and-set-up)
+3. [Create a branch and commit your changes](#create-a-branch-and-commit-your-changes)
+4. [Create a Pull Request](#create-a-pull-request)
 
 ## Create or find an issue
 
-Before your contribute, you should find an issue that you want to contribute first.
-If you can't find an issue that you want to contribute, you should [create a new issue from here](https://github.com/dassssshers/nilts/issues/new/choose).
+Before contributing, find an issue you want to work on.
+If you can't find a suitable issue, [create a new one here](https://github.com/dassssshers/nilts/issues/new/choose).
 
-## Fork this repository and setup
+## Fork this repository and set up
 
 Fork this repository and clone it to your local machine.
 
-### Setup asdf (optional)
+### Set up asdf (optional)
 
-Using asdf is optional, but you **must** use SDK versions that managed by [`.tool-versions`](https://github.com/dassssshers/nilts/blob/main/.tool-versions) file.
+Using asdf is optional, but you **must** use SDK versions managed by the [`.tool-versions`](https://github.com/dassssshers/nilts/blob/main/.tool-versions) file.
 
-This project use [asdf](https://asdf-vm.com) to manage Dart and Flutter SDK versions.
-If you want to use asdf, you should install asdf.
-After you install asdf, you should run below command on the root of this repository.
+This project uses [asdf](https://asdf-vm.com) to manage Dart and Flutter SDK versions.
+If you want to use asdf, install it first.
+After installing asdf, run the following command in the root of this repository:
 
 ```bash
 asdf install
 ```
 
-If you are not familiar with asdf, you should read [asdf documentation](https://asdf-vm.com) first.
+If you're not familiar with asdf, read the [asdf documentation](https://asdf-vm.com) first.
 
-### Setup Melos
+### Set up Melos
 
-This project build with [Melos](https://melos.invertase.dev).
-You should install Melos globally.
+This project is built with [Melos](https://melos.invertase.dev).
+Install Melos globally:
 
 ```bash
 dart pub global activate melos
 ```
 
-If you are not familiar with Melos, you should read [Melos documentation](https://melos.invertase.dev) first.
+If you're not familiar with Melos, read the [Melos documentation](https://melos.invertase.dev) first.
 
-### Setup project
+### Set up the project
 
-You should run only `melos bootstrap` and `melos prepare` commands.
+Run the `melos bootstrap` and `melos prepare` commands:
 
 ```bash
 # You can use `melos bs` instead
@@ -49,13 +49,13 @@ melos bootstrap
 melos prepare
 ```
 
-### Setup Node.js packages (optional)
+### Set up Node.js packages (optional)
 
-This is optional because nilts can detect not formatted files on CI.
+This is optional because CI will detect unformatted files.
 
-If you want to format YAML, Markdown, XML, or JSON files, you can use prepared Node.js packages.
-nilts uses [Prettier](https://prettier.io) packages to format these files.
-These packages are managed by [bun](https://bun.sh/) whose version is defined on [`.tool-versions`](https://github.com/dassssshers/nilts/blob/main/.tool-versions) file.
+If you want to format YAML, Markdown, XML, or JSON files, you can use the provided Node.js packages.
+nilts uses [Prettier](https://prettier.io) to format these files.
+These packages are managed by [bun](https://bun.sh/), with the version specified in the [`.tool-versions`](https://github.com/dassssshers/nilts/blob/main/.tool-versions) file.
 
 ```bash
 # Install packages
@@ -64,48 +64,47 @@ bun i
 bun fmt
 ```
 
-## Create a branch and make commit your changes
+## Create a branch and commit your changes
 
-You should create a branch from `main` branch and make commit your changes.
+Create a branch from `main` and commit your changes.
 
-### `custom_lint`
+### Analyzer plugins
 
-nilts is built on the top of [`custom_lint`](https://github.com/invertase/dart_custom_lint) package.
-Read `custom_lint` documentation to understand how to debug and test lint rules you created.
+nilts is built on top of analyzer plugins, which were introduced in Dart 3.10.
+Read the official documentation to understand how to write rules, fixes, and assists:
 
-- [Using the Dart debugger](https://github.com/invertase/dart_custom_lint#using-the-dart-debugger)
-- [Testing your plugins using expect_lint](https://github.com/invertase/dart_custom_lint#testing-your-plugins-using-expect_lint)
+- [Analyzer plugins | Dart](https://dart.dev/tools/analyzer-plugins)
 
 ### Writing rules
 
-Basically, nilts respects [writing rules of Dart's official lint rules](https://github.com/dart-lang/sdk/blob/main/pkg/linter/doc/writing-lints.md).
-You should read it before you create a new lint rule and ensure that your lint rules and documents follows it.
+nilts follows the [writing guidelines for Dart's official lint rules](https://github.com/dart-lang/sdk/blob/main/pkg/linter/doc/writing-lints.md).
+Read this guide before creating a new lint rule and ensure your rules and documentation follow it.
 
-#### Lint Name
+#### Lint name
 
-Lint name should represent **WHAT IS THE PROBLEM** shortly.
+The lint name should briefly represent **what the problem is**.
 It should be written in `lower_case_with_underscores`.
 
-Lint rule class which extends `LintRule` should be named with `PascalCase`.
+The lint rule class that extends `LintRule` should be named in `PascalCase`.
 
 **DON'T** start the name with "always", "avoid", or "prefer".
 
-#### Problem Message
+#### Problem message
 
-Problem message should give details of the problem.
+The problem message should provide details about the problem.
 
-#### Quick Fix Name
+#### Quick fix name
 
-Quick fix name should represent **WHAT TO DO** to fix the problem shortly.
+The quick fix name should briefly represent **what to do** to fix the problem.
 
-Quick fix class which extends `DartFix` should be named with `PascalCase`.
+The quick fix class that extends `DartFix` should be named in `PascalCase`.
 
-#### Quick Fix Message
+#### Quick fix message
 
-Quick fix message should give details of the quick fix.
+The quick fix message should provide details about the fix.
 
-## Create a new Pull Request
+## Create a Pull Request
 
-After you make commit your changes, you can create a new Pull Request.
-You should write a description of your changes with following [template](https://github.com/dassssshers/nilts/blob/main/.github/PULL_REQUEST_TEMPLATE.md).
-Ensure that all of checks are passed with following check list in the template.
+After committing your changes, create a Pull Request.
+Write a description of your changes following the [template](https://github.com/dassssshers/nilts/blob/main/.github/PULL_REQUEST_TEMPLATE.md).
+Ensure all checks pass by following the checklist in the template.

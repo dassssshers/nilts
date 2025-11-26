@@ -1,6 +1,6 @@
 name: nilts_clock
 version: 0.3.1
-description: nilts_clock is lint rules, quick fixes and assists for Dart and Flutter projects using clock that helps you enforce best practices, and avoid errors.
+description: nilts_clock provides lint rules, quick fixes, and assists for Dart and Flutter projects using the [clock](https://pub.dev/packages/clock) package to help you enforce best practices and prevent errors.
 homepage: https://github.com/dassssshers/nilts
 repository: https://github.com/dassssshers/nilts
 issue_tracker: https://github.com/dassssshers/nilts/issues
