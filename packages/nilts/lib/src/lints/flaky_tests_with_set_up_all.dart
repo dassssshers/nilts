@@ -111,10 +111,10 @@ class _Visitor extends SimpleAstVisitor<void> {
     if (firstArgument == null) return;
     if (firstArgument is! FunctionType) return;
 
-    // Do nothing if the package of method is not `flutter_test`.
+    // Do nothing if the package of method is not `flutter_test` or `test`.
     final library = methodName.element?.library;
     if (library == null) return;
-    if (!library.isFlutterTest) return;
+    if (!library.isFlutterTest && !library.isTest) return;
 
     rule.reportAtNode(node.methodName);
   }

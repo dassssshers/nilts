@@ -76,6 +76,8 @@ melos:
 
     test:unit:
       exec: very_good test
+      packageFilters:
+        ignore: nilts_example
       description: unit test
 
     build:example:

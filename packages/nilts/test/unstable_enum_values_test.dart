@@ -1,3 +1,4 @@
+import 'package:analyzer/src/lint/registry.dart';
 import 'package:analyzer_testing/analysis_rule/analysis_rule.dart';
 import 'package:nilts/src/lints/unstable_enum_values.dart';
 import 'package:test/test.dart';
@@ -100,10 +101,11 @@ void foo() {
 
 class UnstableEnumValuesTest extends AnalysisRuleTest {
   @override
-  void setUp() {
-    // The rule must be set before calling super.setUp()
-    rule = UnstableEnumValues();
+  String get analysisRule => UnstableEnumValues.ruleName;
 
+  @override
+  void setUp() {
+    Registry.ruleRegistry.registerLintRule(UnstableEnumValues());
     super.setUp();
   }
 }

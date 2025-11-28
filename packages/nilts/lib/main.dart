@@ -32,42 +32,42 @@ class _NiltsPlugin extends Plugin {
     final dartVersion = DartVersion.fromPlatform();
 
     registry
-      ..registerWarningRule(DefinedAsyncCallbackType())
+      ..registerLintRule(DefinedAsyncCallbackType())
       ..registerFixForRule(
         DefinedAsyncCallbackType.code,
         ReplaceWithAsyncCallback.new,
       )
-      ..registerWarningRule(DefinedAsyncValueGetterType())
+      ..registerLintRule(DefinedAsyncValueGetterType())
       ..registerFixForRule(
         DefinedAsyncValueGetterType.code,
         ReplaceWithAsyncValueGetter.new,
       )
-      ..registerWarningRule(DefinedAsyncValueSetterType())
+      ..registerLintRule(DefinedAsyncValueSetterType())
       ..registerFixForRule(
         DefinedAsyncValueSetterType.code,
         ReplaceWithAsyncValueSetter.new,
       )
-      ..registerWarningRule(DefinedValueChangedType())
+      ..registerLintRule(DefinedValueChangedType())
       ..registerFixForRule(
         DefinedValueChangedType.code,
         ReplaceWithValueChanged.new,
       )
-      ..registerWarningRule(DefinedValueGetterType())
+      ..registerLintRule(DefinedValueGetterType())
       ..registerFixForRule(
         DefinedValueGetterType.code,
         ReplaceWithValueGetter.new,
       )
-      ..registerWarningRule(DefinedValueSetterType())
+      ..registerLintRule(DefinedValueSetterType())
       ..registerFixForRule(
         DefinedValueSetterType.code,
         ReplaceWithValueSetter.new,
       )
-      ..registerWarningRule(DefinedVoidCallbackType())
+      ..registerLintRule(DefinedVoidCallbackType())
       ..registerFixForRule(
         DefinedVoidCallbackType.code,
         ReplaceWithVoidCallback.new,
       )
-      ..registerWarningRule(UnsafeNullAssertion())
+      ..registerLintRule(UnsafeNullAssertion())
       ..registerFixForRule(
         UnsafeNullAssertion.code,
         ReplaceWithIfNullOperator.new,
@@ -80,15 +80,15 @@ class _NiltsPlugin extends Plugin {
         UnsafeNullAssertion.code,
         ReplaceWithPatternMatching.new,
       )
-      ..registerWarningRule(UnstableEnumName())
-      ..registerWarningRule(UnstableEnumValues())
+      ..registerLintRule(UnstableEnumName())
+      ..registerLintRule(UnstableEnumValues())
       // Newly migrated rules
-      ..registerWarningRule(OpenTypeHierarchy())
+      ..registerLintRule(OpenTypeHierarchy())
       ..registerFixForRule(
         OpenTypeHierarchy.code,
         AddFinalKeyword.new,
       )
-      ..registerWarningRule(
+      ..registerLintRule(
         dartVersion >= const DartVersion(major: 3, minor: 2, patch: 0)
             ? FixedTextScaleRichText()
             : FixedTextScaleRichTextLegacy(),
@@ -103,7 +103,7 @@ class _NiltsPlugin extends Plugin {
             ? AddTextScaler.new
             : AddTextScaleFactor.new,
       )
-      ..registerWarningRule(FlakyTestsWithSetUpAll())
+      ..registerLintRule(FlakyTestsWithSetUpAll())
       ..registerFixForRule(
         FlakyTestsWithSetUpAll.code,
         ReplaceWithSetUp.new,
@@ -112,12 +112,12 @@ class _NiltsPlugin extends Plugin {
         FlakyTestsWithSetUpAll.code,
         UnwrapSetUpAll.new,
       )
-      ..registerWarningRule(LowReadabilityNumericLiterals())
+      ..registerLintRule(LowReadabilityNumericLiterals())
       ..registerFixForRule(
         LowReadabilityNumericLiterals.code,
         AddDigitSeparators.new,
       )
-      ..registerWarningRule(NoSupportMultiTextDirection())
+      ..registerLintRule(NoSupportMultiTextDirection())
       ..registerFixForRule(
         NoSupportMultiTextDirection.code,
         ReplaceWithAlignmentDirectional.new,
@@ -134,17 +134,17 @@ class _NiltsPlugin extends Plugin {
         NoSupportMultiTextDirection.code,
         ReplaceWithPositionedDirectional.new,
       )
-      ..registerWarningRule(NoSupportWebPlatformCheck())
+      ..registerLintRule(NoSupportWebPlatformCheck())
       ..registerFixForRule(
         NoSupportWebPlatformCheck.code,
         ReplaceWithDefaultTargetPlatform.new,
       )
-      ..registerWarningRule(ShrinkWrappedScrollView())
+      ..registerLintRule(ShrinkWrappedScrollView())
       ..registerFixForRule(
         ShrinkWrappedScrollView.code,
         RemoveShrinkWrap.new,
       )
-      ..registerWarningRule(UnnecessaryRebuildsFromMediaQuery(dartVersion))
+      ..registerLintRule(UnnecessaryRebuildsFromMediaQuery(dartVersion))
       ..registerFixForRule(
         UnnecessaryRebuildsFromMediaQuery.code,
         ({required context}) => ReplaceWithMediaQueryXxxOf(

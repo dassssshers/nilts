@@ -177,6 +177,12 @@ class _Visitor extends SimpleAstVisitor<void> {
     final isMediaQuery = target.name == 'MediaQuery';
     if (!isMediaQuery) return;
 
+    // Do nothing if there's no property access after the method call.
+    // Using MediaQuery.of(context) without property access may be intentional
+    // (e.g., to wrap Widget with MediaQuery or observe all changes).
+    final parent = node.parent;
+    if (parent is! PropertyAccess) return;
+
     rule.reportAtNode(node.methodName);
   }
 }
@@ -212,50 +218,45 @@ class ReplaceWithMediaQueryXxxOf extends ResolvedCorrectionProducer {
 
   @override
   Future<void> compute(ChangeBuilder builder) async {
-    // Find the PropertyAccess node that accesses the MediaQuery result
-    final parent = node.parent;
-    if (parent is! PropertyAccess) return;
+    // node is the methodName (SimpleIdentifier: "of" or "maybeOf")
+    // node.parent is MethodInvocation (MediaQuery.of(context))
+    // node.parent.parent is PropertyAccess (MediaQuery.of(context).size)
+    final methodInvocation = node.parent;
+    if (methodInvocation is! MethodInvocation) return;
 
-    final propertyAccess = parent;
+    final propertyAccess = methodInvocation.parent;
+    if (propertyAccess is! PropertyAccess) return;
+
     final property = propertyAccess.propertyName.name;
 
     // Do nothing if MediaQueryData doesn't have the property.
     if (!_properties.contains(property)) return;
 
-    final methodInvocation = node.parent?.parent;
-    if (methodInvocation is! MethodInvocation) {
-      // node.parent is PropertyAccess, node.parent.parent should be
-      // the method invocation's parent
-      // We need to find the MethodInvocation
-      final target = propertyAccess.realTarget;
-      if (target is! MethodInvocation) return;
-
-      final methodName = target.methodName.name;
-      // Do nothing if the method name which the property depends on
-      // is not `of` and not `maybeOf`.
-      if (methodName == 'of') {
-        await builder.addDartFileEdit(file, (builder) {
-          builder.addSimpleReplacement(
-            SourceRange(
-              target.methodName.offset,
-              propertyAccess.end - target.methodName.offset,
-            ),
-            '${property}Of(context)',
-          );
-        });
-      } else if (methodName == 'maybeOf') {
-        final maybeProperty =
-            '${property[0].toUpperCase()}${property.substring(1)}';
-        await builder.addDartFileEdit(file, (builder) {
-          builder.addSimpleReplacement(
-            SourceRange(
-              target.methodName.offset,
-              propertyAccess.end - target.methodName.offset,
-            ),
-            'maybe${maybeProperty}Of(context)',
-          );
-        });
-      }
+    final methodName = methodInvocation.methodName.name;
+    // Do nothing if the method name which the property depends on
+    // is not `of` and not `maybeOf`.
+    if (methodName == 'of') {
+      await builder.addDartFileEdit(file, (builder) {
+        builder.addSimpleReplacement(
+          SourceRange(
+            methodInvocation.methodName.offset,
+            propertyAccess.end - methodInvocation.methodName.offset,
+          ),
+          '${property}Of(context)',
+        );
+      });
+    } else if (methodName == 'maybeOf') {
+      final maybeProperty =
+          '${property[0].toUpperCase()}${property.substring(1)}';
+      await builder.addDartFileEdit(file, (builder) {
+        builder.addSimpleReplacement(
+          SourceRange(
+            methodInvocation.methodName.offset,
+            propertyAccess.end - methodInvocation.methodName.offset,
+          ),
+          'maybe${maybeProperty}Of(context)',
+        );
+      });
     }
   }
 }

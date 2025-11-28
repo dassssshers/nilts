@@ -1,3 +1,4 @@
+import 'package:analyzer/src/lint/registry.dart';
 import 'package:analyzer_testing/analysis_rule/analysis_rule.dart';
 import 'package:nilts/src/lints/unsafe_null_assertion.dart';
 import 'package:test/test.dart';
@@ -86,10 +87,11 @@ void foo(int? someValue) {
 
 class UnsafeNullAssertionTest extends AnalysisRuleTest {
   @override
-  void setUp() {
-    // The rule must be set before calling super.setUp()
-    rule = UnsafeNullAssertion();
+  String get analysisRule => UnsafeNullAssertion.ruleName;
 
+  @override
+  void setUp() {
+    Registry.ruleRegistry.registerLintRule(UnsafeNullAssertion());
     super.setUp();
   }
 }

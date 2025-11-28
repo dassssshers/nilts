@@ -1,0 +1,22 @@
+plugins:
+  nilts:
+    version: 1.0.0
+    diagnostics:
+      defined_async_callback_type: true
+      defined_async_value_getter_type: true
+      defined_async_value_setter_type: true
+      defined_value_changed_type: true
+      defined_value_getter_type: true
+      defined_value_setter_type: true
+      defined_void_callback_type: true
+      fixed_text_scale_rich_text: true
+      flaky_tests_with_set_up_all: true
+      low_readability_numeric_literals: true
+      no_support_multi_text_direction: true
+      no_support_web_platform_check: true
+      open_type_hierarchy: true
+      shrink_wrapped_scroll_view: true
+      unnecessary_rebuilds_from_media_query: true
+      unsafe_null_assertion: true
+      unstable_enum_name: true
+      unstable_enum_values: true

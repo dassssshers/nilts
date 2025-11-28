@@ -11,7 +11,7 @@ class _NiltsFlutterHooksPlugin extends Plugin {
   @override
   void register(PluginRegistry registry) {
     registry
-      ..registerWarningRule(UnnecessaryHookWidget())
+      ..registerLintRule(UnnecessaryHookWidget())
       ..registerFixForRule(
         UnnecessaryHookWidget.code,
         ReplaceWithStatelessWidget.new,

@@ -1,3 +1,4 @@
+import 'package:analyzer/src/lint/registry.dart';
 import 'package:analyzer_testing/analysis_rule/analysis_rule.dart';
 import 'package:nilts/src/lints/defined_async_callback_type.dart';
 import 'package:test/test.dart';
@@ -63,10 +64,11 @@ void foo(void Function() callback) {}
 
 class DefinedAsyncCallbackTypeTest extends AnalysisRuleTest {
   @override
-  void setUp() {
-    // The rule must be set before calling super.setUp()
-    rule = DefinedAsyncCallbackType();
+  String get analysisRule => DefinedAsyncCallbackType.ruleName;
 
+  @override
+  void setUp() {
+    Registry.ruleRegistry.registerLintRule(DefinedAsyncCallbackType());
     super.setUp();
   }
 }

@@ -1,3 +1,4 @@
+import 'package:analyzer/src/lint/registry.dart';
 import 'package:analyzer_testing/analysis_rule/analysis_rule.dart';
 import 'package:nilts/src/lints/defined_value_setter_type.dart';
 import 'package:test/test.dart';
@@ -84,10 +85,11 @@ void foo(void Function([int value]) callback) {}
 
 class DefinedValueSetterTypeTest extends AnalysisRuleTest {
   @override
-  void setUp() {
-    // The rule must be set before calling super.setUp()
-    rule = DefinedValueSetterType();
+  String get analysisRule => DefinedValueSetterType.ruleName;
 
+  @override
+  void setUp() {
+    Registry.ruleRegistry.registerLintRule(DefinedValueSetterType());
     super.setUp();
   }
 }

@@ -1,3 +1,4 @@
+import 'package:analyzer/src/lint/registry.dart';
 import 'package:analyzer_testing/analysis_rule/analysis_rule.dart';
 import 'package:nilts/src/lints/defined_void_callback_type.dart';
 import 'package:test/test.dart';
@@ -57,10 +58,11 @@ void foo(int Function() callback) {}
 
 class DefinedVoidCallbackTypeTest extends AnalysisRuleTest {
   @override
-  void setUp() {
-    // The rule must be set before calling super.setUp()
-    rule = DefinedVoidCallbackType();
+  String get analysisRule => DefinedVoidCallbackType.ruleName;
 
+  @override
+  void setUp() {
+    Registry.ruleRegistry.registerLintRule(DefinedVoidCallbackType());
     super.setUp();
   }
 }

@@ -1,3 +1,4 @@
+import 'package:analyzer/src/lint/registry.dart';
 import 'package:analyzer_testing/analysis_rule/analysis_rule.dart';
 import 'package:nilts/src/lints/defined_value_changed_type.dart';
 import 'package:test/test.dart';
@@ -84,10 +85,11 @@ void foo(void Function([int value]) callback) {}
 
 class DefinedValueChangedTypeTest extends AnalysisRuleTest {
   @override
-  void setUp() {
-    // The rule must be set before calling super.setUp()
-    rule = DefinedValueChangedType();
+  String get analysisRule => DefinedValueChangedType.ruleName;
 
+  @override
+  void setUp() {
+    Registry.ruleRegistry.registerLintRule(DefinedValueChangedType());
     super.setUp();
   }
 }

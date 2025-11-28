@@ -107,14 +107,13 @@ class AddFinalKeyword extends ResolvedCorrectionProducer {
 
   @override
   Future<void> compute(ChangeBuilder builder) async {
-    if (node is! SimpleIdentifier) return;
-    final parent = node.parent;
-    if (parent is! NamedCompilationUnitMember) return;
-    if (parent is! ClassDeclaration) return;
+    // node is ClassDeclaration (reported by rule.reportAtNode(node))
+    final classDeclaration = node.thisOrAncestorOfType<ClassDeclaration>();
+    if (classDeclaration == null) return;
 
     await builder.addDartFileEdit(file, (builder) {
       builder.addSimpleInsertion(
-        parent.classKeyword.offset,
+        classDeclaration.classKeyword.offset,
         'final ',
       );
     });

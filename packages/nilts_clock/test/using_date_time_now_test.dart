@@ -1,3 +1,4 @@
+import 'package:analyzer/src/lint/registry.dart';
 import 'package:analyzer/utilities/package_config_file_builder.dart';
 import 'package:analyzer_testing/analysis_rule/analysis_rule.dart';
 import 'package:nilts_clock/src/lints/using_date_time_now.dart';
@@ -57,9 +58,7 @@ final dateTimeUtc = DateTime.utc(2025);
 class UsingDateTimeNowTest extends AnalysisRuleTest {
   @override
   void setUp() {
-    // The rule must be set before calling super.setUp()
-    rule = UsingDateTimeNow();
-
+    Registry.ruleRegistry.registerLintRule(UsingDateTimeNow());
     super.setUp();
 
     // After super.setUp() calls createMockSdk,
@@ -119,4 +118,7 @@ final clock = Clock();
       PackageConfigFileBuilder()..add(name: 'clock', rootPath: '/clock'),
     );
   }
+
+  @override
+  String get analysisRule => UsingDateTimeNow.ruleName;
 }

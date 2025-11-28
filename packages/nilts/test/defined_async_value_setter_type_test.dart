@@ -1,3 +1,4 @@
+import 'package:analyzer/src/lint/registry.dart';
 import 'package:analyzer_testing/analysis_rule/analysis_rule.dart';
 import 'package:nilts/src/lints/defined_async_value_setter_type.dart';
 import 'package:test/test.dart';
@@ -96,10 +97,11 @@ void foo(Future<void> Function([int value]) callback) {}
 
 class DefinedAsyncValueSetterTypeTest extends AnalysisRuleTest {
   @override
-  void setUp() {
-    // The rule must be set before calling super.setUp()
-    rule = DefinedAsyncValueSetterType();
+  String get analysisRule => DefinedAsyncValueSetterType.ruleName;
 
+  @override
+  void setUp() {
+    Registry.ruleRegistry.registerLintRule(DefinedAsyncValueSetterType());
     super.setUp();
   }
 }

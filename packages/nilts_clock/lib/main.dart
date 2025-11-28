@@ -11,7 +11,7 @@ class _NiltsClockPlugin extends Plugin {
   @override
   void register(PluginRegistry registry) {
     registry
-      ..registerWarningRule(UsingDateTimeNow())
+      ..registerLintRule(UsingDateTimeNow())
       ..registerFixForRule(UsingDateTimeNow.code, ReplaceWithClockNow.new);
   }
 
