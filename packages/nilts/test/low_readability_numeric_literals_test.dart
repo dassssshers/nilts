@@ -34,15 +34,17 @@ const value = 123456789;
       );
     });
 
-    test('negative large number without separator should trigger lint',
-        () async {
-      await testInstance.assertDiagnostics(
-        '''
+    test(
+      'negative large number without separator should trigger lint',
+      () async {
+        await testInstance.assertDiagnostics(
+          '''
 const value = -12345;
 ''',
-        [testInstance.lint(15, 5)],
-      );
-    });
+          [testInstance.lint(15, 5)],
+        );
+      },
+    );
 
     test('number with separator should not trigger lint', () async {
       await testInstance.assertNoDiagnostics('''

@@ -50,10 +50,11 @@ Widget build() {
       );
     });
 
-    test('CustomScrollView with shrinkWrap: true should trigger lint',
-        () async {
-      await testInstance.assertDiagnostics(
-        '''
+    test(
+      'CustomScrollView with shrinkWrap: true should trigger lint',
+      () async {
+        await testInstance.assertDiagnostics(
+          '''
 import 'package:flutter/widgets.dart';
 
 Widget build() {
@@ -63,9 +64,10 @@ Widget build() {
   );
 }
 ''',
-        [testInstance.lint(66, 66)],
-      );
-    });
+          [testInstance.lint(66, 66)],
+        );
+      },
+    );
 
     test('ListView without shrinkWrap should not trigger lint', () async {
       await testInstance.assertNoDiagnostics('''
