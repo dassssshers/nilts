@@ -55,19 +55,31 @@ melos:
       description: format (dry-run)
 
     fmt:dart:
-      run: melos exec -c 1 --fail-fast -- dart format .
+      run: dart format .
+      exec:
+        concurrency: 1
+        failFast: true
       description: format dart
 
     fmt:dart:dry:
-      run: melos exec -c 1 --fail-fast -- dart format --set-exit-if-changed .
+      run: dart format --set-exit-if-changed .
+      exec:
+        concurrency: 1
+        failFast: true
       description: format dart (dry-run)
 
     fix:
-      run: melos exec -c 1 --fail-fast -- dart fix --apply
+      run: dart fix --apply
+      exec:
+        concurrency: 1
+        failFast: true
       description: fix dart
 
     fix:dry:
-      run: melos exec -c 1 --fail-fast -- dart fix --dry-run
+      run: dart fix --dry-run
+      exec:
+        concurrency: 1
+        failFast: true
       description: fix dart (dry-run)
 
     test:
@@ -75,7 +87,9 @@ melos:
       description: test
 
     test:unit:
-      exec: very_good test
+      run: very_good test
+      exec:
+        concurrency: 1
       packageFilters:
         ignore: nilts_example
       description: unit test
