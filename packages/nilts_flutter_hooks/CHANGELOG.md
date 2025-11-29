@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.0.0](https://github.com/dassssshers/nilts/compare/nilts_flutter_hooks-v0.3.1...nilts_flutter_hooks-v1.0.0) (2025-11-29)
+
+
+### ⚠ BREAKING CHANGES
+
+* Dart analyzer plugin ([#416](https://github.com/dassssshers/nilts/issues/416))
+
+### New Features
+
+* Dart analyzer plugin ([#416](https://github.com/dassssshers/nilts/issues/416)) ([d285274](https://github.com/dassssshers/nilts/commit/d285274d866d1c214671af27c29a289f3aeeac30))
+
+
+### Release
+
+* nilts_core 1.0.0 ([#423](https://github.com/dassssshers/nilts/issues/423)) ([cb270fe](https://github.com/dassssshers/nilts/commit/cb270fe97e0b52a3eb7e0442d068fd5d1ab84db1))
+
 ## [0.3.1](https://github.com/dassssshers/nilts/compare/nilts_flutter_hooks-v0.3.0...nilts_flutter_hooks-v0.3.1) (2025-11-16)
 
 
