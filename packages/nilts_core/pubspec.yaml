@@ -2,7 +2,7 @@
 # https://dart.dev/tools/pub/pubspec
 
 name: nilts_core
-version: 0.4.1
+version: 1.0.0
 description: core package for nilts.
 homepage: https://github.com/dassssshers/nilts
 repository: https://github.com/dassssshers/nilts
