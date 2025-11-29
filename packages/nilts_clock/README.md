@@ -20,8 +20,6 @@ nilts_clock provides lint rules, quick fixes, and assists for Dart and Flutter p
 
 - [Usage](#usage)
 - [Configuration](#configuration)
-    - [Disabling strategy](#disabling-strategy)
-    - [Enabling strategy](#enabling-strategy)
 - [Lint rules and quick fixes](#lint-rules-and-quick-fixes)
     - [Overview](#overview)
     - [Details](#details)
@@ -46,16 +44,29 @@ plugins:
 
 ## Configuration
 
-All rules in nilts_clock are enabled by default and configured as warnings.
+All lint rules in nilts_clock are **disabled by default**.
 
-To disable specific rules, add the rule name and set it to `false`:
+### Enable all rules (recommended)
+
+To enable all rules, use the `include` directive with the provided configuration file:
+
+<!-- prettier-ignore-start -->
+```yaml
+include: package:nilts_clock/analysis_options.yaml
+```
+<!-- prettier-ignore-end -->
+
+### Enable specific rules
+
+To enable specific rules, use the map format with `version:` and `diagnostics:`:
 
 <!-- prettier-ignore-start -->
 ```yaml
 plugins:
-  nilts_clock: ^1.0.0
+  nilts_clock:
+    version: ^1.0.0
     diagnostics:
-      rule_1: false
+      using_date_time_now: true
 ```
 <!-- prettier-ignore-end -->
 

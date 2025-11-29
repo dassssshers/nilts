@@ -44,16 +44,29 @@ plugins:
 
 ## Configuration
 
-All rules in nilts_flutter_hooks are enabled by default and configured as warnings.
+All lint rules in nilts_flutter_hooks are **disabled by default**.
 
-To disable specific rules, add the rule name and set it to `false`:
+### Enable all rules (recommended)
+
+To enable all rules, use the `include` directive with the provided configuration file:
+
+<!-- prettier-ignore-start -->
+```yaml
+include: package:nilts_flutter_hooks/analysis_options.yaml
+```
+<!-- prettier-ignore-end -->
+
+### Enable specific rules
+
+To enable specific rules, use the map format with `version:` and `diagnostics:`:
 
 <!-- prettier-ignore-start -->
 ```yaml
 plugins:
-  nilts_flutter_hooks: ^1.0.0
+  nilts_flutter_hooks:
+    version: ^1.0.0
     diagnostics:
-      unnecessary_hook_widget: false
+      unnecessary_hook_widget: true
 ```
 <!-- prettier-ignore-end -->
 

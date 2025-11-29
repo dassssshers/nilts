@@ -8,6 +8,10 @@ plugins:
   nilts_flutter_hooks:
     path: packages/nilts_flutter_hooks
 
+analyzer:
+  exclude:
+    - packages/*/lib/analysis_options.yaml
+
 linter:
   rules:
     sort_pub_dependencies: false
