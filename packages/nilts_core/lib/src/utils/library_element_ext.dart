@@ -18,6 +18,9 @@ extension LibraryElementExt on LibraryElement {
   /// Returns `true` if this library is from the package `flutter_test`.
   bool get isFlutterTest => checkPackage(packageName: 'flutter_test');
 
+  /// Returns `true` if this library is from the package `test`.
+  bool get isTest => checkPackage(packageName: 'test');
+
   /// Returns `true` if this library is from the package `flutter_hooks`.
   bool get isFlutterHooks => checkPackage(packageName: 'flutter_hooks');
 }

@@ -1,7 +1,19 @@
-import 'package:analyzer/diagnostic/diagnostic.dart';
-import 'package:analyzer/error/listener.dart';
-import 'package:custom_lint_builder/custom_lint_builder.dart';
-import 'package:nilts/src/change_priority.dart';
+import 'package:analysis_server_plugin/edit/dart/correction_producer.dart';
+import 'package:analyzer/analysis_rule/analysis_rule.dart';
+import 'package:analyzer/analysis_rule/rule_context.dart';
+import 'package:analyzer/analysis_rule/rule_state.dart';
+import 'package:analyzer/analysis_rule/rule_visitor_registry.dart';
+import 'package:analyzer/dart/ast/ast.dart';
+import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:analyzer/error/error.dart';
+import 'package:analyzer/source/source_range.dart';
+import 'package:analyzer_plugin/utilities/change_builder/change_builder_core.dart';
+import 'package:analyzer_plugin/utilities/fixes/fixes.dart';
+import 'package:nilts/src/fix_kind_priority.dart';
+
+const _description =
+    'Numeric literals with 5 or more digits should use digit separators for '
+    'better readability.';
 
 /// A class for `low_readability_numeric_literals` rule.
 ///
@@ -9,7 +21,8 @@ import 'package:nilts/src/change_priority.dart';
 ///
 /// - Target SDK     : >= Flutter 3.27.0 (Dart 3.6.0)
 /// - Rule type      : Practice
-/// - Maturity level : Experimental
+/// - Maturity level : Stable
+/// - Severity       : Info
 /// - Quick fix      : ✅
 ///
 /// **Consider** using digit separators for numeric literals with 5 or more
@@ -29,71 +42,90 @@ import 'package:nilts/src/change_priority.dart';
 ///
 /// - [Digit Separators in Dart 3.6](https://medium.com/dartlang/announcing-dart-3-6-778dd7a80983)
 /// - [Built-in types | Dart](https://dart.dev/language/built-in-types#numbers)
-class LowReadabilityNumericLiterals extends DartLintRule {
+class LowReadabilityNumericLiterals extends AnalysisRule {
   /// Creates a new instance of [LowReadabilityNumericLiterals].
-  const LowReadabilityNumericLiterals() : super(code: _code);
+  LowReadabilityNumericLiterals()
+    : super(
+        name: ruleName,
+        description: _description,
+        state: const RuleState.stable(),
+      );
 
-  static const _code = LintCode(
-    name: 'low_readability_numeric_literals',
-    problemMessage:
-        'Numeric literals with 5 or more digits should use digit separators '
-        'for better readability.',
-    url:
-        'https://github.com/dassssshers/nilts#low_readability_numeric_literals',
+  /// The name of this lint rule.
+  static const String ruleName = 'low_readability_numeric_literals';
+
+  /// The lint code for this rule.
+  static const LintCode code = LintCode(ruleName, _description);
+
+  @override
+  DiagnosticCode get diagnosticCode => code;
+
+  @override
+  void registerNodeProcessors(
+    RuleVisitorRegistry registry,
+    RuleContext context,
+  ) {
+    registry.addIntegerLiteral(this, _Visitor(this, context));
+  }
+}
+
+class _Visitor extends SimpleAstVisitor<void> {
+  _Visitor(this.rule, this.context);
+
+  final AnalysisRule rule;
+  final RuleContext context;
+
+  @override
+  void visitIntegerLiteral(IntegerLiteral node) {
+    final value = node.value;
+    if (value == null) return;
+
+    final literal = node.literal.lexeme;
+    if (literal.contains('_')) return;
+
+    if (value.abs() >= 10000) {
+      rule.reportAtNode(node);
+    }
+  }
+}
+
+/// A class for fixing `low_readability_numeric_literals` rule.
+///
+/// This fix adds digit separators to numeric literals.
+class AddDigitSeparators extends ResolvedCorrectionProducer {
+  /// Create a new instance of [AddDigitSeparators].
+  AddDigitSeparators({required super.context});
+
+  static const _fixKind = FixKind(
+    'nilts.fix.addDigitSeparators',
+    FixKindPriority.addDigitSeparators,
+    'Add digit separators',
   );
 
   @override
-  void run(
-    CustomLintResolver resolver,
-    DiagnosticReporter reporter,
-    CustomLintContext context,
-  ) {
-    context.registry.addIntegerLiteral((node) {
-      final value = node.value;
-      if (value == null) return;
-
-      final literal = node.literal.lexeme;
-      if (literal.contains('_')) return;
-
-      if (value.abs() >= 10000) {
-        reporter.atNode(node, _code);
-      }
-    });
-  }
+  CorrectionApplicability get applicability =>
+      CorrectionApplicability.acrossFiles;
 
   @override
-  List<Fix> getFixes() => [
-        _AddDigitSeparators(),
-      ];
-}
+  FixKind? get fixKind => _fixKind;
 
-class _AddDigitSeparators extends DartFix {
   @override
-  void run(
-    CustomLintResolver resolver,
-    ChangeReporter reporter,
-    CustomLintContext context,
-    Diagnostic analysisError,
-    List<Diagnostic> others,
-  ) {
-    context.registry.addIntegerLiteral((node) {
-      if (!node.sourceRange.intersects(analysisError.sourceRange)) return;
+  Future<void> compute(ChangeBuilder builder) async {
+    if (node is! IntegerLiteral) return;
+    final integerLiteral = node as IntegerLiteral;
 
-      final value = node.value;
-      if (value == null) return;
+    final value = integerLiteral.value;
+    if (value == null) return;
 
-      final literal = node.literal.lexeme;
-      if (literal.contains('_')) return;
+    final literal = integerLiteral.literal.lexeme;
+    if (literal.contains('_')) return;
 
-      reporter
-          .createChangeBuilder(
-        message: 'Add digit separators',
-        priority: ChangePriority.addDigitSeparators,
-      )
-          .addDartFileEdit((builder) {
-        final newLiteral = _addSeparators(literal);
-        builder.addSimpleReplacement(node.sourceRange, newLiteral);
-      });
+    await builder.addDartFileEdit(file, (builder) {
+      final newLiteral = _addSeparators(literal);
+      builder.addSimpleReplacement(
+        SourceRange(integerLiteral.offset, integerLiteral.length),
+        newLiteral,
+      );
     });
   }
 

@@ -28,7 +28,7 @@
   // https://docs.renovatebot.com/configuration-options/#vulnerabilityalerts
   vulnerabilityAlerts: {
     enabled: true,
-    labels: ['A-dependencies', 'A-security'],
+    labels: ['deps'],
   },
   customManagers: [
     {
@@ -52,12 +52,6 @@
       datasourceTemplate: 'dart',
       // same versioning as dart datasource
       versioningTemplate: 'npm',
-    },
-  ],
-  packageRules: [
-    {
-      groupName: 'custom_lint',
-      matchPackageNames: ['/^custom_lint/'],
     },
   ],
 }

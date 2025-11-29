@@ -1,7 +1,19 @@
-import 'package:analyzer/diagnostic/diagnostic.dart';
-import 'package:analyzer/error/listener.dart';
-import 'package:custom_lint_builder/custom_lint_builder.dart';
-import 'package:nilts/src/change_priority.dart';
+import 'package:analysis_server_plugin/edit/dart/correction_producer.dart';
+import 'package:analyzer/analysis_rule/analysis_rule.dart';
+import 'package:analyzer/analysis_rule/rule_context.dart';
+import 'package:analyzer/analysis_rule/rule_state.dart';
+import 'package:analyzer/analysis_rule/rule_visitor_registry.dart';
+import 'package:analyzer/dart/ast/ast.dart';
+import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:analyzer/error/error.dart';
+import 'package:analyzer_plugin/utilities/change_builder/change_builder_core.dart';
+import 'package:analyzer_plugin/utilities/fixes/fixes.dart';
+import 'package:nilts/src/fix_kind_priority.dart';
+
+const _description =
+    'This class is intended to be neither extended nor implemented.';
+const _correctionMessage =
+    'Try adding class modifiers to the class declaration.';
 
 /// A class for `open_type_hierarchy` rule.
 ///
@@ -10,7 +22,8 @@ import 'package:nilts/src/change_priority.dart';
 ///
 /// - Target SDK     : Any versions nilts supports
 /// - Rule type      : Practice
-/// - Maturity level : Experimental
+/// - Maturity level : Stable
+/// - Severity       : Info
 /// - Quick fix      : ✅
 ///
 /// **Consider** adding a class modifier (final, sealed, etc.) to explicitly
@@ -25,63 +38,84 @@ import 'package:nilts/src/change_priority.dart';
 /// ```dart
 /// final class MyClass {}
 /// ```
-class OpenTypeHierarchy extends DartLintRule {
+class OpenTypeHierarchy extends AnalysisRule {
   /// Create a new instance of [OpenTypeHierarchy].
-  const OpenTypeHierarchy() : super(code: _code);
+  OpenTypeHierarchy()
+    : super(
+        name: ruleName,
+        description: _description,
+        state: const RuleState.stable(),
+      );
 
-  static const _code = LintCode(
-    name: 'open_type_hierarchy',
-    problemMessage:
-        'This class is intended to be neither extended nor implemented.',
-    correctionMessage: 'Try adding class modifiers to the class declaration.',
-    url: 'https://github.com/dassssshers/nilts#open_type_hierarchy',
+  /// The name of this lint rule.
+  static const String ruleName = 'open_type_hierarchy';
+
+  /// The lint code for this rule.
+  static const LintCode code = LintCode(
+    ruleName,
+    _description,
+    correctionMessage: _correctionMessage,
   );
 
   @override
-  void run(
-    CustomLintResolver resolver,
-    DiagnosticReporter reporter,
-    CustomLintContext context,
-  ) {
-    context.registry.addClassDeclaration((node) {
-      if (node.classKeyword.previous?.keyword != null) return;
-
-      reporter.atToken(
-        node.name,
-        _code,
-      );
-    });
-  }
+  DiagnosticCode get diagnosticCode => code;
 
   @override
-  List<Fix> getFixes() => [
-        _AddFinalKeyword(),
-      ];
+  void registerNodeProcessors(
+    RuleVisitorRegistry registry,
+    RuleContext context,
+  ) {
+    registry.addClassDeclaration(this, _Visitor(this, context));
+  }
 }
 
-class _AddFinalKeyword extends DartFix {
-  @override
-  void run(
-    CustomLintResolver resolver,
-    ChangeReporter reporter,
-    CustomLintContext context,
-    Diagnostic analysisError,
-    List<Diagnostic> others,
-  ) {
-    context.registry.addClassDeclaration((node) {
-      if (!node.sourceRange.intersects(analysisError.sourceRange)) return;
+class _Visitor extends SimpleAstVisitor<void> {
+  _Visitor(this.rule, this.context);
 
-      reporter
-          .createChangeBuilder(
-        message: 'Add final keyword',
-        priority: ChangePriority.addFinalKeyword,
-      )
-          .addDartFileEdit((builder) {
-        builder.addSimpleInsertion(
-          node.classKeyword.offset,
-          'final ',
-        );
-      });
+  final AnalysisRule rule;
+  final RuleContext context;
+
+  @override
+  void visitClassDeclaration(ClassDeclaration node) {
+    // Do nothing if the class has a modifier keyword
+    // final, sealed, base, etc.
+    if (node.classKeyword.previous?.keyword != null) return;
+
+    rule.reportAtNode(node);
+  }
+}
+
+/// A class for fixing `open_type_hierarchy` rule.
+///
+/// This fix adds `final` keyword to the class declaration.
+class AddFinalKeyword extends ResolvedCorrectionProducer {
+  /// Create a new instance of [AddFinalKeyword].
+  AddFinalKeyword({required super.context});
+
+  static const _fixKind = FixKind(
+    'nilts.fix.addFinalKeyword',
+    FixKindPriority.addFinalKeyword,
+    'Add final keyword',
+  );
+
+  @override
+  CorrectionApplicability get applicability =>
+      CorrectionApplicability.acrossFiles;
+
+  @override
+  FixKind? get fixKind => _fixKind;
+
+  @override
+  Future<void> compute(ChangeBuilder builder) async {
+    // node is ClassDeclaration (reported by rule.reportAtNode(node))
+    final classDeclaration = node.thisOrAncestorOfType<ClassDeclaration>();
+    if (classDeclaration == null) return;
+
+    await builder.addDartFileEdit(file, (builder) {
+      builder.addSimpleInsertion(
+        classDeclaration.classKeyword.offset,
+        'final ',
+      );
     });
   }
 }

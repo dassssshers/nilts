@@ -10,7 +10,6 @@ workspace:
   - packages/nilts_clock
   - packages/nilts_core
   - packages/nilts_flutter_hooks
-  - packages/nilts_test
 
 dev_dependencies:
   melos: 7.3.0
@@ -32,9 +31,7 @@ melos:
 
   scripts:
     prepare:
-      run: |
-        flutter pub global activate custom_lint 0.8.1 && \
-        flutter pub global activate very_good_cli 0.28.0
+      run: flutter pub global activate very_good_cli 0.28.0
       description: prepare for develop
 
     get:
@@ -58,37 +55,43 @@ melos:
       description: format (dry-run)
 
     fmt:dart:
-      run: melos exec -c 1 --fail-fast -- dart format .
+      run: dart format .
+      exec:
+        concurrency: 1
+        failFast: true
       description: format dart
 
     fmt:dart:dry:
-      run: melos exec -c 1 --fail-fast -- dart format --set-exit-if-changed .
+      run: dart format --set-exit-if-changed .
+      exec:
+        concurrency: 1
+        failFast: true
       description: format dart (dry-run)
 
     fix:
-      run: melos exec -c 1 --fail-fast -- dart fix --apply
+      run: dart fix --apply
+      exec:
+        concurrency: 1
+        failFast: true
       description: fix dart
 
     fix:dry:
-      run: melos exec -c 1 --fail-fast -- dart fix --dry-run
+      run: dart fix --dry-run
+      exec:
+        concurrency: 1
+        failFast: true
       description: fix dart (dry-run)
 
     test:
-      run: |
-        melos test:custom_lint && \
-        melos test:unit
+      run: melos test:unit
       description: test
 
-    test:custom_lint:
-      exec: flutter pub run custom_lint
-      packageFilters:
-        scope: nilts_test
-      description: custom_lint test
-
     test:unit:
-      exec: very_good test
+      run: very_good test
+      exec:
+        concurrency: 1
       packageFilters:
-        scope: nilts_core
+        ignore: nilts_example
       description: unit test
 
     build:example:

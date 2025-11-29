@@ -2,7 +2,7 @@
 
 # nilts_core
 
-nilts_core is a core package for the [nilts](https://github.com/dassssshers/nilts).
+nilts_core is a core package for [nilts](https://github.com/dassssshers/nilts).
 
 [![build][badge-build]](https://github.com/dassssshers/nilts/actions/workflows/build.yml)
 [![pub][badge-pub]](https://pub.dev/packages/nilts_core)
@@ -32,5 +32,5 @@ If you find any bugs, please create [an issue from this template](https://github
 
 ## Contributing
 
-Welcome your contributions!!
-Please read [CONTRIBUTING](https://github.com/dassssshers/nilts/blob/main/CONTRIBUTING.md) docs before submitting your PR.
+Contributions are welcome!
+Please read the [CONTRIBUTING](https://github.com/dassssshers/nilts/blob/main/CONTRIBUTING.md) guide before submitting your PR.

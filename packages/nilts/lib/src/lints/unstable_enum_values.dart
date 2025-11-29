@@ -1,6 +1,13 @@
+import 'package:analyzer/analysis_rule/analysis_rule.dart';
+import 'package:analyzer/analysis_rule/rule_context.dart';
+import 'package:analyzer/analysis_rule/rule_state.dart';
+import 'package:analyzer/analysis_rule/rule_visitor_registry.dart';
+import 'package:analyzer/dart/ast/ast.dart';
+import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/dart/element/element.dart';
-import 'package:analyzer/error/listener.dart';
-import 'package:custom_lint_builder/custom_lint_builder.dart';
+import 'package:analyzer/error/error.dart';
+
+const _description = 'enum values property is unstable';
 
 /// A class for `unstable_enum_values` rule.
 ///
@@ -8,7 +15,8 @@ import 'package:custom_lint_builder/custom_lint_builder.dart';
 ///
 /// - Target SDK     : Any versions nilts supports
 /// - Rule type      : Practice
-/// - Maturity level : Experimental
+/// - Maturity level : Stable
+/// - Severity       : Info
 /// - Quick fix      : ❌
 ///
 /// **Consider** using a more stable way to handle enum values.
@@ -41,32 +49,50 @@ import 'package:custom_lint_builder/custom_lint_builder.dart';
 /// See also:
 ///
 /// - [Enums | Dart](https://dart.dev/language/enums)
-class UnstableEnumValues extends DartLintRule {
+class UnstableEnumValues extends AnalysisRule {
   /// Create a new instance of [UnstableEnumValues].
-  const UnstableEnumValues() : super(code: _code);
+  UnstableEnumValues()
+    : super(
+        name: ruleName,
+        description: _description,
+        state: const RuleState.stable(),
+      );
 
-  static const _code = LintCode(
-    name: 'unstable_enum_values',
-    problemMessage: 'enum values property is unstable',
-    url: 'https://github.com/dassssshers/nilts#unstable_enum_values',
+  /// The name of this lint rule.
+  static const String ruleName = 'unstable_enum_values';
+
+  /// The lint code for this rule.
+  static const LintCode code = LintCode(
+    ruleName,
+    _description,
+    correctionMessage: 'Use a custom list instead of enum.values',
   );
 
   @override
-  void run(
-    CustomLintResolver resolver,
-    DiagnosticReporter reporter,
-    CustomLintContext context,
-  ) {
-    context.registry.addPrefixedIdentifier((node) {
-      final staticElement = node.prefix.element;
-      if (staticElement is! EnumElement) return;
-      if (!staticElement.isPublic) return;
-      if (node.identifier.name != 'values') return;
-
-      reporter.atNode(node, _code);
-    });
-  }
+  DiagnosticCode get diagnosticCode => code;
 
   @override
-  List<Fix> getFixes() => [];
+  void registerNodeProcessors(
+    RuleVisitorRegistry registry,
+    RuleContext context,
+  ) {
+    registry.addPrefixedIdentifier(this, _Visitor(this, context));
+  }
+}
+
+class _Visitor extends SimpleAstVisitor<void> {
+  _Visitor(this.rule, this.context);
+
+  final AnalysisRule rule;
+  final RuleContext context;
+
+  @override
+  void visitPrefixedIdentifier(PrefixedIdentifier node) {
+    final staticElement = node.prefix.element;
+    if (staticElement is! EnumElement) return;
+    if (!staticElement.isPublic) return;
+    if (node.identifier.name != 'values') return;
+
+    rule.reportAtNode(node);
+  }
 }

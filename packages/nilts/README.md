@@ -2,7 +2,7 @@
 
 # nilts
 
-nilts is lint rules, quick fixes and assists for Dart and Flutter projects that helps you enforce best practices, and avoid errors.
+nilts provides lint rules, quick fixes, and assists for Dart and Flutter projects to help you enforce best practices and avoid errors.
 
 [![build][badge-build]](https://github.com/dassssshers/nilts/actions/workflows/build.yml)
 [![pub][badge-pub]](https://pub.dev/packages/nilts)
@@ -20,105 +20,91 @@ nilts is lint rules, quick fixes and assists for Dart and Flutter projects that 
 
 - [Usage](#usage)
 - [Configuration](#configuration)
-    - [Disabling strategy](#disabling-strategy)
-    - [Enabling strategy](#enabling-strategy)
 - [Lint rules and quick fixes](#lint-rules-and-quick-fixes)
     - [Overview](#overview)
     - [Details](#details)
 - [Assists](#assists)
-- [Known issues](#known-issues)
 - [Feature requests](#feature-requests)
 - [Bug reports](#bug-reports)
 - [Contributing](#contributing)
 
 ## Usage
 
-nilts depends on [`custom_lint`](https://github.com/invertase/dart_custom_lint).
-You should add `nilts` and `custom_lint` to your `dev_dependencies` in `pubspec.yaml` file.
+**Note:** nilts no longer supports [`custom_lint`](https://github.com/invertase/dart_custom_lint).
+If you're using `custom_lint`, please use nilts versions below v1.0 and refer to [README_CUSTOM_LINT.md](README_CUSTOM_LINT.md).
+
+If you're using Dart SDK version 3.10 or later, add nilts to the **top-level** plugins section of your `analysis_options.yaml` file:
 
 <!-- prettier-ignore-start -->
 ```yaml
-dev_dependencies:
-  custom_lint: <version>
-  nilts: <version>
-```
-<!-- prettier-ignore-end -->
-
-And also, add `custom_lint` to your `analysis_options.yaml` file.
-
-<!-- prettier-ignore-start -->
-```yaml
-analyzer:
-  plugins:
-    - custom_lint
+plugins:
+  nilts: ^1.0.0
 ```
 <!-- prettier-ignore-end -->
 
 ## Configuration
 
-You can configure all lint rules provided by `nilts` in `analysis_options.yaml` file.
-Choice one of the following configuration strategies.
+All lint rules in nilts are **disabled by default**.
 
-### Disabling strategy
+### Enable all rules (recommended)
 
-All of `nilts` rules are enabled by default.
-Add lint rule name and set `false` to disable it.
+To enable all rules, use the `include` directive with the provided configuration file:
 
 <!-- prettier-ignore-start -->
 ```yaml
-custom_lint:
-  rules:
-    # Disable particular lint rules if you want ignore them whole package.
-    - unnecessary_rebuilds_from_media_query: false
+include: package:nilts/analysis_options.yaml
 ```
 <!-- prettier-ignore-end -->
 
-### Enabling strategy
+### Enable specific rules
 
-You can disable all lint rules depends on custom_lint by setting `enable_all_lint_rules` to `false`.
-Add lint rule name and set `true` to enable it.
+To enable specific rules, use the map format with `version:` and `diagnostics:`:
 
 <!-- prettier-ignore-start -->
 ```yaml
-custom_lint:
-  # Disable all lint rules depends on custom_lint.
-  enable_all_lint_rules: false
-  rules:
-    - unnecessary_rebuilds_from_media_query: true
+plugins:
+  nilts:
+    version: ^1.0.0
+    diagnostics:
+      defined_async_callback_type: true
+      defined_void_callback_type: true
+      unnecessary_rebuilds_from_media_query: true
 ```
 <!-- prettier-ignore-end -->
 
-**NOTE: If you `enable_all_lint_rules` set to `false`, all of lint rules (not only all of nilts's lint rules) depends on `custom_lint` will be disabled by default.**
+See also:
+
+- [Analyzer plugins | Dart](https://dart.dev/tools/analyzer-plugins)
 
 ## Lint rules and quick fixes
 
-Read below to learn about each lint rules intend to.
-Some of lint rules support quick fixes on IDE.
+See below to learn what each lint rule does.
+Some rules support quick fixes in your IDE.
 
 ![Quick fix demo](https://github.com/ronnnnn/nilts/assets/12420269/2205daf8-1bbd-4a16-a5eb-47eb75f08536)
 
 ### Overview
 
-| Rule name                                                                       | Overview                                                                       |           Target SDK           | Rule type | Maturity level | Quick fix |
-| ------------------------------------------------------------------------------- | :----------------------------------------------------------------------------- | :----------------------------: | :-------: | :------------: | :-------: |
-| [defined_async_callback_type](#defined_async_callback_type)                     | Checks `Future<void> Function()` definitions.                                  |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
-| [defined_async_value_getter_type](#defined_async_value_getter_type)             | Checks `Future<T> Function()` definitions.                                     |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
-| [defined_async_value_setter_type](#defined_async_value_setter_type)             | Checks `Future<void> Function(T value)` definitions.                           |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
-| [defined_value_changed_type](#defined_value_changed_type)                       | Checks `void Function(T value)` definitions.                                   |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
-| [defined_value_getter_type](#defined_value_getter_type)                         | Checks `T Function()` definitions.                                             |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
-| [defined_value_setter_type](#defined_value_setter_type)                         | Checks `void Function(T value)` definitions.                                   |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
-| [defined_void_callback_type](#defined_void_callback_type)                       | Checks `void Function()` definitions.                                          |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
-| [fixed_text_scale_rich_text](#fixed_text_scale_rich_text)                       | Checks usage of `textScaler` or `textScaleFactor` in `RichText` constructor.   |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
-| [flaky_tests_with_set_up_all](#flaky_tests_with_set_up_all)                     | Checks `setUpAll` usages.                                                      |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
-| [low_readability_numeric_literals](#low_readability_numeric_literals)           | Checks numeric literals with 5 or more digits.                                 | >= Flutter 3.27.0 (Dart 3.6.0) | Practice  |  Experimental  |    ✅️    |
-| [no_support_multi_text_direction](#no_support_multi_text_direction)             | Checks if supports `TextDirection` changes.                                    |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
-| [no_support_web_platform_check](#no_support_web_platform_check)                 | Checks if `Platform.isXxx` usages.                                             |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
-| [open_type_hierarchy](#open_type_hierarchy)                                     | Checks if class modifiers exsist (final, sealed, etc.)                         |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
-| [shrink_wrapped_scroll_view](#shrink_wrapped_scroll_view)                       | Checks the content of the scroll view is shrink wrapped.                       |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
-| [unnecessary_rebuilds_from_media_query](#unnecessary_rebuilds_from_media_query) | Checks `MediaQuery.xxxOf(context)` or `MediaQuery.maybeXxxOf(context)` usages. |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
-| [unsafe_null_assertion](#unsafe_null_assertion)                                 | Checks usage of the `!` operator for forced type casting.                      |  Any versions nilts supports   | Practice  |  Experimental  |    ✅️    |
-| [unstable_enum_name](#unstable_enum_name)                                       | Checks usage of enum name property.                                            |  Any versions nilts supports   | Practice  |  Experimental  |    ❌     |
-| [unstable_enum_values](#unstable_enum_values)                                   | Checks usage of enum values property.                                          |  Any versions nilts supports   | Practice  |  Experimental  |    ❌     |
+| Rule name                                                                       | Overview                                                                       |         Target SDK          | Rule type | Maturity level | Severity | Quick fix |
+| ------------------------------------------------------------------------------- | :----------------------------------------------------------------------------- | :-------------------------: | :-------: | :------------: | :------: | :-------: |
+| [defined_async_callback_type](#defined_async_callback_type)                     | Checks `Future<void> Function()` definitions.                                  | Any versions nilts supports | Practice  |     Stable     |   Info   |    ✅️    |
+| [defined_async_value_getter_type](#defined_async_value_getter_type)             | Checks `Future<T> Function()` definitions.                                     | Any versions nilts supports | Practice  |     Stable     |   Info   |    ✅️    |
+| [defined_async_value_setter_type](#defined_async_value_setter_type)             | Checks `Future<void> Function(T value)` definitions.                           | Any versions nilts supports | Practice  |     Stable     |   Info   |    ✅️    |
+| [defined_value_changed_type](#defined_value_changed_type)                       | Checks `void Function(T value)` definitions.                                   | Any versions nilts supports | Practice  |     Stable     |   Info   |    ✅️    |
+| [defined_value_getter_type](#defined_value_getter_type)                         | Checks `T Function()` definitions.                                             | Any versions nilts supports | Practice  |     Stable     |   Info   |    ✅️    |
+| [defined_value_setter_type](#defined_value_setter_type)                         | Checks `void Function(T value)` definitions.                                   | Any versions nilts supports | Practice  |     Stable     |   Info   |    ✅️    |
+| [defined_void_callback_type](#defined_void_callback_type)                       | Checks `void Function()` definitions.                                          | Any versions nilts supports | Practice  |     Stable     |   Info   |    ✅️    |
+| [fixed_text_scale_rich_text](#fixed_text_scale_rich_text)                       | Checks usage of `textScaler` or `textScaleFactor` in `RichText` constructor.   | Any versions nilts supports | Practice  |     Stable     |   Info   |    ✅️    |
+| [flaky_tests_with_set_up_all](#flaky_tests_with_set_up_all)                     | Checks `setUpAll` usages.                                                      | Any versions nilts supports | Practice  |     Stable     |   Info   |    ✅️    |
+| [low_readability_numeric_literals](#low_readability_numeric_literals)           | Checks numeric literals with 5 or more digits.                                 |        >= Dart 3.6.0        | Practice  |     Stable     |   Info   |    ✅️    |
+| [no_support_multi_text_direction](#no_support_multi_text_direction)             | Checks if supports `TextDirection` changes.                                    | Any versions nilts supports | Practice  |     Stable     |   Info   |    ✅️    |
+| [no_support_web_platform_check](#no_support_web_platform_check)                 | Checks if `Platform.isXxx` usages.                                             | Any versions nilts supports | Practice  |     Stable     |   Info   |    ✅️    |
+| [open_type_hierarchy](#open_type_hierarchy)                                     | Checks if class modifiers exist (final, sealed, etc.)                          | Any versions nilts supports | Practice  |     Stable     |   Info   |    ✅️    |
+| [shrink_wrapped_scroll_view](#shrink_wrapped_scroll_view)                       | Checks the content of the scroll view is shrink wrapped.                       | Any versions nilts supports | Practice  |     Stable     |   Info   |    ✅️    |
+| [unnecessary_rebuilds_from_media_query](#unnecessary_rebuilds_from_media_query) | Checks `MediaQuery.xxxOf(context)` or `MediaQuery.maybeXxxOf(context)` usages. | Any versions nilts supports | Practice  |     Stable     |   Info   |    ✅️    |
+| [unsafe_null_assertion](#unsafe_null_assertion)                                 | Checks usage of the `!` operator for forced type casting.                      | Any versions nilts supports | Practice  |     Stable     |   Info   |    ✅️    |
+| [unstable_enum_name](#unstable_enum_name)                                       | Checks usage of enum name property.                                            | Any versions nilts supports | Practice  |     Stable     |   Info   |    ❌     |
+| [unstable_enum_values](#unstable_enum_values)                                   | Checks usage of enum values property.                                          | Any versions nilts supports | Practice  |     Stable     |   Info   |    ❌     |
 
 ### Details
 
@@ -129,11 +115,12 @@ Some of lint rules support quick fixes on IDE.
 <!-- prettier-ignore-start -->
 - Target SDK     : Any versions nilts supports
 - Rule type      : Practice
-- Maturity level : Experimental
+- Maturity level : Stable
+- Severity       : Info
 - Quick fix      : ✅
 <!-- prettier-ignore-end -->
 
-**Consider** replace `Future<void> Function()` with `AsyncCallback` which is defined in Flutter SDK.
+**Consider** replacing `Future<void> Function()` with `AsyncCallback`, which is defined in the Flutter SDK.
 
 **BAD:**
 <!-- prettier-ignore-start -->
@@ -163,11 +150,12 @@ See also:
 <!-- prettier-ignore-start -->
 - Target SDK     : Any versions nilts supports
 - Rule type      : Practice
-- Maturity level : Experimental
+- Maturity level : Stable
+- Severity       : Info
 - Quick fix      : ✅
 <!-- prettier-ignore-end -->
 
-**Consider** replace `Future<T> Function()` with `AsyncValueGetter` which is defined in Flutter SDK.
+**Consider** replacing `Future<T> Function()` with `AsyncValueGetter`, which is defined in the Flutter SDK.
 
 **BAD:**
 <!-- prettier-ignore-start -->
@@ -197,11 +185,12 @@ See also:
 <!-- prettier-ignore-start -->
 - Target SDK     : Any versions nilts supports
 - Rule type      : Practice
-- Maturity level : Experimental
+- Maturity level : Stable
+- Severity       : Info
 - Quick fix      : ✅
 <!-- prettier-ignore-end -->
 
-**Consider** replace `Future<void> Function(T value)` with `AsyncValueSetter` which is defined in Flutter SDK.
+**Consider** replacing `Future<void> Function(T value)` with `AsyncValueSetter`, which is defined in the Flutter SDK.
 
 **BAD:**
 <!-- prettier-ignore-start -->
@@ -231,11 +220,12 @@ See also:
 <!-- prettier-ignore-start -->
 - Target SDK     : Any versions nilts supports
 - Rule type      : Practice
-- Maturity level : Experimental
+- Maturity level : Stable
+- Severity       : Info
 - Quick fix      : ✅
 <!-- prettier-ignore-end -->
 
-**Consider** replace `void Function(T value)` with `ValueChanged` which is defined in Flutter SDK.
+**Consider** replacing `void Function(T value)` with `ValueChanged`, which is defined in the Flutter SDK.
 If the value has been set, use `ValueSetter` instead.
 
 **BAD:**
@@ -267,11 +257,12 @@ See also:
 <!-- prettier-ignore-start -->
 - Target SDK     : Any versions nilts supports
 - Rule type      : Practice
-- Maturity level : Experimental
+- Maturity level : Stable
+- Severity       : Info
 - Quick fix      : ✅
 <!-- prettier-ignore-end -->
 
-**Consider** replace `T Function()` with `ValueGetter` which is defined in Flutter SDK.
+**Consider** replacing `T Function()` with `ValueGetter`, which is defined in the Flutter SDK.
 
 **BAD:**
 <!-- prettier-ignore-start -->
@@ -301,11 +292,12 @@ See also:
 <!-- prettier-ignore-start -->
 - Target SDK     : Any versions nilts supports
 - Rule type      : Practice
-- Maturity level : Experimental
+- Maturity level : Stable
+- Severity       : Info
 - Quick fix      : ✅
 <!-- prettier-ignore-end -->
 
-**Consider** replace `void Function(T value)` with `ValueSetter` which is defined in Flutter SDK.
+**Consider** replacing `void Function(T value)` with `ValueSetter`, which is defined in the Flutter SDK.
 If the value has changed, use `ValueChanged` instead.
 
 **BAD:**
@@ -337,11 +329,12 @@ See also:
 <!-- prettier-ignore-start -->
 - Target SDK     : Any versions nilts supports
 - Rule type      : Practice
-- Maturity level : Experimental
+- Maturity level : Stable
+- Severity       : Info
 - Quick fix      : ✅
 <!-- prettier-ignore-end -->
 
-**Consider** replace `void Function()` with `VoidCallback` which is defined in Flutter SDK.
+**Consider** replacing `void Function()` with `VoidCallback`, which is defined in the Flutter SDK.
 
 **BAD:**
 
@@ -372,11 +365,12 @@ See also:
 <!-- prettier-ignore-start -->
 - Target SDK     : Any versions nilts supports
 - Rule type      : Practice
-- Maturity level : Experimental
+- Maturity level : Stable
+- Severity       : Info
 - Quick fix      : ✅
 <!-- prettier-ignore-end -->
 
-**Consider** using `Text.rich` or adding `textScaler` or `textScaleFactor` (deprecated on Flutter 3.16.0 and above) argument to `RichText` constructor to make the text size responsive for user setting.
+**Consider** using `Text.rich` or adding the `textScaler` or `textScaleFactor` (deprecated in Flutter 3.16.0 and above) argument to the `RichText` constructor to make the text size responsive to user settings.
 
 **BAD:**
 <!-- prettier-ignore-start -->
@@ -441,12 +435,13 @@ See also:
 <!-- prettier-ignore-start -->
 - Target SDK     : Any versions nilts supports
 - Rule type      : Practice
-- Maturity level : Experimental
+- Maturity level : Stable
+- Severity       : Info
 - Quick fix      : ✅
 <!-- prettier-ignore-end -->
 
-**Consider** using `setUp` function or initialization on top level or body of test group.
-`setUpAll` may cause flaky tests with concurrency executions.
+**Consider** using the `setUp` function or performing initialization at the top level or within the test group body.
+`setUpAll` may cause flaky tests when tests run concurrently.
 
 **BAD:**
 <!-- prettier-ignore-start -->
@@ -493,9 +488,10 @@ See also:
 <details>
 
 <!-- prettier-ignore-start -->
-- Target SDK     : >= Flutter 3.27.0 (Dart 3.6.0)
+- Target SDK     : >= Dart 3.6.0
 - Rule type      : Practice
-- Maturity level : Experimental
+- Maturity level : Stable
+- Severity       : Info
 - Quick fix      : ✅
 <!-- prettier-ignore-end -->
 
@@ -530,7 +526,8 @@ See also:
 <!-- prettier-ignore-start -->
 - Target SDK     : Any versions nilts supports
 - Rule type      : Practice
-- Maturity level : Experimental
+- Maturity level : Stable
+- Severity       : Info
 - Quick fix      : ✅
 <!-- prettier-ignore-end -->
 
@@ -616,7 +613,8 @@ See also:
 <!-- prettier-ignore-start -->
 - Target SDK     : Any versions nilts supports
 - Rule type      : Practice
-- Maturity level : Experimental
+- Maturity level : Stable
+- Severity       : Info
 - Quick fix      : ✅
 <!-- prettier-ignore-end -->
 
@@ -654,7 +652,8 @@ See also:
 <!-- prettier-ignore-start -->
 - Target SDK     : Any versions nilts supports
 - Rule type      : Practice
-- Maturity level : Experimental
+- Maturity level : Stable
+- Severity       : Info
 - Quick fix      : ✅
 <!-- prettier-ignore-end -->
 
@@ -684,14 +683,15 @@ final class MyClass {}
 <!-- prettier-ignore-start -->
 - Target SDK     : Any versions nilts supports
 - Rule type      : Practice
-- Maturity level : Experimental
+- Maturity level : Stable
+- Severity       : Info
 - Quick fix      : ✅
 <!-- prettier-ignore-end -->
 
-**Consider** removing `shrinkWrap` argument and update the Widget not to shrink wrap.
-Shrink wrapping the content of the scroll view is significantly more expensive than expanding to the maximum allowed size because the content can expand and contract during scrolling, which means the size of the scroll view needs to be recomputed whenever the scroll position changes.
+**Consider** removing the `shrinkWrap` argument and updating the widget to avoid shrink wrapping.
+Shrink wrapping the content of a scroll view is significantly more expensive than expanding to the maximum allowed size because the content can expand and contract during scrolling, which means the size of the scroll view needs to be recomputed whenever the scroll position changes.
 
-You can avoid shrink wrap with 3 steps below in case of your scroll view is nested.
+You can avoid shrink wrapping with the following 3 steps if your scroll view is nested:
 
 1. Replace the parent scroll view with `CustomScrollView`.
 2. Replace the child scroll view with `SliverListView` or `SliverGridView`.
@@ -726,7 +726,8 @@ See also:
 <!-- prettier-ignore-start -->
 - Target SDK     : Any versions nilts supports
 - Rule type      : Practice
-- Maturity level : Experimental
+- Maturity level : Stable
+- Severity       : Info
 - Quick fix      : ✅
 <!-- prettier-ignore-end -->
 
@@ -747,10 +748,10 @@ final size = MediaQuery.sizeOf(context);
 ```
 <!-- prettier-ignore-end -->
 
-**Note that using `MediaQuery.of` or `MediaQuery.maybeOf` makes sense following cases:**
+**Note that using `MediaQuery.of` or `MediaQuery.maybeOf` makes sense in the following cases:**
 
-- wrap Widget with `MediaQuery` overridden `MediaQueryData`
-- observe all changes of `MediaQueryData`
+- Wrapping a widget with `MediaQuery` to override `MediaQueryData`
+- Observing all changes to `MediaQueryData`
 
 See also:
 
@@ -766,11 +767,12 @@ See also:
 <!-- prettier-ignore-start -->
 - Target SDK     : Any versions nilts supports
 - Rule type      : Practice
-- Maturity level : Experimental
+- Maturity level : Stable
+- Severity       : Info
 - Quick fix      : ✅
 <!-- prettier-ignore-end -->
 
-**Prefer** using if-null operator, null-aware operator or pattern matching instead of force type casting with `!` operator.
+**Prefer** using the if-null operator, null-aware operator, or pattern matching instead of force type casting with the `!` operator.
 
 **BAD:**
 <!-- prettier-ignore-start -->
@@ -809,7 +811,8 @@ See also:
 <!-- prettier-ignore-start -->
 - Target SDK     : Any versions nilts supports
 - Rule type      : Practice
-- Maturity level : Experimental
+- Maturity level : Stable
+- Severity       : Info
 - Quick fix      : ❌
 <!-- prettier-ignore-end -->
 
@@ -863,7 +866,8 @@ See also:
 <!-- prettier-ignore-start -->
 - Target SDK     : Any versions nilts supports
 - Rule type      : Practice
-- Maturity level : Experimental
+- Maturity level : Stable
+- Severity       : Info
 - Quick fix      : ❌
 <!-- prettier-ignore-end -->
 
@@ -908,51 +912,7 @@ See also:
 
 ## Assists
 
-Upcoming... 🚀
-
-## Known issues
-
-### Lint rule errors don't appear and quick fixes don't work in IDE (Fixed)
-
-> [!IMPORTANT]
-> This issue is solved on nilts 0.18.3 using custom_lint 0.7.3.
-
-Since custom_lint 0.6.7, the IDE has not shown lint rule errors in some cases.
-
-See also:
-
-- [analysis.setContextRoots failed - RequestErrorCode.PLUGIN_ERROR ProcessException: / No such file or directory / Command: flutter pub get · Issue #270 · invertase/dart_custom_lint](https://github.com/invertase/dart_custom_lint/issues/270)
-- [IntelliJ and Android Studio don't show custom lints · Issue #307 · invertase/dart_custom_lint](https://github.com/invertase/dart_custom_lint/issues/307)
-
-### Quick fix priorities (Fixed)
-
-> [!IMPORTANT]
-> Finding which a plugin version fixed the issue is hard, but it looks work as expected.
-> Checked works as expected on Dart plugin [242.24931](https://plugins.jetbrains.com/plugin/6351-dart/versions/stable/644082) and [243.23654.44](https://plugins.jetbrains.com/plugin/6351-dart/versions/stable/656656).
-
-The priorities assigned to quick fixes are not currently visible in IntelliJ IDEA and Android Studio due to the lack of support for `PrioritizedSourceChange` in these environments.
-In contrast, VS Code does support this feature, allowing quick fixes to be listed along with their respective priorities.
-
-|                                                           VS Code                                                            |                                                           IntelliJ IDEA / Android Studio                                                            |
-| :--------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------: |
-| <img width="500" alt="VS Code" src="https://github.com/ronnnnn/nilts/assets/12420269/b756c354-00f1-42f6-9fde-eaffce255811"/> | <img width="500" alt="IntelliJ IDEA / Android Studio" src="https://github.com/ronnnnn/nilts/assets/12420269/99a1032b-db40-4376-8345-c5e960f156a2"/> |
-
-See also:
-
-- [IDEA-336551 Support PrioritizedSourceChange on quick fix.](https://youtrack.jetbrains.com/issue/IDEA-336551/Support-PrioritizedSourceChange-on-quick-fix.)
-
-### fix-all assist (Fixed)
-
-> [!IMPORTANT]
-> Finding which a plugin version fixed the issue is hard, but it looks as expected.
-> Checked works as expected on Dart plugin [242.24931](https://plugins.jetbrains.com/plugin/6351-dart/versions/stable/644082) and [243.23654.44](https://plugins.jetbrains.com/plugin/6351-dart/versions/stable/656656).
-
-The fix-all assist feature has been introduced in [custom_lint_builder 0.6.0](https://github.com/invertase/dart_custom_lint/pull/223).
-However, this feature is not yet supported in IntelliJ IDEA and Android Studio, owing to their current lack of support for `PrioritizedSourceChange`.
-
-|                                                            VS Code                                                            |                                                            IntelliJ IDEA / Android Studio                                                            |
-| :---------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------: |
-| <img width="500" alt="VS Code" src="https://github.com/ronnnnn/nilts/assets/12420269/3d8f7d66-5325-4877-b1f9-eb246c8edd00" /> | <img width="500" alt="IntelliJ IDEA / Android Studio" src="https://github.com/ronnnnn/nilts/assets/12420269/ce76bbd3-719c-4bce-8f54-7dea04354b5e" /> |
+Coming soon... 🚀
 
 ## Feature requests
 
@@ -964,5 +924,5 @@ If you find any bugs, please create [an issue from this template](https://github
 
 ## Contributing
 
-Welcome your contributions!!
-Please read [CONTRIBUTING](https://github.com/dassssshers/nilts/blob/main/CONTRIBUTING.md) docs before submitting your PR.
+Contributions are welcome!
+Please read the [CONTRIBUTING](https://github.com/dassssshers/nilts/blob/main/CONTRIBUTING.md) guide before submitting your PR.

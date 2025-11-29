@@ -1,9 +1,18 @@
+import 'package:analysis_server_plugin/edit/dart/correction_producer.dart';
+import 'package:analyzer/analysis_rule/analysis_rule.dart';
+import 'package:analyzer/analysis_rule/rule_context.dart';
+import 'package:analyzer/analysis_rule/rule_state.dart';
+import 'package:analyzer/analysis_rule/rule_visitor_registry.dart';
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/token.dart';
-import 'package:analyzer/diagnostic/diagnostic.dart';
-import 'package:analyzer/error/listener.dart';
-import 'package:custom_lint_builder/custom_lint_builder.dart';
-import 'package:nilts/src/change_priority.dart';
+import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:analyzer/error/error.dart';
+import 'package:analyzer/source/source_range.dart';
+import 'package:analyzer_plugin/utilities/change_builder/change_builder_core.dart';
+import 'package:analyzer_plugin/utilities/fixes/fixes.dart';
+import 'package:nilts/src/fix_kind_priority.dart';
+
+const _description = 'Do not force type casting with !';
 
 /// A class for `unsafe_null_assertion` rule.
 ///
@@ -11,7 +20,8 @@ import 'package:nilts/src/change_priority.dart';
 ///
 /// - Target SDK     : Any versions nilts supports
 /// - Rule type      : Practice
-/// - Maturity level : Experimental
+/// - Maturity level : Stable
+/// - Severity       : Info
 /// - Quick fix      : ✅
 ///
 /// **Prefer** using if-null operator, null-aware operator or pattern matching
@@ -41,120 +51,155 @@ import 'package:nilts/src/change_priority.dart';
 ///
 /// - [Operators | Dart](https://dart.dev/language/operators)
 /// - [Patterns | Dart](https://dart.dev/language/patterns)
-class UnsafeNullAssertion extends DartLintRule {
+class UnsafeNullAssertion extends AnalysisRule {
   /// Create a new instance of [UnsafeNullAssertion].
-  const UnsafeNullAssertion() : super(code: _code);
+  UnsafeNullAssertion()
+    : super(
+        name: ruleName,
+        description: _description,
+        state: const RuleState.stable(),
+      );
 
-  static const _code = LintCode(
-    name: 'unsafe_null_assertion',
-    problemMessage: 'Do not force type casting with !',
-    url: 'https://github.com/dassssshers/nilts#unsafe_null_assertion',
+  /// The name of this lint rule.
+  static const String ruleName = 'unsafe_null_assertion';
+
+  /// The lint code for this rule.
+  static const LintCode code = LintCode(
+    ruleName,
+    _description,
+    correctionMessage: 'Replace with null-safe operator',
   );
 
   @override
-  void run(
-    CustomLintResolver resolver,
-    DiagnosticReporter reporter,
-    CustomLintContext context,
-  ) {
-    context.registry.addPostfixExpression((node) {
-      if (node.operator.type == TokenType.BANG) {
-        reporter.atToken(node.operator, _code);
-      }
-    });
-  }
+  DiagnosticCode get diagnosticCode => code;
 
   @override
-  List<Fix> getFixes() => [
-        _ReplaceWithPatternMatching(),
-        _ReplaceWithNullAwareOperator(),
-        _ReplaceWithIfNullOperator(),
-      ];
-}
-
-class _ReplaceWithIfNullOperator extends DartFix {
-  @override
-  void run(
-    CustomLintResolver resolver,
-    ChangeReporter reporter,
-    CustomLintContext context,
-    Diagnostic analysisError,
-    List<Diagnostic> others,
+  void registerNodeProcessors(
+    RuleVisitorRegistry registry,
+    RuleContext context,
   ) {
-    context.registry.addPostfixExpression((node) {
-      if (!node.sourceRange.intersects(analysisError.sourceRange)) return;
-      if (node.operator.type != TokenType.BANG) return;
-
-      reporter
-          .createChangeBuilder(
-        message: 'Replace with if-null operator',
-        priority: ChangePriority.replaceWithIfNullOperator,
-      )
-          .addDartFileEdit((builder) {
-        builder.addSimpleReplacement(
-          node.sourceRange,
-          '(${node.operand} ?? )',
-        );
-      });
-    });
+    registry.addPostfixExpression(this, _Visitor(this, context));
   }
 }
 
-class _ReplaceWithNullAwareOperator extends DartFix {
+class _Visitor extends SimpleAstVisitor<void> {
+  _Visitor(this.rule, this.context);
+
+  final AnalysisRule rule;
+  final RuleContext context;
+
   @override
-  void run(
-    CustomLintResolver resolver,
-    ChangeReporter reporter,
-    CustomLintContext context,
-    Diagnostic analysisError,
-    List<Diagnostic> others,
-  ) {
-    context.registry.addPostfixExpression((node) {
-      if (!node.sourceRange.intersects(analysisError.sourceRange)) return;
-      if (node.operator.type != TokenType.BANG) return;
+  void visitPostfixExpression(PostfixExpression node) {
+    if (node.operator.type == TokenType.BANG) {
+      rule.reportAtToken(node.operator);
+    }
+  }
+}
 
-      final parent = node.parent;
-      if (parent is! PropertyAccess && parent is! MethodInvocation) return;
+/// A class for fixing `unsafe_null_assertion` rule.
+///
+/// This fix replaces `value!` with `(value ?? )`.
+class ReplaceWithIfNullOperator extends ResolvedCorrectionProducer {
+  /// Create a new instance of [ReplaceWithIfNullOperator].
+  ReplaceWithIfNullOperator({required super.context});
 
-      reporter
-          .createChangeBuilder(
-        message: 'Replace with null-aware operator',
-        priority: ChangePriority.replaceWithNullAwareOperator,
-      )
-          .addDartFileEdit((builder) {
-        builder.addSimpleReplacement(
-          node.sourceRange,
-          '${node.operand}?',
-        );
-      });
+  static const _fixKind = FixKind(
+    'nilts.fix.replaceWithIfNullOperator',
+    FixKindPriority.replaceWithIfNullOperator,
+    'Replace with if-null operator',
+  );
+
+  @override
+  CorrectionApplicability get applicability =>
+      CorrectionApplicability.singleLocation;
+
+  @override
+  FixKind? get fixKind => _fixKind;
+
+  @override
+  Future<void> compute(ChangeBuilder builder) async {
+    final postfixExpression = node.thisOrAncestorOfType<PostfixExpression>();
+    if (postfixExpression == null) return;
+    if (postfixExpression.operator.type != TokenType.BANG) return;
+
+    await builder.addDartFileEdit(file, (builder) {
+      builder.addSimpleReplacement(
+        SourceRange(postfixExpression.offset, postfixExpression.length),
+        '(${postfixExpression.operand} ?? )',
+      );
     });
   }
 }
 
-class _ReplaceWithPatternMatching extends DartFix {
-  @override
-  void run(
-    CustomLintResolver resolver,
-    ChangeReporter reporter,
-    CustomLintContext context,
-    Diagnostic analysisError,
-    List<Diagnostic> others,
-  ) {
-    context.registry.addPostfixExpression((node) {
-      if (!node.sourceRange.intersects(analysisError.sourceRange)) return;
-      if (node.operator.type != TokenType.BANG) return;
+/// A class for fixing `unsafe_null_assertion` rule.
+///
+/// This fix replaces `value!.method()` with `value?.method()`.
+class ReplaceWithNullAwareOperator extends ResolvedCorrectionProducer {
+  /// Create a new instance of [ReplaceWithNullAwareOperator].
+  ReplaceWithNullAwareOperator({required super.context});
 
-      reporter
-          .createChangeBuilder(
-        message: 'Replace with pattern matching',
-        priority: ChangePriority.replaceWithPatternMatching,
-      )
-          .addDartFileEdit((builder) {
-        builder.addSimpleReplacement(
-          node.sourceRange,
-          'if (${node.operand} case final value?) return value',
-        );
-      });
+  static const _fixKind = FixKind(
+    'nilts.fix.replaceWithNullAwareOperator',
+    FixKindPriority.replaceWithNullAwareOperator,
+    'Replace with null-aware operator',
+  );
+
+  @override
+  CorrectionApplicability get applicability =>
+      CorrectionApplicability.singleLocation;
+
+  @override
+  FixKind? get fixKind => _fixKind;
+
+  @override
+  Future<void> compute(ChangeBuilder builder) async {
+    final postfixExpression = node.thisOrAncestorOfType<PostfixExpression>();
+    if (postfixExpression == null) return;
+    if (postfixExpression.operator.type != TokenType.BANG) return;
+
+    final parent = postfixExpression.parent;
+    if (parent is! PropertyAccess && parent is! MethodInvocation) return;
+
+    await builder.addDartFileEdit(file, (builder) {
+      builder.addSimpleReplacement(
+        SourceRange(postfixExpression.offset, postfixExpression.length),
+        '${postfixExpression.operand}?',
+      );
+    });
+  }
+}
+
+/// A class for fixing `unsafe_null_assertion` rule.
+///
+/// This fix replaces `value!` with `if (value case final value?) return value`.
+class ReplaceWithPatternMatching extends ResolvedCorrectionProducer {
+  /// Create a new instance of [ReplaceWithPatternMatching].
+  ReplaceWithPatternMatching({required super.context});
+
+  static const _fixKind = FixKind(
+    'nilts.fix.replaceWithPatternMatching',
+    FixKindPriority.replaceWithPatternMatching,
+    'Replace with pattern matching',
+  );
+
+  @override
+  CorrectionApplicability get applicability =>
+      CorrectionApplicability.singleLocation;
+
+  @override
+  FixKind? get fixKind => _fixKind;
+
+  @override
+  Future<void> compute(ChangeBuilder builder) async {
+    final postfixExpression = node.thisOrAncestorOfType<PostfixExpression>();
+    if (postfixExpression == null) return;
+    if (postfixExpression.operator.type != TokenType.BANG) return;
+
+    await builder.addDartFileEdit(file, (builder) {
+      builder.addSimpleReplacement(
+        SourceRange(postfixExpression.offset, postfixExpression.length),
+        'if (${postfixExpression.operand} case final value?) return value',
+      );
     });
   }
 }

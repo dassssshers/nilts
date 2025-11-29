@@ -1,8 +1,17 @@
-import 'package:analyzer/diagnostic/diagnostic.dart';
-import 'package:analyzer/error/listener.dart';
+import 'package:analysis_server_plugin/edit/dart/correction_producer.dart';
+import 'package:analyzer/analysis_rule/analysis_rule.dart';
+import 'package:analyzer/analysis_rule/rule_context.dart';
+import 'package:analyzer/analysis_rule/rule_state.dart';
+import 'package:analyzer/analysis_rule/rule_visitor_registry.dart';
+import 'package:analyzer/dart/ast/ast.dart';
+import 'package:analyzer/dart/ast/visitor.dart';
+import 'package:analyzer/error/error.dart';
 import 'package:analyzer/source/source_range.dart';
-import 'package:custom_lint_builder/custom_lint_builder.dart';
-import 'package:nilts_clock/src/change_priority.dart';
+import 'package:analyzer_plugin/utilities/change_builder/change_builder_core.dart';
+import 'package:analyzer_plugin/utilities/fixes/fixes.dart';
+import 'package:nilts_clock/src/fix_kind_priority.dart';
+
+const _description = "Don't use DateTime.now()";
 
 const _dateTimeClassName = 'DateTime';
 const _dateTimeNowConstructorName = 'now';
@@ -16,7 +25,8 @@ const _clockGetterName = 'clock';
 ///
 /// - Target SDK     : Any versions nilts_clock supports
 /// - Rule type      : ErrorProne
-/// - Maturity level : Experimental
+/// - Maturity level : Stable
+/// - Severity       : Info
 /// - Quick fix      : ✅
 ///
 /// **DON'T** use `DateTime.now()`.
@@ -36,72 +46,90 @@ const _clockGetterName = 'clock';
 ///
 /// See also:
 /// - [clock | Dart package](https://pub.dev/packages/clock)
-class UsingDateTimeNow extends DartLintRule {
+class UsingDateTimeNow extends AnalysisRule {
   /// Create a new instance of [UsingDateTimeNow].
-  const UsingDateTimeNow() : super(code: _code);
+  UsingDateTimeNow()
+    : super(
+        name: ruleName,
+        description: _description,
+        state: const RuleState.stable(),
+      );
 
-  static const _code = LintCode(
-    name: 'using_date_time_now',
-    problemMessage: "Don't use DateTime.now()",
-    url: 'https://github.com/dassssshers/nilts#using_date_time_now',
+  /// The name of this lint rule.
+  static const String ruleName = 'using_date_time_now';
+
+  /// The lint code for this rule.
+  static const LintCode code = LintCode(
+    ruleName,
+    _description,
+    correctionMessage: 'Replace with clock.now()',
   );
 
   @override
-  void run(
-    CustomLintResolver _,
-    DiagnosticReporter reporter,
-    CustomLintContext context,
-  ) {
-    context.registry.addInstanceCreationExpression((node) {
-      final element = node.constructorName.element;
-      if (element == null) return;
-      if (!element.library.isDartCore) return;
-      if (element.name != _dateTimeNowConstructorName) return;
-
-      final type = node.constructorName.type;
-      if (type.element?.name != _dateTimeClassName) return;
-
-      reporter.atNode(node, code);
-    });
-  }
+  DiagnosticCode get diagnosticCode => code;
 
   @override
-  List<Fix> getFixes() => [
-        _ReplaceWithClockNow(),
-      ];
+  void registerNodeProcessors(
+    RuleVisitorRegistry registry,
+    RuleContext context,
+  ) {
+    registry.addInstanceCreationExpression(this, _Visitor(this, context));
+  }
 }
 
-class _ReplaceWithClockNow extends DartFix {
+class _Visitor extends SimpleAstVisitor<void> {
+  _Visitor(this.rule, this.context);
+
+  final AnalysisRule rule;
+  final RuleContext context;
+
   @override
-  void run(
-    CustomLintResolver _,
-    ChangeReporter reporter,
-    CustomLintContext context,
-    Diagnostic analysisError,
-    List<Diagnostic> __,
-  ) {
-    context.registry.addInstanceCreationExpression((node) {
-      if (!analysisError.sourceRange.intersects(node.sourceRange)) {
-        return;
+  void visitInstanceCreationExpression(InstanceCreationExpression node) {
+    final element = node.constructorName.element;
+    if (element == null) return;
+    if (!element.library.isDartCore) return;
+    if (element.name != _dateTimeNowConstructorName) return;
+
+    final type = node.constructorName.type;
+    if (type.element?.name != _dateTimeClassName) return;
+
+    rule.reportAtNode(node);
+  }
+}
+
+/// A class for fixing `using_date_time_now` rule.
+///
+/// This fix replace `DateTime.now()` with `clock.now()`.
+class ReplaceWithClockNow extends ResolvedCorrectionProducer {
+  /// Create a new instance of [UsingDateTimeNow].
+  ReplaceWithClockNow({required super.context});
+
+  static const _fixKind = FixKind(
+    'nilts_clock.fix.replaceWithClockNow',
+    FixKindPriority.replaceWithClockNow,
+    'Replace With $_clockGetterName',
+  );
+
+  @override
+  CorrectionApplicability get applicability =>
+      CorrectionApplicability.acrossFiles;
+
+  @override
+  FixKind? get fixKind => _fixKind;
+
+  @override
+  Future<void> compute(ChangeBuilder builder) async {
+    if (node is! InstanceCreationExpression) return;
+    final clazz = (node as InstanceCreationExpression).constructorName.type;
+    await builder.addDartFileEdit(file, (builder) {
+      final uri = Uri.parse(_clockPackageUri);
+      if (!builder.importsLibrary(uri)) {
+        builder.importLibrary(uri);
       }
-
-      final clazz = node.constructorName.type;
-
-      reporter
-          .createChangeBuilder(
-        message: 'Replace With $_clockGetterName',
-        priority: ChangePriority.replaceWithClockNow,
-      )
-          .addDartFileEdit((builder) {
-        final uri = Uri.parse(_clockPackageUri);
-        if (!builder.importsLibrary(uri)) {
-          builder.importLibrary(uri);
-        }
-        builder.addSimpleReplacement(
-          SourceRange(clazz.offset, clazz.length),
-          _clockGetterName,
-        );
-      });
+      builder.addSimpleReplacement(
+        SourceRange(clazz.offset, clazz.length),
+        _clockGetterName,
+      );
     });
   }
 }
