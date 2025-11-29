@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.0](https://github.com/dassssshers/nilts/compare/nilts_core-v0.4.1...nilts_core-v1.0.0) (2025-11-29)
+
+
+### ⚠ BREAKING CHANGES
+
+* Dart analyzer plugin ([#416](https://github.com/dassssshers/nilts/issues/416))
+
+### New Features
+
+* Dart analyzer plugin ([#416](https://github.com/dassssshers/nilts/issues/416)) ([d285274](https://github.com/dassssshers/nilts/commit/d285274d866d1c214671af27c29a289f3aeeac30))
+
 ## [0.4.1](https://github.com/dassssshers/nilts/compare/nilts_core-v0.4.0...nilts_core-v0.4.1) (2025-11-16)
 
 
