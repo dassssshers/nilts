@@ -97,10 +97,7 @@ class NoSupportMultiTextDirection extends AnalysisRule {
   static const String ruleName = 'no_support_multi_text_direction';
 
   /// The lint code for this rule.
-  static const LintCode code = LintCode(
-    ruleName,
-    _description,
-  );
+  static const LintCode code = LintCode(ruleName, _description);
 
   @override
   DiagnosticCode get diagnosticCode => code;
@@ -318,10 +315,7 @@ class ReplaceWithEdgeInsetsDirectional extends ResolvedCorrectionProducer {
     'Replace with EdgeInsetsDirectional',
   );
 
-  final _argumentMap = {
-    'left': 'start',
-    'right': 'end',
-  };
+  final _argumentMap = {'left': 'start', 'right': 'end'};
 
   @override
   CorrectionApplicability get applicability =>
@@ -352,20 +346,18 @@ class ReplaceWithEdgeInsetsDirectional extends ResolvedCorrectionProducer {
       }
       instanceCreation.argumentList.arguments
           .whereType<NamedExpression>()
-          .forEach(
-            (argument) {
-              final newArgument = _argumentMap[argument.name.label.name];
-              if (newArgument != null) {
-                builder.addSimpleReplacement(
-                  SourceRange(
-                    argument.name.label.offset,
-                    argument.name.label.length,
-                  ),
-                  newArgument,
-                );
-              }
-            },
-          );
+          .forEach((argument) {
+            final newArgument = _argumentMap[argument.name.label.name];
+            if (newArgument != null) {
+              builder.addSimpleReplacement(
+                SourceRange(
+                  argument.name.label.offset,
+                  argument.name.label.length,
+                ),
+                newArgument,
+              );
+            }
+          });
       builder.addSimpleReplacement(
         SourceRange(
           instanceCreation.constructorName.type.offset,
@@ -390,10 +382,7 @@ class ReplaceWithPositionedDirectionalClass extends ResolvedCorrectionProducer {
     'Replace with PositionedDirectional',
   );
 
-  final _argumentMap = {
-    'left': 'start',
-    'right': 'end',
-  };
+  final _argumentMap = {'left': 'start', 'right': 'end'};
 
   @override
   CorrectionApplicability get applicability =>
@@ -415,20 +404,18 @@ class ReplaceWithPositionedDirectionalClass extends ResolvedCorrectionProducer {
     await builder.addDartFileEdit(file, (builder) {
       instanceCreation.argumentList.arguments
           .whereType<NamedExpression>()
-          .forEach(
-            (argument) {
-              final newArgument = _argumentMap[argument.name.label.name];
-              if (newArgument != null) {
-                builder.addSimpleReplacement(
-                  SourceRange(
-                    argument.name.label.offset,
-                    argument.name.label.length,
-                  ),
-                  newArgument,
-                );
-              }
-            },
-          );
+          .forEach((argument) {
+            final newArgument = _argumentMap[argument.name.label.name];
+            if (newArgument != null) {
+              builder.addSimpleReplacement(
+                SourceRange(
+                  argument.name.label.offset,
+                  argument.name.label.length,
+                ),
+                newArgument,
+              );
+            }
+          });
       builder.addSimpleReplacement(
         SourceRange(
           instanceCreation.constructorName.offset,
@@ -453,10 +440,7 @@ class ReplaceWithPositionedDirectional extends ResolvedCorrectionProducer {
     'Replace with Positioned.directional',
   );
 
-  final _argumentMap = {
-    'left': 'start',
-    'right': 'end',
-  };
+  final _argumentMap = {'left': 'start', 'right': 'end'};
 
   @override
   CorrectionApplicability get applicability =>
@@ -480,20 +464,18 @@ class ReplaceWithPositionedDirectional extends ResolvedCorrectionProducer {
 
       instanceCreation.argumentList.arguments
           .whereType<NamedExpression>()
-          .forEach(
-            (argument) {
-              final newArgument = _argumentMap[argument.name.label.name];
-              if (newArgument != null) {
-                builder.addSimpleReplacement(
-                  SourceRange(
-                    argument.name.label.offset,
-                    argument.name.label.length,
-                  ),
-                  newArgument,
-                );
-              }
-            },
-          );
+          .forEach((argument) {
+            final newArgument = _argumentMap[argument.name.label.name];
+            if (newArgument != null) {
+              builder.addSimpleReplacement(
+                SourceRange(
+                  argument.name.label.offset,
+                  argument.name.label.length,
+                ),
+                newArgument,
+              );
+            }
+          });
 
       if (constructorName == 'fill') {
         builder.addSimpleReplacement(

@@ -119,10 +119,7 @@ class UnnecessaryRebuildsFromMediaQuery extends AnalysisRule {
   static const String ruleName = 'unnecessary_rebuilds_from_media_query';
 
   /// The lint code for this rule.
-  static const LintCode code = LintCode(
-    ruleName,
-    _description,
-  );
+  static const LintCode code = LintCode(ruleName, _description);
 
   @override
   DiagnosticCode get diagnosticCode => code;

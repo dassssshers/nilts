@@ -75,10 +75,7 @@ class FlakyTestsWithSetUpAll extends AnalysisRule {
   static const String ruleName = 'flaky_tests_with_set_up_all';
 
   /// The lint code for this rule.
-  static const LintCode code = LintCode(
-    ruleName,
-    _description,
-  );
+  static const LintCode code = LintCode(ruleName, _description);
 
   @override
   DiagnosticCode get diagnosticCode => code;

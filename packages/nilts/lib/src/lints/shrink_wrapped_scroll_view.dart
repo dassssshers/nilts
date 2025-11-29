@@ -18,11 +18,7 @@ const _description =
     'Shrink wrapping the content of the scroll view is significantly more '
     'expensive than expanding to the maximum allowed size.';
 
-const _scrollViewSubClasses = [
-  'ListView',
-  'GridView',
-  'CustomScrollView',
-];
+const _scrollViewSubClasses = ['ListView', 'GridView', 'CustomScrollView'];
 
 /// A class for `shrink_wrapped_scroll_view` rule.
 ///
@@ -77,10 +73,7 @@ class ShrinkWrappedScrollView extends AnalysisRule {
   static const String ruleName = 'shrink_wrapped_scroll_view';
 
   /// The lint code for this rule.
-  static const LintCode code = LintCode(
-    ruleName,
-    _description,
-  );
+  static const LintCode code = LintCode(ruleName, _description);
 
   @override
   DiagnosticCode get diagnosticCode => code;

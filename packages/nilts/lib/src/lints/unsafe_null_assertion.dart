@@ -124,10 +124,7 @@ class ReplaceWithIfNullOperator extends ResolvedCorrectionProducer {
 
     await builder.addDartFileEdit(file, (builder) {
       builder.addSimpleReplacement(
-        SourceRange(
-          postfixExpression.offset,
-          postfixExpression.length,
-        ),
+        SourceRange(postfixExpression.offset, postfixExpression.length),
         '(${postfixExpression.operand} ?? )',
       );
     });
@@ -165,10 +162,7 @@ class ReplaceWithNullAwareOperator extends ResolvedCorrectionProducer {
 
     await builder.addDartFileEdit(file, (builder) {
       builder.addSimpleReplacement(
-        SourceRange(
-          postfixExpression.offset,
-          postfixExpression.length,
-        ),
+        SourceRange(postfixExpression.offset, postfixExpression.length),
         '${postfixExpression.operand}?',
       );
     });
@@ -203,10 +197,7 @@ class ReplaceWithPatternMatching extends ResolvedCorrectionProducer {
 
     await builder.addDartFileEdit(file, (builder) {
       builder.addSimpleReplacement(
-        SourceRange(
-          postfixExpression.offset,
-          postfixExpression.length,
-        ),
+        SourceRange(postfixExpression.offset, postfixExpression.length),
         'if (${postfixExpression.operand} case final value?) return value',
       );
     });

@@ -84,19 +84,13 @@ class _NiltsPlugin extends Plugin {
       ..registerLintRule(UnstableEnumValues())
       // Newly migrated rules
       ..registerLintRule(OpenTypeHierarchy())
-      ..registerFixForRule(
-        OpenTypeHierarchy.code,
-        AddFinalKeyword.new,
-      )
+      ..registerFixForRule(OpenTypeHierarchy.code, AddFinalKeyword.new)
       ..registerLintRule(
         dartVersion >= const DartVersion(major: 3, minor: 2, patch: 0)
             ? FixedTextScaleRichText()
             : FixedTextScaleRichTextLegacy(),
       )
-      ..registerFixForRule(
-        FixedTextScaleRichText.code,
-        ReplaceWithTextRich.new,
-      )
+      ..registerFixForRule(FixedTextScaleRichText.code, ReplaceWithTextRich.new)
       ..registerFixForRule(
         FixedTextScaleRichText.code,
         dartVersion >= const DartVersion(major: 3, minor: 2, patch: 0)
@@ -104,14 +98,8 @@ class _NiltsPlugin extends Plugin {
             : AddTextScaleFactor.new,
       )
       ..registerLintRule(FlakyTestsWithSetUpAll())
-      ..registerFixForRule(
-        FlakyTestsWithSetUpAll.code,
-        ReplaceWithSetUp.new,
-      )
-      ..registerFixForRule(
-        FlakyTestsWithSetUpAll.code,
-        UnwrapSetUpAll.new,
-      )
+      ..registerFixForRule(FlakyTestsWithSetUpAll.code, ReplaceWithSetUp.new)
+      ..registerFixForRule(FlakyTestsWithSetUpAll.code, UnwrapSetUpAll.new)
       ..registerLintRule(LowReadabilityNumericLiterals())
       ..registerFixForRule(
         LowReadabilityNumericLiterals.code,
@@ -140,10 +128,7 @@ class _NiltsPlugin extends Plugin {
         ReplaceWithDefaultTargetPlatform.new,
       )
       ..registerLintRule(ShrinkWrappedScrollView())
-      ..registerFixForRule(
-        ShrinkWrappedScrollView.code,
-        RemoveShrinkWrap.new,
-      )
+      ..registerFixForRule(ShrinkWrappedScrollView.code, RemoveShrinkWrap.new)
       ..registerLintRule(UnnecessaryRebuildsFromMediaQuery(dartVersion))
       ..registerFixForRule(
         UnnecessaryRebuildsFromMediaQuery.code,

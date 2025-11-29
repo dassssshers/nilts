@@ -55,10 +55,7 @@ class LowReadabilityNumericLiterals extends AnalysisRule {
   static const String ruleName = 'low_readability_numeric_literals';
 
   /// The lint code for this rule.
-  static const LintCode code = LintCode(
-    ruleName,
-    _description,
-  );
+  static const LintCode code = LintCode(ruleName, _description);
 
   @override
   DiagnosticCode get diagnosticCode => code;

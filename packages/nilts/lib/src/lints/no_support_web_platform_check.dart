@@ -70,10 +70,7 @@ class NoSupportWebPlatformCheck extends AnalysisRule {
   static const String ruleName = 'no_support_web_platform_check';
 
   /// The lint code for this rule.
-  static const LintCode code = LintCode(
-    ruleName,
-    _description,
-  );
+  static const LintCode code = LintCode(ruleName, _description);
 
   @override
   DiagnosticCode get diagnosticCode => code;

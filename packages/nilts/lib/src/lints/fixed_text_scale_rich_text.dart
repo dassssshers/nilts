@@ -91,10 +91,7 @@ class FixedTextScaleRichText extends AnalysisRule {
   static const String ruleName = 'fixed_text_scale_rich_text';
 
   /// The lint code for this rule.
-  static const LintCode code = LintCode(
-    ruleName,
-    _description,
-  );
+  static const LintCode code = LintCode(ruleName, _description);
 
   @override
   DiagnosticCode get diagnosticCode => code;
@@ -246,10 +243,7 @@ class FixedTextScaleRichTextLegacy extends AnalysisRule {
   static const String ruleName = 'fixed_text_scale_rich_text';
 
   /// The lint code for this rule.
-  static const LintCode code = LintCode(
-    ruleName,
-    _descriptionLegacy,
-  );
+  static const LintCode code = LintCode(ruleName, _descriptionLegacy);
 
   @override
   DiagnosticCode get diagnosticCode => code;
