@@ -1,6 +1,17 @@
 name: Publish 🛳️
 
 on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+    branches:
+      - main
+    paths:
+      - packages/**/CHANGELOG.md
+      - packages/**/pubspec.yaml
+      - .release-please-manifest.json
+
   push:
     tags:
       - 'nilts-v[0-9]+.[0-9]+.[0-9]+*'
@@ -9,6 +20,58 @@ on:
       - 'nilts_flutter_hooks-v[0-9]+.[0-9]+.[0-9]+*'
 
 jobs:
+  publish_dry_run_nilts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    if: github.head_ref == 'refs/heads/release-please--branches--main--components--nilts'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
+      - name: Setup Flutter
+        uses: ./.github/actions/setup-flutter
+      - name: Publish - dry run
+        run: dart pub publish --dry-run
+        working-directory: packages/nilts
+
+  publish_dry_run_nilts_clock:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    if: github.head_ref == 'refs/heads/release-please--branches--main--components--nilts_clock'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
+      - name: Setup Flutter
+        uses: ./.github/actions/setup-flutter
+      - name: Publish - dry run
+        run: dart pub publish --dry-run
+        working-directory: packages/nilts_clock
+
+  publish_dry_run_nilts_core:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    if: github.head_ref == 'refs/heads/release-please--branches--main--components--nilts_core'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
+      - name: Setup Flutter
+        uses: ./.github/actions/setup-flutter
+      - name: Publish - dry run
+        run: dart pub publish --dry-run
+        working-directory: packages/nilts_core
+
+  publish_dry_run_nilts_flutter_hooks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    if: github.head_ref == 'refs/heads/release-please--branches--main--components--nilts_flutter_hooks'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
+      - name: Setup Flutter
+        uses: ./.github/actions/setup-flutter
+      - name: Publish - dry run
+        run: dart pub publish --dry-run
+        working-directory: packages/nilts_flutter_hooks
+
   publish_nilts:
     if: startsWith(github.ref, 'refs/tags/nilts-v')
     permissions:

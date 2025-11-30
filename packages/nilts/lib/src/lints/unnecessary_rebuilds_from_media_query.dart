@@ -1,3 +1,6 @@
+/// @docImport 'package:flutter/widgets.dart';
+library;
+
 import 'package:analysis_server_plugin/edit/dart/correction_producer.dart';
 import 'package:analyzer/analysis_rule/analysis_rule.dart';
 import 'package:analyzer/analysis_rule/rule_context.dart';
@@ -185,7 +188,7 @@ class _Visitor extends SimpleAstVisitor<void> {
 /// A class for fixing `unnecessary_rebuilds_from_media_query` rule.
 ///
 /// This fix replaces [MediaQuery.of] or [MediaQuery.maybeOf] with
-/// [MediaQuery.xxxOf] or [MediaQuery.maybeXxxOf].
+/// `MediaQuery.xxxOf` or `MediaQuery.maybeXxxOf`.
 class ReplaceWithMediaQueryXxxOf extends ResolvedCorrectionProducer {
   /// Create a new instance of [ReplaceWithMediaQueryXxxOf].
   ReplaceWithMediaQueryXxxOf({

@@ -1,3 +1,7 @@
+/// @docImport 'dart:io';
+/// @docImport 'package:flutter/foundation.dart';
+library;
+
 import 'package:analysis_server_plugin/edit/dart/correction_producer.dart';
 import 'package:analyzer/analysis_rule/analysis_rule.dart';
 import 'package:analyzer/analysis_rule/rule_context.dart';
@@ -127,7 +131,7 @@ class _Visitor extends SimpleAstVisitor<void> {
 
 /// A class for fixing `no_support_web_platform_check` rule.
 ///
-/// This fix replaces [Platform.isXXX] with [defaultTargetPlatform] check.
+/// This fix replaces `Platform.isXXX` with [defaultTargetPlatform] check.
 class ReplaceWithDefaultTargetPlatform extends ResolvedCorrectionProducer {
   /// Create a new instance of [ReplaceWithDefaultTargetPlatform].
   ReplaceWithDefaultTargetPlatform({required super.context});

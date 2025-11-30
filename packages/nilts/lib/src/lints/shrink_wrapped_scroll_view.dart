@@ -1,3 +1,6 @@
+/// @docImport 'package:flutter/widgets.dart';
+library;
+
 import 'package:analysis_server_plugin/edit/dart/correction_producer.dart';
 import 'package:analyzer/analysis_rule/analysis_rule.dart';
 import 'package:analyzer/analysis_rule/rule_context.dart';
@@ -40,9 +43,9 @@ const _scrollViewSubClasses = ['ListView', 'GridView', 'CustomScrollView'];
 /// in case of your scroll view is nested.
 ///
 /// 1. Replace the parent scroll view with [CustomScrollView].
-/// 2. Replace the child scroll view with [SliverListView] or [SliverGridView].
+/// 2. Replace the child scroll view with [SliverList] or [SliverGrid].
 /// 3. Set [SliverChildBuilderDelegate] to `delegate` argument of
-/// [SliverListView] or [SliverGridView].
+/// [SliverList] or [SliverGrid].
 ///
 /// **BAD:**
 /// ```dart

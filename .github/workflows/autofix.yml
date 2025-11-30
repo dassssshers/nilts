@@ -4,10 +4,13 @@ name: autofix.ci
 
 on:
   merge_group:
-    types: [checks_requested]
+    types:
+      - checks_requested
 
   pull_request:
-    types: [opened, synchronize]
+    types:
+      - opened
+      - synchronize
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

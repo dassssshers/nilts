@@ -1,3 +1,7 @@
+/// @docImport 'package:flutter/widgets.dart';
+/// @docImport 'package:flutter_hooks/flutter_hooks.dart';
+library;
+
 import 'package:analysis_server_plugin/edit/dart/correction_producer.dart';
 import 'package:analyzer/analysis_rule/analysis_rule.dart';
 import 'package:analyzer/analysis_rule/rule_context.dart';
