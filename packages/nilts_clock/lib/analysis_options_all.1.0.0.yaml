@@ -1,5 +1,0 @@
-plugins:
-  nilts_clock:
-    version: 1.0.0
-    diagnostics:
-      using_date_time_now: true

@@ -1,6 +1,4 @@
-include:
-  - ../../analysis_options.yaml
-  - ../../analysis_options_all_rules.yaml
+include: ../../analysis_options.yaml
 
 linter:
   rules:
