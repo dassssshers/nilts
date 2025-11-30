@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/dassssshers/nilts/compare/nilts-v1.0.0...nilts-v1.0.1) (2025-11-30)
+
+
+### Documentation
+
+* delete include options on README ([#435](https://github.com/dassssshers/nilts/issues/435)) ([fc7145d](https://github.com/dassssshers/nilts/commit/fc7145d30697892ca20e872ed7cf275f1c5b1975))
+
 ## [1.0.0](https://github.com/dassssshers/nilts/compare/nilts-v0.25.1...nilts-v1.0.0) (2025-11-30)
 
 
