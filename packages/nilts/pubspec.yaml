@@ -2,7 +2,7 @@
 # https://dart.dev/tools/pub/pubspec
 
 name: nilts
-version: 1.0.0
+version: 0.25.1
 description: nilts provides lint rules, quick fixes, and assists for Dart and Flutter projects to help you enforce best practices and avoid errors.
 homepage: https://github.com/dassssshers/nilts
 repository: https://github.com/dassssshers/nilts
