@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.0.0](https://github.com/dassssshers/nilts/compare/nilts_clock-v0.3.1...nilts_clock-v1.0.0) (2025-11-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* Dart analyzer plugin ([#416](https://github.com/dassssshers/nilts/issues/416))
+
+### New Features
+
+* Dart analyzer plugin ([#416](https://github.com/dassssshers/nilts/issues/416)) ([d285274](https://github.com/dassssshers/nilts/commit/d285274d866d1c214671af27c29a289f3aeeac30))
+
+
+### Bug Fixes
+
+* analysis options file ([#430](https://github.com/dassssshers/nilts/issues/430)) ([b6c3afa](https://github.com/dassssshers/nilts/commit/b6c3afa498b5eb1cc7014b2caae9546a5e11c92b))
+* library name for dart docs ([#426](https://github.com/dassssshers/nilts/issues/426)) ([07feb53](https://github.com/dassssshers/nilts/commit/07feb539fe94374a0262581524c1bc5935819044))
+
+
+### Release
+
+* nilts_core 1.0.0 ([#423](https://github.com/dassssshers/nilts/issues/423)) ([cb270fe](https://github.com/dassssshers/nilts/commit/cb270fe97e0b52a3eb7e0442d068fd5d1ab84db1))
+
 ## [0.3.1](https://github.com/dassssshers/nilts/compare/nilts_clock-v0.3.0...nilts_clock-v0.3.1) (2025-11-16)
 
 
