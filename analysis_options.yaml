@@ -1,9 +1,5 @@
 include: package:very_good_analysis/analysis_options.10.0.0.yaml
 
-analyzer:
-  exclude:
-    - packages/*/lib/analysis_options.yaml
-
 linter:
   rules:
     sort_pub_dependencies: false

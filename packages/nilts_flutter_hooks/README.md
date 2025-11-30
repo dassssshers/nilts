@@ -48,13 +48,25 @@ All lint rules in nilts_flutter_hooks are **disabled by default**.
 
 ### Enable all rules (recommended)
 
-To enable all rules, use the `include` directive with the provided configuration file:
+To enable all rules, use the `include` directive with the provided configuration file.
+
+#### Always use the latest
 
 <!-- prettier-ignore-start -->
 ```yaml
-include: package:nilts_flutter_hooks/analysis_options.yaml
+include: package:nilts_flutter_hooks/analysis_options_all.yaml
 ```
 <!-- prettier-ignore-end -->
+
+#### Pin to a specific version
+
+<!-- prettier-ignore-start -->
+```yaml
+include: package:nilts_flutter_hooks/analysis_options_all.1.0.0.yaml
+```
+<!-- prettier-ignore-end -->
+
+Pinning to a versioned file ensures consistent lint rule enforcement across team members and CI/CD pipelines.
 
 ### Enable specific rules
 
