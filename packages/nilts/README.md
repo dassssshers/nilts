@@ -46,31 +46,9 @@ plugins:
 
 All lint rules in nilts are **disabled by default**.
 
-### Enable all rules (recommended)
+This is because rules defined in `warnings` cannot currently be disabled individually. By using `diagnostics`, you can enable only the rules you need.
 
-To enable all rules, use the `include` directive with the provided configuration file.
-
-#### Always use the latest
-
-<!-- prettier-ignore-start -->
-```yaml
-include: package:nilts/analysis_options_all.yaml
-```
-<!-- prettier-ignore-end -->
-
-#### Pin to a specific version
-
-<!-- prettier-ignore-start -->
-```yaml
-include: package:nilts/analysis_options_all.1.0.0.yaml
-```
-<!-- prettier-ignore-end -->
-
-Pinning to a versioned file ensures consistent lint rule enforcement across team members and CI/CD pipelines.
-
-### Enable specific rules
-
-To enable specific rules, use the map format with `version:` and `diagnostics:`:
+To enable rules, use the map format with `version:` and `diagnostics:`:
 
 <!-- prettier-ignore-start -->
 ```yaml
@@ -79,10 +57,10 @@ plugins:
     version: ^1.0.0
     diagnostics:
       defined_async_callback_type: true
-      defined_void_callback_type: true
-      unnecessary_rebuilds_from_media_query: true
 ```
 <!-- prettier-ignore-end -->
+
+For a complete example of enabling all rules, see [`analysis_options.yaml`](https://github.com/dassssshers/nilts/blob/main/analysis_options.yaml).
 
 See also:
 

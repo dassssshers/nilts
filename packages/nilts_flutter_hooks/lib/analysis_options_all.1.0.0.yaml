@@ -1,5 +1,0 @@
-plugins:
-  nilts_flutter_hooks:
-    version: 1.0.0
-    diagnostics:
-      unnecessary_hook_widget: true
