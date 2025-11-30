@@ -5,6 +5,7 @@
 
 ### ⚠ BREAKING CHANGES
 
+* "release: nilts 1.0.0 ([#422](https://github.com/dassssshers/nilts/issues/422))" (#431)
 * Dart analyzer plugin ([#416](https://github.com/dassssshers/nilts/issues/416))
 
 ### New Features
@@ -14,11 +15,19 @@
 
 ### Bug Fixes
 
+* analysis options file ([#430](https://github.com/dassssshers/nilts/issues/430)) ([b6c3afa](https://github.com/dassssshers/nilts/commit/b6c3afa498b5eb1cc7014b2caae9546a5e11c92b))
 * library name for dart docs ([#426](https://github.com/dassssshers/nilts/issues/426)) ([07feb53](https://github.com/dassssshers/nilts/commit/07feb539fe94374a0262581524c1bc5935819044))
+
+
+### Reverts
+
+* "release: nilts 1.0.0 ([#422](https://github.com/dassssshers/nilts/issues/422))" ([aed88e8](https://github.com/dassssshers/nilts/commit/aed88e8bb30f7e0e3599af13dfe13b8c58a6a88c))
+* "release: nilts 1.0.0 ([#422](https://github.com/dassssshers/nilts/issues/422))" ([#431](https://github.com/dassssshers/nilts/issues/431)) ([aed88e8](https://github.com/dassssshers/nilts/commit/aed88e8bb30f7e0e3599af13dfe13b8c58a6a88c))
 
 
 ### Release
 
+* nilts 1.0.0 ([#422](https://github.com/dassssshers/nilts/issues/422)) ([94f79db](https://github.com/dassssshers/nilts/commit/94f79db53f90d2570388f6f694c1bd6cb74ed1d8))
 * nilts_core 1.0.0 ([#423](https://github.com/dassssshers/nilts/issues/423)) ([cb270fe](https://github.com/dassssshers/nilts/commit/cb270fe97e0b52a3eb7e0442d068fd5d1ab84db1))
 
 ## [0.25.1](https://github.com/dassssshers/nilts/compare/nilts-v0.25.0...nilts-v0.25.1) (2025-11-16)
