@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/dassssshers/nilts/compare/nilts_flutter_hooks-v1.0.0...nilts_flutter_hooks-v1.0.1) (2025-12-01)
+
+
+### Documentation
+
+* delete include options on README ([#435](https://github.com/dassssshers/nilts/issues/435)) ([fc7145d](https://github.com/dassssshers/nilts/commit/fc7145d30697892ca20e872ed7cf275f1c5b1975))
+
 ## [1.0.0](https://github.com/dassssshers/nilts/compare/nilts_flutter_hooks-v0.3.1...nilts_flutter_hooks-v1.0.0) (2025-11-30)
 
 
