@@ -101,7 +101,7 @@ Some rules support quick fixes in your IDE.
 
 | Rule name                                           | Overview                                                 |                Target SDK                 | Rule type | Maturity level | Quick fix |
 | --------------------------------------------------- | :------------------------------------------------------- | :---------------------------------------: | :-------: | :------------: | :-------: |
-| [unnecessary_hook_widget](#unnecessary_hook_widget) | Checks if the widget is unnecessary to use `HookWidget`. | Any versions nilts_flutter_hooks supports | Practice  |  Experimental  |    ✅️    |
+| [unnecessary_hook_widget](#unnecessary_hook_widget) | Checks if the widget is unnecessary to use `HookWidget`. | Any versions nilts_flutter_hooks supports | Practice  |  Experimental  |    ✅️     |
 
 ### Details
 
