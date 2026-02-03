@@ -26,7 +26,7 @@ jobs:
     if: github.head_ref == 'release-please--branches--main--components--nilts'
     steps:
       - name: Checkout
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - name: Setup Flutter
         uses: ./.github/actions/setup-flutter
       - name: Publish - dry run
@@ -39,7 +39,7 @@ jobs:
     if: github.head_ref == 'release-please--branches--main--components--nilts_clock'
     steps:
       - name: Checkout
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - name: Setup Flutter
         uses: ./.github/actions/setup-flutter
       - name: Publish - dry run
@@ -52,7 +52,7 @@ jobs:
     if: github.head_ref == 'release-please--branches--main--components--nilts_core'
     steps:
       - name: Checkout
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - name: Setup Flutter
         uses: ./.github/actions/setup-flutter
       - name: Publish - dry run
@@ -65,7 +65,7 @@ jobs:
     if: github.head_ref == 'release-please--branches--main--components--nilts_flutter_hooks'
     steps:
       - name: Checkout
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - name: Setup Flutter
         uses: ./.github/actions/setup-flutter
       - name: Publish - dry run
