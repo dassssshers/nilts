@@ -77,7 +77,7 @@ Some rules support quick fixes in your IDE.
 
 | Rule name                                   | Overview                            |            Target SDK             | Rule type  | Maturity level | Severity | Quick fix |
 | ------------------------------------------- | :---------------------------------- | :-------------------------------: | :--------: | :------------: | :------: | :-------: |
-| [using_date_time_now](#using_date_time_now) | Checks if `DateTime.now()` is used. | Any versions nilts_clock supports | ErrorProne |     Stable     |   Info   |    ✅️    |
+| [using_date_time_now](#using_date_time_now) | Checks if `DateTime.now()` is used. | Any versions nilts_clock supports | ErrorProne |     Stable     |   Info   |    ✅️     |
 
 ### Details
 
