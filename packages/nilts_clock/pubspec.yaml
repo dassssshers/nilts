@@ -33,7 +33,7 @@ dependencies:
   analysis_server_plugin: ^0.3.0
 
 dev_dependencies:
-  very_good_analysis: 10.0.0
+  very_good_analysis: 10.2.0
 
   test: 1.26.3
   analyzer_testing: 0.1.5
