@@ -12,8 +12,8 @@ workspace:
   - packages/nilts_flutter_hooks
 
 dev_dependencies:
-  melos: 7.3.0
-  very_good_analysis: 10.0.0
+  melos: 7.4.0
+  very_good_analysis: 10.2.0
 
 melos:
   repository:
@@ -31,7 +31,7 @@ melos:
 
   scripts:
     prepare:
-      run: flutter pub global activate very_good_cli 0.28.0
+      run: flutter pub global activate very_good_cli 1.0.0
       description: prepare for develop
 
     get:
