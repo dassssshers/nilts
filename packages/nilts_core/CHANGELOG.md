@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.1](https://github.com/dassssshers/nilts/compare/nilts_core-v1.0.0...nilts_core-v1.0.1) (2026-03-14)
+
+
+### Documentation
+
+* delete include options on README ([#435](https://github.com/dassssshers/nilts/issues/435)) ([fc7145d](https://github.com/dassssshers/nilts/commit/fc7145d30697892ca20e872ed7cf275f1c5b1975))
+
+
+### Dependency Upgrades
+
+* dependencies ([#461](https://github.com/dassssshers/nilts/issues/461)) ([d077073](https://github.com/dassssshers/nilts/commit/d07707323a465755b23476e7f9511f7fc2a4d084))
+
 ## [1.0.0](https://github.com/dassssshers/nilts/compare/nilts_core-v0.4.1...nilts_core-v1.0.0) (2025-11-29)
 
 
