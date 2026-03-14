@@ -33,7 +33,7 @@ dependencies:
 
   analyzer: ^9.0.0
   analyzer_plugin: ^0.13.11
-  analysis_server_plugin: ^0.3.0
+  analysis_server_plugin: ^0.3.1
 
   pub_semver: ^2.2.0
 
