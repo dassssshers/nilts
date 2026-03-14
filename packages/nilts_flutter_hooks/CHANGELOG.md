@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.2](https://github.com/dassssshers/nilts/compare/nilts_flutter_hooks-v1.0.1...nilts_flutter_hooks-v1.0.2) (2026-03-14)
+
+
+### Dependency Upgrades
+
+* dependencies ([#461](https://github.com/dassssshers/nilts/issues/461)) ([d077073](https://github.com/dassssshers/nilts/commit/d07707323a465755b23476e7f9511f7fc2a4d084))
+* nilts_core to 1.0.1 ([#462](https://github.com/dassssshers/nilts/issues/462)) ([fe107ed](https://github.com/dassssshers/nilts/commit/fe107edb04d315bcd621366fbb9933aa60299060))
+* update dependency prettier to v3.8.1 ([#442](https://github.com/dassssshers/nilts/issues/442)) ([8e934c5](https://github.com/dassssshers/nilts/commit/8e934c5b2e6f08e4883b68812ac3160234c25363))
+
 ## [1.0.1](https://github.com/dassssshers/nilts/compare/nilts_flutter_hooks-v1.0.0...nilts_flutter_hooks-v1.0.1) (2025-12-01)
 
 
