@@ -37,6 +37,7 @@ jobs:
           install_args: zizmor
       - name: Auto fix workflows
         run: bun fix
+        continue-on-error: true
 
       - name: Format with Prettier
         run: bun fmt
