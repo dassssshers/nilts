@@ -30,8 +30,6 @@ jobs:
 
       - name: Setup Bun
         uses: ./.github/actions/setup-bun
-      - name: Format with Prettier
-        run: bun fmt
 
       - name: Setup zizmor
         uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
@@ -39,6 +37,9 @@ jobs:
           install_args: zizmor
       - name: Auto fix workflows
         run: bun fix
+
+      - name: Format with Prettier
+        run: bun fmt
 
       - name: Setup Flutter
         uses: ./.github/actions/setup-flutter

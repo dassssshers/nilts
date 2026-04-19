@@ -10,6 +10,8 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions: {}
+
 jobs:
   assign:
     if: |
@@ -27,10 +29,10 @@ jobs:
           script: |
             const assignees = context.payload.pull_request.assignees
             if (!assignees || assignees.length === 0) {
-              github.rest.issues.addAssignees({
+              await github.rest.issues.addAssignees({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.issue.number,
-                assignees: process.env.ASSIGNEE,
+                assignees: [process.env.ASSIGNEE],
               })
             }
