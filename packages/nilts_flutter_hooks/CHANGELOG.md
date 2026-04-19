@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/dassssshers/nilts/compare/nilts_flutter_hooks-v1.0.2...nilts_flutter_hooks-v1.0.3) (2026-04-19)
+
+
+### Dependency Upgrades
+
+* update Flutter to 3.41.7 and bump analyzer, test dependencies ([#472](https://github.com/dassssshers/nilts/issues/472)) ([ddb71a6](https://github.com/dassssshers/nilts/commit/ddb71a6b32bffabce1a4a83cd3d43637bbf6950a))
+
 ## [1.0.2](https://github.com/dassssshers/nilts/compare/nilts_flutter_hooks-v1.0.1...nilts_flutter_hooks-v1.0.2) (2026-03-14)
 
 
