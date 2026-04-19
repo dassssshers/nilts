@@ -28,7 +28,7 @@ resolution: workspace
 dependencies:
   nilts_core: ^1.0.1
 
-  analyzer: ">=10.0.0 <13.0.0"
+  analyzer: '>=10.0.0 <13.0.0'
   analyzer_plugin: ^0.14.0
   analysis_server_plugin: ^0.3.1
 

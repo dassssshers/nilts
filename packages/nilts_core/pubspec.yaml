@@ -29,7 +29,7 @@ environment:
 resolution: workspace
 
 dependencies:
-  analyzer: ">=10.0.0 <13.0.0"
+  analyzer: '>=10.0.0 <13.0.0'
   meta: ^1.17.0
 
 dev_dependencies:
