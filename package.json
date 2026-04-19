@@ -2,7 +2,9 @@
   "name": "nilts",
   "private": true,
   "scripts": {
-    "fmt": "prettier --write '**/*.+(md|yaml|yml|json|json5|xml)'"
+    "fix": "zizmor --fix .",
+    "fmt": "prettier --write '**/*.+(md|yaml|yml|json|json5|xml)'",
+    "lint": "zizmor ."
   },
   "devDependencies": {
     "@prettier/plugin-xml": "3.4.2",

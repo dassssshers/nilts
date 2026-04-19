@@ -11,9 +11,11 @@ runs:
       id: extract_distribution_and_version
       shell: bash
       run: |
-        java=${{ steps.asdf.outputs.java }}
+        java=${STEPS_ASDF_OUTPUTS_JAVA}
         echo "distribution=$(echo $java | cut -d '-' -f 1)" >> $GITHUB_OUTPUT
         echo "version=$(echo $java | cut -d '-' -f 2)" >> $GITHUB_OUTPUT
+      env:
+        STEPS_ASDF_OUTPUTS_JAVA: ${{ steps.asdf.outputs.java }}
     - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5
       with:
         distribution: ${{ steps.extract_distribution_and_version.outputs.distribution }}

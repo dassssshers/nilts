@@ -16,4 +16,6 @@ runs:
     - name: Select Xcode version
       shell: bash
       run: |
-        sudo xcode-select -s "/Applications/Xcode_${{ steps.version.outputs.xcode_version }}.app/Contents/Developer"
+        sudo xcode-select -s "/Applications/Xcode_${STEPS_VERSION_OUTPUTS_XCODE_VERSION}.app/Contents/Developer"
+      env:
+        STEPS_VERSION_OUTPUTS_XCODE_VERSION: ${{ steps.version.outputs.xcode_version }}

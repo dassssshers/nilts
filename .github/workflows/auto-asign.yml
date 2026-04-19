@@ -10,6 +10,8 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions: {}
+
 jobs:
   assign:
     if: |
@@ -21,14 +23,16 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
+        env:
+          ASSIGNEE: ${{ github.actor }}
         with:
           script: |
             const assignees = context.payload.pull_request.assignees
             if (!assignees || assignees.length === 0) {
-              github.rest.issues.addAssignees({
+              await github.rest.issues.addAssignees({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.issue.number,
-                assignees: `${{ github.actor }}`,
+                assignees: [process.env.ASSIGNEE],
               })
             }
