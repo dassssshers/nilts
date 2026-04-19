@@ -61,8 +61,8 @@ const _description =
 ///
 /// See also:
 ///
-/// - [setUpAll function - flutter_test library - Dart API](https://api.flutter.dev/flutter/flutter_test/setUpAll.html)
-/// - [setUp function - flutter_test library - Dart API](https://api.flutter.dev/flutter/flutter_test/setUp.html)
+/// - [setUpAll function - test library - Dart API](https://pub.dev/documentation/test/latest/test/setUpAll.html)
+/// - [setUp function - test library - Dart API](https://pub.dev/documentation/test/latest/test/setUp.html)
 class FlakyTestsWithSetUpAll extends AnalysisRule {
   /// Create a new instance of [FlakyTestsWithSetUpAll].
   FlakyTestsWithSetUpAll()
