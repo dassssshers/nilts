@@ -8,9 +8,7 @@ on:
       - synchronize
       - reopened
 
-permissions:
-  pull-requests: read
-  statuses: write
+permissions: {}
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -19,6 +17,9 @@ concurrency:
 jobs:
   check_pr_title:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+      statuses: write
     steps:
       - uses: amannn/action-semantic-pull-request@48f256284bd46cdaab1048c3721360e808335d50 # v6.1.1
         env:
