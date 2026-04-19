@@ -1,4 +1,4 @@
-/// @docImport 'package:flutter_test/flutter_test.dart';
+/// @docImport 'package:test/test.dart';
 library;
 
 import 'package:analysis_server_plugin/edit/dart/correction_producer.dart';

@@ -29,10 +29,10 @@ environment:
 resolution: workspace
 
 dependencies:
-  analyzer: ^9.0.0
-  meta: ^1.9.1
+  analyzer: ">=10.0.0 <13.0.0"
+  meta: ^1.17.0
 
 dev_dependencies:
   very_good_analysis: 10.2.0
 
-  test: 1.30.0
+  test: 1.31.0
