@@ -21,6 +21,8 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
+        env:
+          ASSIGNEE: ${{ github.actor }}
         with:
           script: |
             const assignees = context.payload.pull_request.assignees
@@ -29,6 +31,6 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.issue.number,
-                assignees: `${{ github.actor }}`,
+                assignees: process.env.ASSIGNEE,
               })
             }
