@@ -1,8 +1,11 @@
 include: package:very_good_analysis/analysis_options.10.0.0.yaml
 
 plugins:
+  dependency_overrides:
+    nilts_core:
+      path: packages/nilts_core
   nilts:
-    version: 1.0.0
+    path: packages/nilts
     diagnostics:
       defined_async_callback_type: true
       defined_async_value_getter_type: true
@@ -23,11 +26,11 @@ plugins:
       unstable_enum_name: true
       unstable_enum_values: true
   nilts_clock:
-    version: 1.0.0
+    path: packages/nilts_clock
     diagnostics:
       using_date_time_now: true
   nilts_flutter_hooks:
-    version: 1.0.0
+    path: packages/nilts_flutter_hooks
     diagnostics:
       unnecessary_hook_widget: true
 
@@ -37,3 +40,12 @@ linter:
 
 formatter:
   trailing_commas: preserve
+analyzer:
+  exclude:
+    - build/**
+    - android/**
+    - ios/**
+    - web/**
+    - windows/**
+    - macos/**
+    - linux/**

@@ -198,10 +198,9 @@ class _EdgeInsetsVisitor extends SimpleAstVisitor<void> {
   bool _hasLRArgument(ArgumentList argumentList) {
     // Do nothing if the constructor has not `left` or `right` parameter.
     final arguments = argumentList.arguments;
-    return arguments.whereType<NamedExpression>().any(
+    return arguments.whereType<NamedArgument>().any(
       (argument) =>
-          argument.name.label.name == 'left' ||
-          argument.name.label.name == 'right',
+          argument.name.lexeme == 'left' || argument.name.lexeme == 'right',
     );
   }
 }
@@ -239,10 +238,9 @@ class _PositionedVisitor extends SimpleAstVisitor<void> {
   bool _hasLRArgument(ArgumentList argumentList) {
     // Do nothing if the constructor has not `left` or `right` parameter.
     final arguments = argumentList.arguments;
-    return arguments.whereType<NamedExpression>().any(
+    return arguments.whereType<NamedArgument>().any(
       (argument) =>
-          argument.name.label.name == 'left' ||
-          argument.name.label.name == 'right',
+          argument.name.lexeme == 'left' || argument.name.lexeme == 'right',
     );
   }
 }
@@ -348,14 +346,14 @@ class ReplaceWithEdgeInsetsDirectional extends ResolvedCorrectionProducer {
         );
       }
       instanceCreation.argumentList.arguments
-          .whereType<NamedExpression>()
+          .whereType<NamedArgument>()
           .forEach((argument) {
-            final newArgument = _argumentMap[argument.name.label.name];
+            final newArgument = _argumentMap[argument.name.lexeme];
             if (newArgument != null) {
               builder.addSimpleReplacement(
                 SourceRange(
-                  argument.name.label.offset,
-                  argument.name.label.length,
+                  argument.name.offset,
+                  argument.name.length,
                 ),
                 newArgument,
               );
@@ -406,14 +404,14 @@ class ReplaceWithPositionedDirectionalClass extends ResolvedCorrectionProducer {
 
     await builder.addDartFileEdit(file, (builder) {
       instanceCreation.argumentList.arguments
-          .whereType<NamedExpression>()
+          .whereType<NamedArgument>()
           .forEach((argument) {
-            final newArgument = _argumentMap[argument.name.label.name];
+            final newArgument = _argumentMap[argument.name.lexeme];
             if (newArgument != null) {
               builder.addSimpleReplacement(
                 SourceRange(
-                  argument.name.label.offset,
-                  argument.name.label.length,
+                  argument.name.offset,
+                  argument.name.length,
                 ),
                 newArgument,
               );
@@ -466,14 +464,14 @@ class ReplaceWithPositionedDirectional extends ResolvedCorrectionProducer {
       final constructorName = instanceCreation.constructorName.name?.name;
 
       instanceCreation.argumentList.arguments
-          .whereType<NamedExpression>()
+          .whereType<NamedArgument>()
           .forEach((argument) {
-            final newArgument = _argumentMap[argument.name.label.name];
+            final newArgument = _argumentMap[argument.name.lexeme];
             if (newArgument != null) {
               builder.addSimpleReplacement(
                 SourceRange(
-                  argument.name.label.offset,
-                  argument.name.label.length,
+                  argument.name.offset,
+                  argument.name.length,
                 ),
                 newArgument,
               );

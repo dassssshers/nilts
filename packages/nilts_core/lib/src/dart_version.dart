@@ -213,5 +213,4 @@ enum DartReleaseChannel {
 
   /// Dev channel.
   dev,
-  ;
 }

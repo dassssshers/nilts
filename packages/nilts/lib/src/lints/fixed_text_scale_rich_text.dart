@@ -128,9 +128,9 @@ class _Visitor extends SimpleAstVisitor<void> {
     final arguments = node.argumentList.arguments;
     final isTextScaleFactorSet = arguments.any(
       (argument) =>
-          argument is NamedExpression &&
-          (argument.name.label.name == 'textScaler' ||
-              argument.name.label.name == 'textScaleFactor'),
+          argument is NamedArgument &&
+          (argument.name.lexeme == 'textScaler' ||
+              argument.name.lexeme == 'textScaleFactor'),
     );
     if (isTextScaleFactorSet) return;
 
@@ -169,13 +169,10 @@ class ReplaceWithTextRich extends ResolvedCorrectionProducer {
 
     await builder.addDartFileEdit(file, (builder) {
       final arguments = instanceCreation.argumentList.arguments;
-      final textArgument =
-          arguments.firstWhere(
-                (argument) =>
-                    argument is NamedExpression &&
-                    argument.name.label.name == 'text',
-              )
-              as NamedExpression;
+      final textArgument = arguments.firstWhere(
+        (argument) =>
+            argument is NamedArgument && argument.name.lexeme == 'text',
+      ) as NamedArgument;
       final textArgumentRange = SourceRange(
         textArgument.name.offset,
         textArgument.name.length,
@@ -279,8 +276,8 @@ class _VisitorLegacy extends SimpleAstVisitor<void> {
     final arguments = node.argumentList.arguments;
     final isTextScaleFactorSet = arguments.any(
       (argument) =>
-          argument is NamedExpression &&
-          argument.name.label.name == 'textScaleFactor',
+          argument is NamedArgument &&
+          argument.name.lexeme == 'textScaleFactor',
     );
     if (isTextScaleFactorSet) return;
 

@@ -105,7 +105,8 @@ class _Visitor extends SimpleAstVisitor<void> {
     // Do nothing if the method argument's type is not `Function`.
     final arguments = node.argumentList.arguments;
     if (arguments.length != 1) return;
-    final firstArgument = node.argumentList.arguments.first.staticType;
+    final firstArgument =
+        node.argumentList.arguments.first.argumentExpression.staticType;
     if (firstArgument == null) return;
     if (firstArgument is! FunctionType) return;
 

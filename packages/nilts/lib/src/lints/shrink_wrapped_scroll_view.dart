@@ -111,18 +111,17 @@ class _Visitor extends SimpleAstVisitor<void> {
     final arguments = node.argumentList.arguments;
     final isShrinkWrapSet = arguments.any(
       (argument) =>
-          argument is NamedExpression &&
-          argument.name.label.name == 'shrinkWrap',
+          argument is NamedArgument && argument.name.lexeme == 'shrinkWrap',
     );
     if (!isShrinkWrapSet) return;
 
     // Do nothing if `shrinkWrap: true` is not set.
     final isShrinkWrapped = arguments.any(
       (argument) =>
-          argument is NamedExpression &&
-          argument.name.label.name == 'shrinkWrap' &&
-          argument.expression is BooleanLiteral &&
-          (argument.expression as BooleanLiteral).value,
+          argument is NamedArgument &&
+          argument.name.lexeme == 'shrinkWrap' &&
+          argument.argumentExpression is BooleanLiteral &&
+          (argument.argumentExpression as BooleanLiteral).value,
     );
     if (!isShrinkWrapped) return;
 
@@ -165,8 +164,7 @@ class RemoveShrinkWrap extends ResolvedCorrectionProducer {
       final arguments = instanceCreation.argumentList.arguments;
       final argument = arguments.firstWhere(
         (argument) =>
-            argument is NamedExpression &&
-            argument.name.label.name == 'shrinkWrap',
+            argument is NamedArgument && argument.name.lexeme == 'shrinkWrap',
       );
       builder.addDeletion(SourceRange(argument.offset, argument.length));
     });
