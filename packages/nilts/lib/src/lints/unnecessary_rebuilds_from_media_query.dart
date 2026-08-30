@@ -150,7 +150,8 @@ class _Visitor extends SimpleAstVisitor<void> {
     // Do nothing if the method argument's type is not `BuildContext`.
     final arguments = node.argumentList.arguments;
     if (arguments.length != 1) return;
-    final firstArgument = node.argumentList.arguments.first.staticType;
+    final firstArgument =
+        node.argumentList.arguments.first.argumentExpression.staticType;
     if (firstArgument == null) return;
     // Check if it's BuildContext without using TypeChecker
     final firstArgumentElement = firstArgument.element;
