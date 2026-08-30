@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.4](https://github.com/dassssshers/nilts/compare/nilts-v1.0.3...nilts-v1.0.4) (2026-08-30)
+
+
+### Dependency Upgrades
+
+* flutter 3.47 ([#494](https://github.com/dassssshers/nilts/issues/494)) ([241c170](https://github.com/dassssshers/nilts/commit/241c17058f11ef37ca29ecb566fcdbfe5f22174d))
+* update dependency very_good_analysis to v10.3.0 ([#492](https://github.com/dassssshers/nilts/issues/492)) ([8c63fdb](https://github.com/dassssshers/nilts/commit/8c63fdb0e4a6cc07ce2cde000fc445b44019b0c8))
+
 ## [1.0.3](https://github.com/dassssshers/nilts/compare/nilts-v1.0.2...nilts-v1.0.3) (2026-04-19)
 
 
