@@ -1,4 +1,4 @@
-// ignore_for_file: unused_local_variable, unreachable_from_main for testing
+// ignore_for_file: unused_local_variable for testing
 
 import 'dart:io';
 
