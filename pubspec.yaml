@@ -31,7 +31,7 @@ melos:
 
   scripts:
     prepare:
-      run: flutter pub global activate very_good_cli 1.0.0
+      run: flutter pub global activate very_good_cli 1.4.0
       description: prepare for develop
 
     get:
