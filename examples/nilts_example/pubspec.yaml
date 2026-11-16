@@ -15,5 +15,6 @@ dependencies:
   clock: 1.1.2
   flutter_hooks: 0.21.3+1
 
+  material_ui: any
 flutter:
   uses-material-design: true
